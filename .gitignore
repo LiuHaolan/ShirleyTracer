@@ -1,0 +1,10 @@
+
+*.idb
+*.ipch
+*.db
+ShirleyTracer/.vs/ShirleyTracer/v15/.suo
+*.exe
+*.ilk
+*.log
+*.tlog
+*.pdb
