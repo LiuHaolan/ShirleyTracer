@@ -26,5 +26,17 @@
     <ClInclude Include="src\Bitmap.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\vec3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ray.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hitable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sphere.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
