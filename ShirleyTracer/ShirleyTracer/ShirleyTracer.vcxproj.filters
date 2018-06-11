@@ -38,5 +38,17 @@
     <ClInclude Include="src\sphere.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\hitable_list.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
