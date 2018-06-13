@@ -50,5 +50,14 @@
     <ClInclude Include="src\utility.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\extern\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\xy_rect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,25 +2,28 @@
 #include "ray.h"
 #include "hitable.h"
 #include "utility.h"
+#include "texture.h"
 
 class material {
 public:
 	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered) const = 0;
-
+	virtual vec3 emitted(float u, float v, const vec3& p) const {
+		return vec3(0, 0, 0);
+	}
 };
 
 class lambertian_material : public material {
 public:
-	lambertian_material(const vec3& a) :albedo(a) {}
+	lambertian_material(texture* a) :albedo(a) {}
 	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered) const {
 		vec3 target = rec.p + rec.normal + random_in_unit_sphere();
 		scattered = ray(rec.p, target - rec.p);
-		attenuation = albedo;
+		attenuation = albedo->value(rec.u,rec.v,rec.p);
 		return true;
 	}
 
 private:
-	vec3 albedo;
+	texture* albedo;
 };
 
 vec3 reflect(const vec3& v, const vec3& n) {
@@ -103,4 +106,15 @@ public:
 	
 private:
 	float ref_idx;
+};
+
+class diffuse_light : public material {
+public:
+	diffuse_light(texture *a):emit(a) {}
+	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered) const { return false; }
+	virtual vec3 emitted(float u, float v, const vec3& p) const {
+		return emit->value(u,v,p);
+	}
+private:
+	texture * emit;
 };
