@@ -121,6 +121,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\aabb.h" />
     <ClInclude Include="src\Bitmap.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\extern\stb_image.h" />
