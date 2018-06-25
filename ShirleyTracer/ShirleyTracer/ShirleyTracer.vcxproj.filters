@@ -62,5 +62,11 @@
     <ClInclude Include="src\aabb.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\scenefile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\instancing.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
