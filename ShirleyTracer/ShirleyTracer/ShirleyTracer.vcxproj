@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4BFFD39D-4A12-4BC4-B910-9DD3624283DD}</ProjectGuid>
     <RootNamespace>ShirleyTracer</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -129,6 +129,8 @@
     <ClInclude Include="src\hitable_list.h" />
     <ClInclude Include="src\instancing.h" />
     <ClInclude Include="src\material.h" />
+    <ClInclude Include="src\onb.h" />
+    <ClInclude Include="src\pdf.h" />
     <ClInclude Include="src\ray.h" />
     <ClInclude Include="src\scenefile.h" />
     <ClInclude Include="src\sphere.h" />

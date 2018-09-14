@@ -3,11 +3,17 @@
 #include "hitable.h"
 #include "utility.h"
 #include "texture.h"
+#include "onb.h"
 
 class material {
 public:
-	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered) const = 0;
-	virtual vec3 emitted(float u, float v, const vec3& p) const {
+	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, float& pdf) const = 0;
+	virtual float scattering_pdf(const ray& r_in, const hit_record& rec, const ray& scattered) const {
+		std::cout << "wrong call in the virtual function of material" << std::endl;
+		return false;
+	}
+	virtual vec3 emitted(const ray& r_in, const hit_record& rec, float u, float v, const vec3& p) const {
+		
 		return vec3(0, 0, 0);
 	}
 };
@@ -15,10 +21,18 @@ public:
 class lambertian_material : public material {
 public:
 	lambertian_material(texture* a) :albedo(a) {}
-	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered) const {
+	float scattering_pdf(const ray& r_in, const hit_record& rec, const ray& scattered) const{
+		float cosine = dot(rec.normal, unit_vector(scattered.direction()));
+		if (cosine < 0) cosine = 0;
+		return cosine / M_PI;
+	}
+	
+	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, float& pdf) const {
 		vec3 target = rec.p + rec.normal + random_in_unit_sphere();
-		scattered = ray(rec.p, target - rec.p);
+		scattered = ray(rec.p, unit_vector(target - rec.p));
+
 		attenuation = albedo->value(rec.u,rec.v,rec.p);
+		pdf = dot(rec.normal, scattered.direction())/M_PI;
 		return true;
 	}
 
@@ -111,9 +125,13 @@ private:
 class diffuse_light : public material {
 public:
 	diffuse_light(texture *a):emit(a) {}
-	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered) const { return false; }
-	virtual vec3 emitted(float u, float v, const vec3& p) const {
-		return emit->value(u,v,p);
+	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, float& pdf) const { return false; }
+	virtual vec3 emitted(const ray& r_in, const hit_record& rec, float u, float v, const vec3& p) const {
+		
+		if (dot(rec.normal, r_in.direction()) < 0.0)
+			return emit->value(u, v, p);
+		else
+			return vec3(0, 0, 0);
 	}
 private:
 	texture * emit;

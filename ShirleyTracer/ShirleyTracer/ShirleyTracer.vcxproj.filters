@@ -68,5 +68,11 @@
     <ClInclude Include="src\instancing.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\onb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
