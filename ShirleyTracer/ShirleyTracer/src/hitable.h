@@ -2,6 +2,8 @@
 
 #include "ray.h"
 #include "aabb.h"
+
+// you need to include material files here!
 class material;
 
 struct hit_record {

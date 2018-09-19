@@ -128,6 +128,8 @@
     <ClInclude Include="src\hitable.h" />
     <ClInclude Include="src\hitable_list.h" />
     <ClInclude Include="src\instancing.h" />
+    <ClInclude Include="src\integrator.h" />
+    <ClInclude Include="src\Integrator\PTIntegrator.h" />
     <ClInclude Include="src\material.h" />
     <ClInclude Include="src\onb.h" />
     <ClInclude Include="src\pdf.h" />

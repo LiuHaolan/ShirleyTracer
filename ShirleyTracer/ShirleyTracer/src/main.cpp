@@ -12,13 +12,14 @@
 #include <random>
 
 #include <float.h>
-#define MAXFLOAT FLT_MAX
+
 
 #pragma once
 #include "utility.h"
 #include "scenefile.h"
 #include "instancing.h"
 
+#include ".\integrator\PTIntegrator.h"
 
 #include <ctime>
 #include <iostream>
@@ -30,47 +31,10 @@
 #include "extern/stb_image.h"
 
 
-vec3 color(const ray& r, hitable *world, int depth) {
-
-	hit_record rec;
-
-	if (world->hit(r, 0.001, MAXFLOAT, rec)) {
-		ray scattered;
-		vec3 attenuation;
-		vec3 emitted = rec.mat_ptr->emitted(r, rec, rec.u, rec.v, rec.p);
-		float pdf;
-		if (depth < 50 && rec.mat_ptr->scatter(r,rec,attenuation,scattered,pdf)) {
-			
-			// hard-coded explicit light sampling
-			vec3 on_light = vec3(213 + randd()*(343 - 213), 554, 227 + randd()*(332 - 227));
-			vec3 to_light = on_light - rec.p;
-			float distance_squared = to_light.squared_length();
-			to_light.make_unit_vector();
-			if (dot(to_light, rec.normal) < 0)
-				return emitted;
-			float light_area = (343 - 213)*(332 - 227);
-			float light_cosine = fabs(to_light.y());
-			if (light_cosine < 0.000001)
-				return emitted;
-			pdf = distance_squared / (light_area*light_cosine);
-			scattered = ray(rec.p, to_light);
-
-			return emitted + attenuation*rec.mat_ptr->scattering_pdf(r,rec,scattered) / pdf* color(scattered, world, depth + 1);
-		}
-		else {
-			return emitted;
-		}
-
-		//vec3 target = rec.p + rec.normal + random_in_unit_sphere();
-		//return 0.5*color(ray(rec.p,target-rec.p),world,depth+1);
-	}
-	else {
-		/*vec3 unit_direction = unit_vector(r.direction());
-		float t = 0.5*(unit_direction.y() + 1.0);
-		return (1.0 - t)*vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);*/
-		return vec3(0, 0, 0);
-	}
-}
+//vec3 color(const ray& r, hitable *world, int depth) {
+//
+//	
+//}
 
 //hitable *random_scene() {
 //	int n = 500;
@@ -128,7 +92,7 @@ hitable *cornell_box() {
 	material *light = new diffuse_light(new constant_texture(vec3(15, 15, 15)));
 	list[i++] = new flip_normals(new yz_rect(0, 555, 0, 555, 555, green));
 	list[i++] = new yz_rect(0, 555, 0, 555, 0, red);
-	list[i++] = new xz_rect(213, 343, 227, 332, 554, light);
+	list[i++] = new flip_normals(new xz_rect(213, 343, 227, 332, 554, light));
 	list[i++] = new flip_normals(new xy_rect(0, 555, 0, 555, 555, white));
 	list[i++] = new flip_normals(new xz_rect(0, 555, 0, 555, 555, white));
 	list[i++] = new xz_rect(0, 555, 0, 555, 0, white);
@@ -170,6 +134,9 @@ int main() {
 //	hitable *world = simple_light();
 	hitable *world = cornell_box();
 
+	PTIntegrator* newton = new PTIntegrator;
+
+
 	for (int j = ny - 1; j >= 0; j--) {
 
 		if (j % (ny / 10) == 0)
@@ -186,7 +153,7 @@ int main() {
 
 
 				//		vec3 p = r.point_at_parameter(2.0);
-				col += color(r, world,0);
+				col += newton->Li(r, world,0);
 
 			}
 
@@ -200,7 +167,10 @@ int main() {
 		}
 	}
 
+	// using smart pointer to avoid this shit
+	delete newton;
+
 	std::cout << "\n" << "Rendering done";
-	pic->SaveBMP("./results/cornell_box_samplelight.bmp");
+	pic->SaveBMP("./results/cornell_box_mixsample.bmp");
 
 }
