@@ -39,6 +39,23 @@ public:
 		x0(_x0), x1(_x1), z0(_z0), z1(_z1), k(_k), mp(mat) {}
 	virtual bool hit(const ray& r, float t0, float t1, hit_record& rec) const;
 
+	float pdf_value(const vec3& o, const vec3& v) const {
+		hit_record rec;
+
+		// shadow ray!
+		if (this->hit(ray(o, v), 0.001, FLT_MAX, rec)) {
+			float area = (x1 - x0) * (z1 - z0);
+			float distance_squared = rec.t * rec.t * v.squared_length();
+			float cosine = fabs(dot(v, rec.normal) / v.length());
+			return distance_squared / (cosine*area);
+		}
+		else
+			return 0;
+	}
+	vec3 random(const vec3& o) const {
+		vec3 random_point = vec3(x0 + randd()*(x1 - x0), k, z0 + randd()*(z1 - z0));
+		return random_point - o;
+	}
 
 private:
 	material * mp;

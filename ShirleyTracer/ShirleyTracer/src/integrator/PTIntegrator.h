@@ -3,6 +3,10 @@
 
 #include "./../utility.h"
 #include "./../material.h"
+#include "./../pdf.h"
+
+
+#include <memory>
 
 class PTIntegrator : Integrator {
 public:
@@ -18,21 +22,27 @@ vec3 PTIntegrator::Li(const ray& r, hitable *world, int depth) {
 		vec3 attenuation;
 		vec3 emitted = rec.mat_ptr->emitted(r, rec, rec.u, rec.v, rec.p);
 		float pdf;
+		float cos_pdf;
+		float light_pdf;
 		if (depth < 50 && rec.mat_ptr->scatter(r, rec, attenuation, scattered, pdf)) {
 
-			// hard-coded explicit light sampling
-			vec3 on_light = vec3(213 + randd()*(343 - 213), 554, 227 + randd()*(332 - 227));
-			vec3 to_light = on_light - rec.p;
-			float distance_squared = to_light.squared_length();
-			to_light.make_unit_vector();
-			if (dot(to_light, rec.normal) < 0)
-				return emitted;
-			float light_area = (343 - 213)*(332 - 227);
-			float light_cosine = fabs(to_light.y());
-			if (light_cosine < 0.000001)
-				return emitted;
-			pdf = distance_squared / (light_area*light_cosine);
-			scattered = ray(rec.p, to_light);
+//			hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, 0);
+			std::unique_ptr<hitable> light_shape(new xz_rect(213, 343, 227, 332, 554, 0));
+			hitable_pdf p0(light_shape.get(), rec.p);
+			cosine_pdf p1(rec.normal);
+			mixture_pdf p(&p0, &p1);
+			
+			scattered = ray(rec.p, p.generate());
+			pdf = p.value(scattered.direction());
+	//		vec3 dir = p1.generate();
+	//		scattered = ray(rec.p, dir);
+	//		pdf = p1.value(scattered.direction());
+
+			//if (depth == 0) {
+			//	lanlog::log_info("every depth = 1 scattered");
+			//	lanlog::log_info(output_vec3(dir));
+			//	lanlog::log_info(to_string(pdf));
+			//}
 
 			return emitted + attenuation * rec.mat_ptr->scattering_pdf(r, rec, scattered) / pdf * Li(scattered, world, depth + 1);
 		}

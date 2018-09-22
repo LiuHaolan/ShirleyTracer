@@ -8,3 +8,10 @@ ShirleyTracer/.vs/ShirleyTracer/v15/.suo
 *.log
 *.tlog
 *.pdb
+*.db-wal
+*.db-shm
+*.ipdb
+*.iobj
+*.htm
+*.obj
+*.obj

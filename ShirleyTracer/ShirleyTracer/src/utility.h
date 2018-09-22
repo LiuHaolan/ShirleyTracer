@@ -4,8 +4,19 @@
 #define MAXFLOAT FLT_MAX
 
 #include <random>
+#include <string>
+
+using namespace std;
+
 static std::default_random_engine generator;
 static std::uniform_real_distribution<float> distr(0.0, 1.0);
+
+std::string output_vec3(vec3& c) {
+	std::string s = "";
+	s += to_string(c.x()) + " " + to_string(c.y()) + " " + to_string(c.z());
+
+	return s;
+}
 
 // the function to return 0-1 results
 float inline randd() {

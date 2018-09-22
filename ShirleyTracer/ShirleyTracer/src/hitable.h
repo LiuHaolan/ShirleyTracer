@@ -2,6 +2,7 @@
 
 #include "ray.h"
 #include "aabb.h"
+#include "lanlog.h"
 
 // you need to include material files here!
 class material;
@@ -17,7 +18,17 @@ struct hit_record {
 class hitable {
 public:
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
+	virtual bool hitP(const ray& r, float t_min, float t_max, hit_record& rec) const {
+		//Log here!
+		lanlog::log_info("hitP base function called!");
+
+		return true;
+	}
+
 	virtual bool bounding_box(float t0, float t1, aabb& box) const { return false; }
+
+	virtual float pdf_value(const vec3& o, const vec3& v) const { return 0.0; }
+	virtual vec3 random(const vec3& o) const { return vec3(1, 0, 0); }
 };
 
 

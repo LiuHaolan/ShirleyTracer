@@ -20,7 +20,7 @@ public:
 void onb::build_from_w(const vec3& n) {
 	axis[2] = unit_vector(n);
 	vec3 a;
-	if (fabs(w().x() > 0.9)) {
+	if (fabs(w().x()) > 0.9) {
 		a = vec3(0, 1, 0);
 	}
 	else {

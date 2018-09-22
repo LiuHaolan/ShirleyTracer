@@ -29,7 +29,8 @@
 //static int ss = 0;
 #define STB_IMAGE_IMPLEMENTATION
 #include "extern/stb_image.h"
-
+//#include "glog/logging.h"
+#include "lanlog.h"
 
 //vec3 color(const ray& r, hitable *world, int depth) {
 //
@@ -102,7 +103,17 @@ hitable *cornell_box() {
 	return new hitable_list(list, i);
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+
+	// glog
+//	google::InitGoogleLogging(argv[0]);
+
+	lanlog::initLogging();
+
+
+//	LOG(WARNING) << "This is a warning message";
+	//LOG(ERROR) << "This is an error message";
+	//LOG(FATAL) << "This is a fatal message";
 
 	int nx = 500;
 	int ny = 500;
@@ -151,10 +162,9 @@ int main() {
 				float v = (float(j) + randd()) / float(ny);
 				ray r = c.get_ray(u, v);
 
-
 				//		vec3 p = r.point_at_parameter(2.0);
 				col += newton->Li(r, world,0);
-
+			
 			}
 
 			col /= ns;
@@ -173,4 +183,6 @@ int main() {
 	std::cout << "\n" << "Rendering done";
 	pic->SaveBMP("./results/cornell_box_mixsample.bmp");
 
+
+	lanlog::endLogging();
 }
