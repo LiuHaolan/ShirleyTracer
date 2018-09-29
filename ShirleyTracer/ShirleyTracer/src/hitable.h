@@ -20,7 +20,7 @@ public:
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
 	virtual bool hitP(const ray& r, float t_min, float t_max, hit_record& rec) const {
 		//Log here!
-		lanlog::log_info("hitP base function called!");
+		lanlog::log_error("hitP base function called!");
 
 		return true;
 	}

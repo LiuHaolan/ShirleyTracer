@@ -19,12 +19,27 @@
     <Filter Include="头文件\extern">
       <UniqueIdentifier>{0064557c-a1bb-4fce-9c9b-3e19c7e9b21c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\shape">
+      <UniqueIdentifier>{585d05e1-014f-433d-a196-36d55dafe45a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\light">
+      <UniqueIdentifier>{5e4d88bc-5226-42f2-ba1c-485944ece1dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\Bitmap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shapes\cylinder.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lanlog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lights\lights.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,14 +95,32 @@
     <ClInclude Include="src\integrator.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\Integrator\PTIntegrator.h">
-      <Filter>头文件\Integrator</Filter>
-    </ClInclude>
     <ClInclude Include="src\extern\stb_image.h">
       <Filter>头文件\extern</Filter>
     </ClInclude>
     <ClInclude Include="src\lanlog.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="parsing.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Integrator\SampleIntegrator.h">
+      <Filter>头文件\Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\triangle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\cylinder.h">
+      <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lights\Ambient.h">
+      <Filter>头文件\light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lights\PointLight.h">
+      <Filter>头文件\light</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

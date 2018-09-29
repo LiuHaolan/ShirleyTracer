@@ -19,7 +19,7 @@
 #include "scenefile.h"
 #include "instancing.h"
 
-#include ".\integrator\PTIntegrator.h"
+#include ".\integrator\SampleIntegrator.h"
 
 #include <ctime>
 #include <iostream>
@@ -31,11 +31,6 @@
 #include "extern/stb_image.h"
 //#include "glog/logging.h"
 #include "lanlog.h"
-
-//vec3 color(const ray& r, hitable *world, int depth) {
-//
-//	
-//}
 
 //hitable *random_scene() {
 //	int n = 500;
@@ -105,11 +100,7 @@ hitable *cornell_box() {
 
 int main(int argc, char* argv[]) {
 
-	// glog
-//	google::InitGoogleLogging(argv[0]);
-
 	lanlog::initLogging();
-
 
 //	LOG(WARNING) << "This is a warning message";
 	//LOG(ERROR) << "This is an error message";
@@ -121,10 +112,6 @@ int main(int argc, char* argv[]) {
 
 	std::auto_ptr<Bitmap> pic(new Bitmap(nx, ny));
 
-	//vec3 lower_left_corner(-2.0, -1.0, -1.0);
-	//vec3 horizontal(4.0, 0.0, 0.0);
-	//vec3 vertical(0.0, 2.0, 0.0);
-	//vec3 origin(0.0, 0.0,0.0);
 	vec3 lookfrom(278, 278, -800);
 	vec3 lookat(278, 278, 0);
 	float dist_to_focus = 10.0;
@@ -132,21 +119,9 @@ int main(int argc, char* argv[]) {
 	float vfov = 40.0;
 	Camera c(lookfrom,lookat,vec3(0,1,0),vfov,float(nx)/float(ny),aperture,dist_to_focus);
 
-//	hitable *list[1];	
-//	int pnx, pny, pnn;
-//	unsigned char* tex_data = stbi_load("earthmap1k.jpg", &pnx, &pny, &pnn, 0);
-//
-//	list[0] = new sphere(vec3(1, 0, -1), 2, new lambertian_material(new image_texture(tex_data,pnx,pny)));
-////	list[2] = new sphere(vec3(1, 0, -1), 0.5, new metal_material(vec3(0.8, 0.6, 0.2),0.0));
-////	list[3] = new sphere(vec3(-1, 0, -1), 0.5, new dielectric(1.5));
-////	list[4] = new sphere(vec3(-1, 0, -1), -0.45, new dielectric(1.5));
-//	hitable *world = new hitable_list(list, 1); 
-//	hitable *world = random_scene();
-//	hitable *world = simple_light();
 	hitable *world = cornell_box();
 
-	PTIntegrator* newton = new PTIntegrator;
-
+	SampleIntegrator* newton = new SampleIntegrator;
 
 	for (int j = ny - 1; j >= 0; j--) {
 

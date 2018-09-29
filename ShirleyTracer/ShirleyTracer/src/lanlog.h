@@ -3,6 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+
+#include "stdio.h"
+#include "assert.h"
 using namespace std;
 
 #define LOG(format) LOG_##format
@@ -12,28 +15,19 @@ using namespace std;
 
 namespace lanlog {
 
+	static int init_already = 0;
 
 	static ofstream f;
-//	static ofstream error_stream;
-//	static ofstream warning_stream;
+	static ofstream error_stream;
+	static ofstream warning_stream;
 	
-	void initLogging() {
-		f.open("D:\\sample\\ShirleyTracer\\ShirleyTracer\\ShirleyTracer\\LOG\\info.txt");
-	//	error_stream.open("D:\\sample\\ShirleyTracer\\ShirleyTracer\\ShirleyTracer\\warning.txt");
-	//	warning_stream.open("D:\\sample\\ShirleyTracer\\ShirleyTracer\\ShirleyTracer\\error.txt");
-		
-	}
+	void initLogging();
 	
-	void log_info(string s) {
-		f << s;
-		f << endl;
-	}
+	void log_info(string s);
 
-	void endLogging() {
-		f.close();
-	//	error_stream.close();
-	//	warning_stream.close();
-	}
+	void log_error(string s);
+
+	void endLogging();
 }
 
 

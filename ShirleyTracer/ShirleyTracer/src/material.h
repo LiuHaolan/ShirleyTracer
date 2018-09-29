@@ -5,6 +5,14 @@
 #include "texture.h"
 #include "onb.h"
 
+//struct scatter_record
+//{
+//	ray specular_ray;
+//	bool is_specular;
+//	vec3 attenuation;
+//	pdf *pdf_ptr;
+//};
+
 class material {
 public:
 	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, float& pdf) const = 0;

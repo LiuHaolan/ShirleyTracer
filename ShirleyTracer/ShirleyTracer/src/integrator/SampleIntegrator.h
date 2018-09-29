@@ -8,13 +8,13 @@
 
 #include <memory>
 
-class PTIntegrator : Integrator {
+class SampleIntegrator : Integrator {
 public:
 	vec3 Li(const ray& r, hitable *world, int depth);
 
 };
 
-vec3 PTIntegrator::Li(const ray& r, hitable *world, int depth) {
+vec3 SampleIntegrator::Li(const ray& r, hitable *world, int depth) {
 	hit_record rec;
 
 	if (world->hit(r, 0.001, MAXFLOAT, rec)) {

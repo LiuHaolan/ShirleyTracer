@@ -121,9 +121,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp" />
+    <ClCompile Include="src\lanlog.cpp" />
+    <ClCompile Include="src\lights\lights.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\shapes\cylinder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="parsing.h" />
     <ClInclude Include="src\aabb.h" />
     <ClInclude Include="src\Bitmap.h" />
     <ClInclude Include="src\camera.h" />
@@ -132,15 +136,20 @@
     <ClInclude Include="src\hitable_list.h" />
     <ClInclude Include="src\instancing.h" />
     <ClInclude Include="src\integrator.h" />
-    <ClInclude Include="src\Integrator\PTIntegrator.h" />
+    <ClInclude Include="src\Integrator\SampleIntegrator.h" />
     <ClInclude Include="src\lanlog.h" />
+    <ClInclude Include="src\light.h" />
+    <ClInclude Include="src\lights\Ambient.h" />
+    <ClInclude Include="src\lights\PointLight.h" />
     <ClInclude Include="src\material.h" />
     <ClInclude Include="src\onb.h" />
     <ClInclude Include="src\pdf.h" />
     <ClInclude Include="src\ray.h" />
     <ClInclude Include="src\scenefile.h" />
+    <ClInclude Include="src\shapes\cylinder.h" />
     <ClInclude Include="src\sphere.h" />
     <ClInclude Include="src\texture.h" />
+    <ClInclude Include="src\triangle.h" />
     <ClInclude Include="src\utility.h" />
     <ClInclude Include="src\vec3.h" />
     <ClInclude Include="src\xy_rect.h" />
