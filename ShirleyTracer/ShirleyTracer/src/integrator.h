@@ -2,10 +2,14 @@
 
 #include "hitable.h"
 #include "ray.h"
+//#include "World.h"
 
-
+// forward reference again
+class World;
 class Integrator {
 public:
-	virtual vec3 Li(const ray& r, hitable *world, int depth) = 0;
-
+	Integrator(World* ptr) : world(ptr) {}
+	virtual vec3 Li(const ray& r, int depth);
+protected:
+	World* world;
 };

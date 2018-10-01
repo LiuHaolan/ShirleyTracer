@@ -4,14 +4,19 @@
 #include "aabb.h"
 #include "lanlog.h"
 
+class Material;
+class World;
+
 // you need to include material files here!
-class material;
 
 struct hit_record {
 	float t;
+	ray r;
 	vec3 p;
 	vec3 normal;
-	material* mat_ptr;
+	Material* mat_ptr;
+	World& w;
+
 	float u, v;
 };
 

@@ -25,11 +25,17 @@
     <Filter Include="头文件\light">
       <UniqueIdentifier>{5e4d88bc-5226-42f2-ba1c-485944ece1dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\material">
+      <UniqueIdentifier>{5135f6b8-714c-452f-81d2-65ec29a77140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\BRDF">
+      <UniqueIdentifier>{7da7c6e1-cfa8-4dc7-8ffc-ab9dc7403ad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\descripts">
+      <UniqueIdentifier>{823d26e3-4d41-4052-82f9-6b5651395aa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\Bitmap.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -40,6 +46,27 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\lights\lights.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BRDF\BRDF.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\materials\materials.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shirleyTracer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shirley.h">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\integrator\RayCastIntegrator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\world.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,9 +81,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\hitable.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sphere.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\hitable_list.h">
@@ -101,9 +125,6 @@
     <ClInclude Include="src\lanlog.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="parsing.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="src\Integrator\SampleIntegrator.h">
       <Filter>头文件\Integrator</Filter>
     </ClInclude>
@@ -121,6 +142,36 @@
     </ClInclude>
     <ClInclude Include="src\lights\PointLight.h">
       <Filter>头文件\light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parsing.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\matte_material.h">
+      <Filter>头文件\material</Filter>
+    </ClInclude>
+    <ClInclude Include="src\brdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BRDF\LambertianBRDF.h">
+      <Filter>头文件\BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="src\integrator\RayCastIntegrator.h">
+      <Filter>头文件\Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shaderec.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="descripts\chapter14.h">
+      <Filter>头文件\descripts</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\sphere.h">
+      <Filter>头文件\shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

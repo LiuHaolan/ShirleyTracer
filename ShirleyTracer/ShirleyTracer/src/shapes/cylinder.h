@@ -16,6 +16,6 @@ private:
 	double y_top;
 	double radius;
 
-	material* mat;
+	Material* mat;
 };
 

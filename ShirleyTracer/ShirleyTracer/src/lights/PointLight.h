@@ -6,9 +6,9 @@ public:
 
 	Point_Light() :ls(1.0), color(vec3(1.0, 1.0, 1.0)) {}
 	Point_Light(float ls_, vec3 color_,vec3 location_) :ls(ls_), color(color_), location(location_) {}
-	virtual vec3 get_direction(hit_record& sr) const = 0;
+	virtual vec3 get_direction(ShadeRec& sr) const = 0;
 
-	virtual vec3 L(hit_record& sr) const = 0;
+	virtual vec3 L(ShadeRec& sr) const = 0;
 
 private:
 	float ls;
