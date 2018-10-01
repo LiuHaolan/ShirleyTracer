@@ -1,20 +1,22 @@
 #include "RayCastIntegrator.h"
 #include "..\utility.h"
 #include "..\shaderec.h"
+#include "..\World.h"
+
 vec3 Integrator::Li(const ray& r, int depth) {
 	return vec3(0, 0, 0);
 }
 
 vec3 RayCastIntegrator::Li(const ray& r, int depth) {
-	//hit_record sr;
+	hit_record sr;
 	//
-	//if (world->hit(r, 0.001, MAXFLOAT, sr)) {
-
-	//	
-	//}
-	//else {
-	//	// return the background color
-	//	return vec3(0, 0, 0);
-	//}
+	if (world->hit(r, 0.001, MAXFLOAT, sr)) {
+		return vec3(1.0, 1.0, 1.0);
+		
+	}
+	else {
+		// return the background color
+		return vec3(0, 0, 0);
+	}
 	return vec3(0, 0, 0);
 }

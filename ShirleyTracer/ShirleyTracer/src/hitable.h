@@ -15,7 +15,7 @@ struct hit_record {
 	vec3 p;
 	vec3 normal;
 	Material* mat_ptr;
-	World& w;
+	World* w;
 
 	float u, v;
 };

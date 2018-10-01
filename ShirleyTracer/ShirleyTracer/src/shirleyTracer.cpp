@@ -23,7 +23,7 @@ World* build() {
 	vec3 lookat(-1, 3.7, 0);
 	float dist_to_focus = (lookfrom-lookat).length();
 	float aperture = 0.0;
-	float vfov = 40.0;
+	float vfov = 60.0;
 	// default up vector vec3(0,1,0)
 	Camera* c = new Camera(lookfrom, lookat, vec3(0, 1, 0), vfov, float(nx) / float(ny), aperture, dist_to_focus);
 	w->camera_ptr = c;
