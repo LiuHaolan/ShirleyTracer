@@ -29,4 +29,6 @@ public:
 
 	vector<hitable* > objects;
 	vector<Light* > lights;
+
+	vec3 background_color;
 };

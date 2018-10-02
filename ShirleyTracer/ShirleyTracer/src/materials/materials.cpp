@@ -7,10 +7,13 @@ Matte::Matte() {
 }
 
 vec3 Matte::shade(ShadeRec& sr) {
-	return vec3(0, 0, 0);
+
 	vec3 wo = -sr.r.B;
+//	assert(sr.w->ambient_ptr != 0);
+
 	vec3 	L = ambient_brdf->rho(sr, wo) * sr.w->ambient_ptr->L(sr);
 	int 		num_lights = sr.w->lights.size();
+
 
 	for (int j = 0; j < num_lights; j++) {
 		vec3 wi = sr.w->lights[j]->get_direction(sr);

@@ -5,21 +5,21 @@
 class sphere : public hitable {
 public:
 	sphere() {};
-	sphere(vec3 cen, float r,Material* m): center(cen), radius(r),mat(m) {};
+	sphere(vec3 cen, float r, Material* m) : center(cen), radius(r) { mat = m; };
 	virtual bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
 	virtual bool bounding_box(float t0, float t1, aabb& box) const { 
 		box = aabb(center - vec3(radius, radius, radius), center + vec3(radius, radius, radius));
 		return true;
 	}
 
-//	void set_material(Material* m):mat(m){}
+	//void set_material(Material* m) { mat = m; }
 	float get_radius() const{ return radius; }
 	vec3 get_center() const{ return center; }
 
 private:
 	vec3 center;
 	float radius;
-	Material* mat;
+
 };
 
 bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {

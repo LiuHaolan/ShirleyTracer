@@ -69,6 +69,9 @@
     <ClCompile Include="src\world.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\shapes\plane.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -167,11 +170,14 @@
     <ClInclude Include="src\World.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="descripts\chapter14.h">
-      <Filter>头文件\descripts</Filter>
-    </ClInclude>
     <ClInclude Include="src\shapes\sphere.h">
       <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\Plane.h">
+      <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="descripts\chapter14">
+      <Filter>头文件\descripts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
