@@ -1,4 +1,7 @@
 #include "World.h"
+void World::add_light(Light* lit) {
+	lights.push_back(lit);
+}
 
 void World::add_object(hitable* obj) {
 	objects.push_back(obj);

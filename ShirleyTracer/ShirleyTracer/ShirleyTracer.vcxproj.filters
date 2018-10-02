@@ -179,5 +179,8 @@
     <ClInclude Include="descripts\chapter14">
       <Filter>头文件\descripts</Filter>
     </ClInclude>
+    <ClInclude Include="src\lights\DirectionLight.h">
+      <Filter>头文件\light</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

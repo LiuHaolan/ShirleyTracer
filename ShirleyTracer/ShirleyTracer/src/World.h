@@ -13,6 +13,7 @@ using namespace std;
 class World {
 public:
 	void add_object(hitable* obj);
+	void add_light(Light* lit);
 	bool hit(const ray& r, float tmin,float tmax, hit_record& sr);
 	~World() {
 		delete ambient_ptr;

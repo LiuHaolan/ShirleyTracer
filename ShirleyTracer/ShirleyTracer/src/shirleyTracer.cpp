@@ -11,6 +11,7 @@
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
 #include "shapes/Plane.h"
+#include "lights/DirectionLight.h"
 
 #include <iostream>
 
@@ -35,6 +36,12 @@ World* build() {
 	w->ns = ns;
 
 	w->ambient_ptr = new Ambient_Light(0.5,vec3(1.0,1.0,1.0));
+
+	DirectionLight* light_ptr = new DirectionLight;
+	light_ptr->set_direction(vec3(15, 15, 2.5));
+	light_ptr->scale_radiance(2.0);
+	w->add_light(light_ptr);
+
 
 	Matte* matte_ptr1 = new Matte;
 	matte_ptr1->set_ka(0.25);
@@ -132,7 +139,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/15.bmp");
+		pic->SaveBMP("./results/14-07.bmp");
 	
 	
 		lanlog::endLogging();

@@ -150,6 +150,7 @@
     <ClInclude Include="src\lanlog.h" />
     <ClInclude Include="src\light.h" />
     <ClInclude Include="src\lights\Ambient.h" />
+    <ClInclude Include="src\lights\DirectionLight.h" />
     <ClInclude Include="src\lights\PointLight.h" />
     <ClInclude Include="src\material.h" />
     <ClInclude Include="src\materials.h" />
