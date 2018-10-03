@@ -2,13 +2,13 @@
 #include "PointLight.h"
 #include "DirectionLight.h"
 
-vec3 Point_Light::get_direction(ShadeRec& sr) const {
+vec3 PointLight::get_direction(ShadeRec& sr) const {
 
 	return (location - sr.p);
 
 }
 
-vec3 Point_Light::L(ShadeRec& sr) const {
+vec3 PointLight::L(ShadeRec& sr) const {
 	return (ls*color);
 }
 

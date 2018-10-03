@@ -182,5 +182,14 @@
     <ClInclude Include="src\lights\DirectionLight.h">
       <Filter>头文件\light</Filter>
     </ClInclude>
+    <ClInclude Include="src\BRDF\GlossySpecularBRDF.h">
+      <Filter>头文件\BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\Phong.h">
+      <Filter>头文件\material</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Instance.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

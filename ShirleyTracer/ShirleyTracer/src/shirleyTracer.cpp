@@ -8,11 +8,13 @@
 #include "World.h"
 #include ".\integrator\RayCastIntegrator.h"
 #include "materials/matte_material.h"
+#include "materials/Phong.h"
+
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
 #include "shapes/Plane.h"
 #include "lights/DirectionLight.h"
-
+#include "lights/PointLight.h"
 #include <iostream>
 
 World* build() {
@@ -22,7 +24,7 @@ World* build() {
 	int ns = 16;
 
 	World* w = new World;
-	vec3 lookfrom(7.5, 4, 10);
+	vec3 lookfrom(7.5, 4.0, 10);
 	vec3 lookat(-1, 3.7, 0);
 	float dist_to_focus = (lookfrom-lookat).length();
 	float aperture = 0.0;
@@ -42,51 +44,55 @@ World* build() {
 	light_ptr->scale_radiance(2.0);
 	w->add_light(light_ptr);
 
+//	PointLight* light_ptr2 = new PointLight(2.0,vec3(15,15,2.5),vec3(1.0,1.0,1.0));
 
-	Matte* matte_ptr1 = new Matte;
-	matte_ptr1->set_ka(0.25);
-	matte_ptr1->set_kd(0.75);
-	matte_ptr1->set_cd(0.75, 0.75, 0);    	// dark yellow
+	Phong* phong_ptr1 = new Phong;
+	phong_ptr1->set_ka(0.25);
+	phong_ptr1->set_kd(0.75);
+	phong_ptr1->set_cd(0.75, 0.75, 0);  	// dark yellow
+	phong_ptr1->set_ks(0.25);
+	phong_ptr1->set_exp(50);
 
-	Matte* matte_ptr2 = new Matte;
-	matte_ptr2->set_ka(0.45);
-	matte_ptr2->set_kd(0.75);
-	matte_ptr2->set_cd(0.75, 0.25, 0);  	 // orange
+	Phong* phong_ptr2 = new Phong;
+	phong_ptr2->set_ka(0.45);
+	phong_ptr2->set_kd(0.75);
+	phong_ptr2->set_cd(0.75, 0.25, 0);   	// orange
+	phong_ptr2->set_ks(0.25);
+	phong_ptr2->set_exp(500);
 
-	Matte* matte_ptr3 = new Matte;
-	matte_ptr3->set_ka(0.4);
-	matte_ptr3->set_kd(0.75);
-	matte_ptr3->set_cd(1, 0.5, 1);  		// mauve
+	Phong* phong_ptr3 = new Phong;
+	phong_ptr3->set_ka(0.4);
+	phong_ptr3->set_kd(0.75);
+	phong_ptr3->set_cd(1, 0.5, 1);			// mauve
+	phong_ptr3->set_ks(0.25);
+	phong_ptr3->set_exp(4);
 
-	Matte* matte_ptr4 = new Matte;
-	matte_ptr4->set_ka(0.3);
-	matte_ptr4->set_ka(0.15);
-	matte_ptr4->set_kd(0.5);
-	matte_ptr4->set_cd(0.75, 1.0, 0.75);   	// light green
+	Phong* phong_ptr4 = new Phong;
+	phong_ptr4->set_ka(0.15);
+	phong_ptr4->set_kd(0.5);
+	phong_ptr4->set_cd(0.75, 1.0, 0.75);   	// light green
+	phong_ptr4->set_ks(0.5);
+	phong_ptr4->set_exp(3);
 
 	Matte* matte_ptr5 = new Matte;
 	matte_ptr5->set_ka(0.20);
 	matte_ptr5->set_kd(0.97);
-	matte_ptr5->set_cd(1.0,1.0,1.0);
-
-	sphere* sphere_ptr1 = new sphere(vec3(3.85, 2.3, -2.55), 2.3, matte_ptr1);
-	w->add_object(sphere_ptr1);
-
-	sphere* sphere_ptr2 = new sphere(vec3(-0.7, 1, 4.2), 2, matte_ptr2);
-	w->add_object(sphere_ptr2);
-
-	// cylinder 
+	matte_ptr5->set_cd(1.0);
+	// cylinder
 
 	float bottom = 0.0;
 	float top = 8.5;
 	float radius = 2.2;
 	cylinder* cylinder_ptr = new cylinder(bottom, top, radius);
-	cylinder_ptr->set_material(matte_ptr3);
+	cylinder_ptr->set_material(phong_ptr3);
 	w->add_object(cylinder_ptr);
 
-	Plane* plane_ptr = new Plane(vec3(0,0,0), vec3(0, 1, 0));
-	plane_ptr->set_material(matte_ptr5);
-	w->add_object(plane_ptr);
+	sphere* sphere_ptr1 = new sphere(vec3(3.85, 2.3, -2.55), 2.3, phong_ptr1);
+	w->add_object(sphere_ptr1);
+
+	sphere* sphere_ptr2 = new sphere(vec3(-0.7, 1, 4.2), 2, phong_ptr2);
+	w->add_object(sphere_ptr2);
+
 
 	float a = 0.75;
 	w->background_color = vec3(0.0, 0.3 * a, 0.25 * a);
@@ -130,6 +136,14 @@ int main() {
 				col /= w->ns;
 	
 				col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
+
+				//// do some out of gamut processing
+				//if (col[0] > 1.0 || col[1] > 1.0 || col[2] > 1.0) {
+				//	float maxfre = max(col[0], max(col[1], col[2]));
+				//	for (int j = 0; j < 3; j++)
+				//		col[j] /= maxfre;
+				//}
+
 				int ir = int(255.99*col[0]);
 				int ig = int(255.99*col[1]);
 				int ib = int(255.99*col[2]);
@@ -139,7 +153,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/14-07.bmp");
+		pic->SaveBMP("./results/15-8.bmp");
 	
 	
 		lanlog::endLogging();

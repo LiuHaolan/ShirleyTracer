@@ -138,11 +138,13 @@
     <ClInclude Include="src\aabb.h" />
     <ClInclude Include="src\Bitmap.h" />
     <ClInclude Include="src\brdf.h" />
+    <ClInclude Include="src\BRDF\GlossySpecularBRDF.h" />
     <ClInclude Include="src\BRDF\LambertianBRDF.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\extern\stb_image.h" />
     <ClInclude Include="src\hitable.h" />
     <ClInclude Include="src\hitable_list.h" />
+    <ClInclude Include="src\Instance.h" />
     <ClInclude Include="src\instancing.h" />
     <ClInclude Include="src\integrator.h" />
     <ClInclude Include="src\integrator\RayCastIntegrator.h" />
@@ -155,6 +157,7 @@
     <ClInclude Include="src\material.h" />
     <ClInclude Include="src\materials.h" />
     <ClInclude Include="src\materials\matte_material.h" />
+    <ClInclude Include="src\materials\Phong.h" />
     <ClInclude Include="src\onb.h" />
     <ClInclude Include="src\parsing.h" />
     <ClInclude Include="src\pdf.h" />
