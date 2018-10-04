@@ -13,22 +13,27 @@
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
 #include "shapes/Plane.h"
+#include "shapes/Instance.h"
+
 #include "lights/DirectionLight.h"
 #include "lights/PointLight.h"
 #include <iostream>
 
 World* build() {
 	
-	int nx = 600;
+	int nx = 400;
 	int ny = 400;
 	int ns = 16;
 
 	World* w = new World;
-	vec3 lookfrom(7.5, 4.0, 10);
-	vec3 lookat(-1, 3.7, 0);
+	vec3 lookfrom(100, 0, 100);
+	vec3 lookat(0, 1, 0);
 	float dist_to_focus = (lookfrom-lookat).length();
 	float aperture = 0.0;
-	float vfov = 60.0;
+	float distance = 6000;
+
+	// an temporary method to deal with it
+	float vfov = 2*atan2(200,distance)*180/M_PI;
 	// default up vector vec3(0,1,0)
 	Camera* c = new Camera(lookfrom, lookat, vec3(0, 1, 0), vfov, float(nx) / float(ny), aperture, dist_to_focus);
 	w->camera_ptr = c;
@@ -39,63 +44,28 @@ World* build() {
 
 	w->ambient_ptr = new Ambient_Light(0.5,vec3(1.0,1.0,1.0));
 
-	DirectionLight* light_ptr = new DirectionLight;
-	light_ptr->set_direction(vec3(15, 15, 2.5));
-	light_ptr->scale_radiance(2.0);
-	w->add_light(light_ptr);
+	PointLight* light_ptr2 = new PointLight(3.0,vec3(1.0,1.0,1.0), vec3(50, 50, 1));
+	w->add_light(light_ptr2);
 
-//	PointLight* light_ptr2 = new PointLight(2.0,vec3(15,15,2.5),vec3(1.0,1.0,1.0));
+	Phong* phong_ptr = new Phong;
+	phong_ptr->set_cd(0.75);
+	phong_ptr->set_ka(0.25);
+	phong_ptr->set_kd(0.8);
+	phong_ptr->set_ks(0.15);
+	phong_ptr->set_exp(50.0);
 
-	Phong* phong_ptr1 = new Phong;
-	phong_ptr1->set_ka(0.25);
-	phong_ptr1->set_kd(0.75);
-	phong_ptr1->set_cd(0.75, 0.75, 0);  	// dark yellow
-	phong_ptr1->set_ks(0.25);
-	phong_ptr1->set_exp(50);
-
-	Phong* phong_ptr2 = new Phong;
-	phong_ptr2->set_ka(0.45);
-	phong_ptr2->set_kd(0.75);
-	phong_ptr2->set_cd(0.75, 0.25, 0);   	// orange
-	phong_ptr2->set_ks(0.25);
-	phong_ptr2->set_exp(500);
-
-	Phong* phong_ptr3 = new Phong;
-	phong_ptr3->set_ka(0.4);
-	phong_ptr3->set_kd(0.75);
-	phong_ptr3->set_cd(1, 0.5, 1);			// mauve
-	phong_ptr3->set_ks(0.25);
-	phong_ptr3->set_exp(4);
-
-	Phong* phong_ptr4 = new Phong;
-	phong_ptr4->set_ka(0.15);
-	phong_ptr4->set_kd(0.5);
-	phong_ptr4->set_cd(0.75, 1.0, 0.75);   	// light green
-	phong_ptr4->set_ks(0.5);
-	phong_ptr4->set_exp(3);
-
-	Matte* matte_ptr5 = new Matte;
-	matte_ptr5->set_ka(0.20);
-	matte_ptr5->set_kd(0.97);
-	matte_ptr5->set_cd(1.0);
-	// cylinder
-
-	float bottom = 0.0;
-	float top = 8.5;
-	float radius = 2.2;
-	cylinder* cylinder_ptr = new cylinder(bottom, top, radius);
-	cylinder_ptr->set_material(phong_ptr3);
-	w->add_object(cylinder_ptr);
-
-	sphere* sphere_ptr1 = new sphere(vec3(3.85, 2.3, -2.55), 2.3, phong_ptr1);
-	w->add_object(sphere_ptr1);
-
-	sphere* sphere_ptr2 = new sphere(vec3(-0.7, 1, 4.2), 2, phong_ptr2);
-	w->add_object(sphere_ptr2);
+	Instance* ellipsoid_ptr = new Instance(new sphere);
+	ellipsoid_ptr->set_material(phong_ptr);
+	ellipsoid_ptr->scale(2, 3, 1);
+	ellipsoid_ptr->rotate_x(-45);
+	ellipsoid_ptr->translate(0, 1, 0);
+	w->add_object(ellipsoid_ptr);
+	sphere* sphere_ptr = new sphere;
+	sphere_ptr->set_material(phong_ptr);
+	w->add_object(sphere_ptr);
 
 
-	float a = 0.75;
-	w->background_color = vec3(0.0, 0.3 * a, 0.25 * a);
+	w->background_color = vec3(0.0, 0, 0);
 
 	return w;
 }

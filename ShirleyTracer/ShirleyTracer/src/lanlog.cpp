@@ -17,6 +17,11 @@ namespace lanlog {
 		f << endl;
 	}
 
+	void log_vec3(vec3 ra) {
+//		void log_vec3(vec3 ra);
+		lanlog::log_info(to_string(ra.x()) + " " + to_string(ra.y()) + " " + to_string(ra.z()));
+	}
+
 	void log_error(string s) {
 		warning_stream << s;
 		warning_stream << endl;

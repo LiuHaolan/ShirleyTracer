@@ -31,9 +31,6 @@
     <Filter Include="头文件\BRDF">
       <UniqueIdentifier>{7da7c6e1-cfa8-4dc7-8ffc-ab9dc7403ad9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\descripts">
-      <UniqueIdentifier>{823d26e3-4d41-4052-82f9-6b5651395aa3}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
@@ -72,6 +69,12 @@
     <ClCompile Include="src\shapes\plane.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Matrix.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shapes\instance.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -108,9 +111,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\scenefile.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\instancing.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\onb.h">
@@ -176,9 +176,6 @@
     <ClInclude Include="src\shapes\Plane.h">
       <Filter>头文件\shape</Filter>
     </ClInclude>
-    <ClInclude Include="descripts\chapter14">
-      <Filter>头文件\descripts</Filter>
-    </ClInclude>
     <ClInclude Include="src\lights\DirectionLight.h">
       <Filter>头文件\light</Filter>
     </ClInclude>
@@ -188,8 +185,11 @@
     <ClInclude Include="src\materials\Phong.h">
       <Filter>头文件\material</Filter>
     </ClInclude>
-    <ClInclude Include="src\Instance.h">
+    <ClInclude Include="src\Matrix.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\Instance.h">
+      <Filter>头文件\shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

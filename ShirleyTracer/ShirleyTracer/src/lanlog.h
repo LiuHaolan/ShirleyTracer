@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 
+#include "vec3.h"
 #include "stdio.h"
 #include "assert.h"
 using namespace std;
@@ -24,6 +25,8 @@ namespace lanlog {
 	void initLogging();
 	
 	void log_info(string s);
+
+	void log_vec3(vec3 ra);
 
 	void log_error(string s);
 

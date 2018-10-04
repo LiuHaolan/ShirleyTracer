@@ -1,0 +1,83 @@
+
+World* build() {
+	
+	int nx = 600;
+	int ny = 400;
+	int ns = 16;
+
+	World* w = new World;
+	vec3 lookfrom(7.5, 4.0, 10);
+	vec3 lookat(-1, 3.7, 0);
+	float dist_to_focus = (lookfrom-lookat).length();
+	float aperture = 0.0;
+	float vfov = 60.0;
+	// default up vector vec3(0,1,0)
+	Camera* c = new Camera(lookfrom, lookat, vec3(0, 1, 0), vfov, float(nx) / float(ny), aperture, dist_to_focus);
+	w->camera_ptr = c;
+	w->integrator_ptr = new RayCastIntegrator(w);
+	w->nx = nx;
+	w->ny = ny;
+	w->ns = ns;
+
+	w->ambient_ptr = new Ambient_Light(0.5,vec3(1.0,1.0,1.0));
+
+	DirectionLight* light_ptr = new DirectionLight;
+	light_ptr->set_direction(vec3(15, 15, 2.5));
+	light_ptr->scale_radiance(2.0);
+	w->add_light(light_ptr);
+
+//	PointLight* light_ptr2 = new PointLight(2.0,vec3(15,15,2.5),vec3(1.0,1.0,1.0));
+
+	Phong* phong_ptr1 = new Phong;
+	phong_ptr1->set_ka(0.25);
+	phong_ptr1->set_kd(0.75);
+	phong_ptr1->set_cd(0.75, 0.75, 0);  	// dark yellow
+	phong_ptr1->set_ks(0.25);
+	phong_ptr1->set_exp(50);
+
+	Phong* phong_ptr2 = new Phong;
+	phong_ptr2->set_ka(0.45);
+	phong_ptr2->set_kd(0.75);
+	phong_ptr2->set_cd(0.75, 0.25, 0);   	// orange
+	phong_ptr2->set_ks(0.25);
+	phong_ptr2->set_exp(500);
+
+	Phong* phong_ptr3 = new Phong;
+	phong_ptr3->set_ka(0.4);
+	phong_ptr3->set_kd(0.75);
+	phong_ptr3->set_cd(1, 0.5, 1);			// mauve
+	phong_ptr3->set_ks(0.25);
+	phong_ptr3->set_exp(4);
+
+	Phong* phong_ptr4 = new Phong;
+	phong_ptr4->set_ka(0.15);
+	phong_ptr4->set_kd(0.5);
+	phong_ptr4->set_cd(0.75, 1.0, 0.75);   	// light green
+	phong_ptr4->set_ks(0.5);
+	phong_ptr4->set_exp(3);
+
+	Matte* matte_ptr5 = new Matte;
+	matte_ptr5->set_ka(0.20);
+	matte_ptr5->set_kd(0.97);
+	matte_ptr5->set_cd(1.0);
+	// cylinder
+
+	float bottom = 0.0;
+	float top = 8.5;
+	float radius = 2.2;
+	cylinder* cylinder_ptr = new cylinder(bottom, top, radius);
+	cylinder_ptr->set_material(phong_ptr3);
+	w->add_object(cylinder_ptr);
+
+	sphere* sphere_ptr1 = new sphere(vec3(3.85, 2.3, -2.55), 2.3, phong_ptr1);
+	w->add_object(sphere_ptr1);
+
+	sphere* sphere_ptr2 = new sphere(vec3(-0.7, 1, 4.2), 2, phong_ptr2);
+	w->add_object(sphere_ptr2);
+
+
+	float a = 0.75;
+	w->background_color = vec3(0.0, 0.3 * a, 0.25 * a);
+
+	return w;
+}

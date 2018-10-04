@@ -15,7 +15,7 @@ vec3 RayCastIntegrator::Li(const ray& r, int depth) {
 		sr.r = r;
 		sr.w = world;
 		return ((sr.mat_ptr)->shade(sr));
-		
+//		return vec3(1.0, 1.0, 1.0);
 	}
 	else {
 		// return the background color
