@@ -128,6 +128,7 @@
     <ClCompile Include="src\Matrix.cpp" />
     <ClCompile Include="src\shapes\instance.cpp" />
     <ClCompile Include="src\shapes\plane.cpp" />
+    <ClCompile Include="src\shapes\triangle.cpp" />
     <ClCompile Include="src\shirley.h" />
     <ClCompile Include="src\materials\materials.cpp" />
     <ClCompile Include="src\shapes\cylinder.cpp" />
@@ -168,8 +169,8 @@
     <ClInclude Include="src\shapes\Instance.h" />
     <ClInclude Include="src\shapes\Plane.h" />
     <ClInclude Include="src\shapes\sphere.h" />
+    <ClInclude Include="src\shapes\triangle.h" />
     <ClInclude Include="src\texture.h" />
-    <ClInclude Include="src\triangle.h" />
     <ClInclude Include="src\utility.h" />
     <ClInclude Include="src\vec3.h" />
     <ClInclude Include="src\World.h" />
