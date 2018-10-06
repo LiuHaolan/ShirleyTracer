@@ -57,6 +57,15 @@ World* build() {
 	PointLight* light_ptr3 = new PointLight(4.0, vec3(1.0, 1.0, 1.0), vec3(-12, 15, 30));
 	w->add_light(light_ptr3);
 
+	Matte* matte_ptr1 = new Matte;
+	matte_ptr1->set_ka(0.3);
+	matte_ptr1->set_kd(0.3);
+	matte_ptr1->set_cd(0.5, 0.6, 0);
+
+	sphere*	sphere_ptr1 = new sphere(vec3(0.0, 2.4, 0), 1.5);
+	sphere_ptr1->set_material(matte_ptr1);
+	w->add_object(sphere_ptr1);
+
 	Matte* matte_ptr3 = new Matte;
 	matte_ptr3->set_ka(0.35);
 	matte_ptr3->set_kd(0.50);
@@ -67,6 +76,32 @@ World* build() {
 		vec3(2.35, 5.8, 1.4));		// top									
 	triangle_ptr1->set_material(matte_ptr3);
 	w->add_object(triangle_ptr1);
+
+	// cylinder
+
+	float bottom = -0.5;
+	float top = 1.0;
+	float radius = 1.0;
+
+	Matte* matte_ptr2 = new Matte();
+	matte_ptr2->set_ka(0.2);
+	matte_ptr2->set_kd(0.3);
+	matte_ptr2->set_cd(0.8, 0.5, 0);
+
+	cylinder* cylinder_ptr = new cylinder(bottom, top, radius);
+	cylinder_ptr->set_material(matte_ptr2);
+	w->add_object(cylinder_ptr);
+
+	// ground plane
+
+	Matte* matte_ptr4 = new Matte;
+	matte_ptr4->set_ka(0.1);
+	matte_ptr4->set_kd(0.2);
+	matte_ptr4->set_cd(vec3(1.0,1.0,1.0));
+
+	Plane* plane_ptr = new Plane(vec3(0, -0.5, 0), vec3(0, 1, 0));
+	plane_ptr->set_material(matte_ptr4);
+	w->add_object(plane_ptr);
 
 
 	w->background_color = vec3(0.0, 0, 0);

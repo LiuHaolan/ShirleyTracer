@@ -47,6 +47,13 @@ vec3 Phong::shade(hit_record& sr) {
 		float ndotwi = dot(sr.normal, wi);
 
 		if (ndotwi > 0.0) {
+			bool in_shadow = false;
+
+			if ((sr.w)->lights[j]->cast_shadows()) {
+				ray shadowray(sr.p, wi);
+				in_shadow = sr.w->lights[j]->in_shadows(shadowray, sr);
+			}
+
 			L += diffuse_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * ndotwi;
 			vec3 ra = specular_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * ndotwi;
 	//		lanlog::log_info(to_string(ra.x())+" "+ to_string(ra.y())+" "+ to_string(ra.z()));

@@ -5,6 +5,7 @@
 class sphere : public hitable {
 public:
 	sphere():center(vec3(0,0,0)),radius(1) {};
+	sphere(vec3 cen, float r) : center(cen), radius(r) { };
 	sphere(vec3 cen, float r, Material* m) : center(cen), radius(r) { mat = m; };
 	virtual bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
 	virtual bool bounding_box(float t0, float t1, aabb& box) const { 
