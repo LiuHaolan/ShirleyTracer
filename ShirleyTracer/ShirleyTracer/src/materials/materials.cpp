@@ -25,8 +25,16 @@ vec3 Matte::shade(ShadeRec& sr) {
 		sr.normal.make_unit_vector();
 		float ndotwi = dot(sr.normal, wi);
 
-		if (ndotwi > 0.0)
-			L += diffuse_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * ndotwi;
+		if (ndotwi > 0.0) {
+			bool in_shadow = false;
+
+			if ((sr.w)->lights[j]->cast_shadows()) {
+				ray shadowray(sr.p, wi);
+				in_shadow = sr.w->lights[j]->in_shadows(shadowray, sr);
+			}
+			if(!in_shadow)
+				L += diffuse_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * ndotwi;
+		}
 	}
 
 	return (L);
@@ -54,10 +62,11 @@ vec3 Phong::shade(hit_record& sr) {
 				in_shadow = sr.w->lights[j]->in_shadows(shadowray, sr);
 			}
 
-			L += diffuse_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * ndotwi;
-			vec3 ra = specular_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * ndotwi;
+			if(!in_shadow)
+				L += diffuse_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * ndotwi \
+			        +specular_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * ndotwi;
 	//		lanlog::log_info(to_string(ra.x())+" "+ to_string(ra.y())+" "+ to_string(ra.z()));
-			L += ra;
+
 		}
 	}
 

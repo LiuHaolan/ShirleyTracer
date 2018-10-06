@@ -1,4 +1,17 @@
 #include "Plane.h"
+#include "..\utility.h"
+
+static float kEpsilon = 0.001;
+
+bool Plane::hitP(const ray& r, float & t) const {
+	t = (dot(a, n) - dot(r.A, n)) / (dot(r.B, n));
+	if (t > kEpsilon && t < MAXFLOAT) {
+
+		return true;
+	}
+
+	return false;
+}
 
 bool Plane::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
 

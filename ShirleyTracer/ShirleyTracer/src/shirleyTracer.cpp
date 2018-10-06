@@ -48,13 +48,12 @@ World* build() {
 	DirectionLight* light_ptr1 = new DirectionLight;
 	light_ptr1->set_direction(vec3(200, 150, 125));
 	light_ptr1->scale_radiance(4.0);
-	//	light_ptr1->set_shadows(true);				// for Figure 16.1(b)
+	light_ptr1->set_shadows(true);				// for Figure 16.1(b)
 	w->add_light(light_ptr1);
 
-	PointLight* light_ptr2 = new PointLight(4.0,vec3(1.0,1.0,1.0), vec3(200, 150, 125));
-	w->add_light(light_ptr2);
 
 	PointLight* light_ptr3 = new PointLight(4.0, vec3(1.0, 1.0, 1.0), vec3(-12, 15, 30));
+//	light_ptr3->set_shadows(true);
 	w->add_light(light_ptr3);
 
 	Matte* matte_ptr1 = new Matte;

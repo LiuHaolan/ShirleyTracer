@@ -23,11 +23,11 @@ struct hit_record {
 class hitable {
 public:
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
-	virtual bool hitP(const ray& r, float t_min, float t_max, hit_record& rec) const {
+	virtual bool hitP(const ray& r, float& t) const {
 		//Log here!
 		lanlog::log_error("hitP base function called!");
 
-		return true;
+		return false;
 	}
 
 	virtual bool bounding_box(float t0, float t1, aabb& box) const { return false; }

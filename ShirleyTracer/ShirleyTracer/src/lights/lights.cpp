@@ -1,8 +1,25 @@
 #include "Ambient.h"
 #include "PointLight.h"
 #include "DirectionLight.h"
+#include "..\World.h"
 
-vec3 PointLight::get_direction(ShadeRec& sr) const {
+bool PointLight::in_shadows(const ray& r, const hit_record& sr) const {
+	float t;
+	int num_objects = (sr.w)->objects.size();
+	float d = (location - r.A).length();
+
+	for (int j = 0; j < num_objects; j++) {
+		if (sr.w->objects[j]->hitP(r, t) && t < d) {
+			return true;
+		}
+	}
+
+	return false;
+
+}
+
+
+vec3 PointLight::get_direction(const ShadeRec& sr) const {
 
 	return (location - sr.p);
 
@@ -12,7 +29,7 @@ vec3 PointLight::L(ShadeRec& sr) const {
 	return (ls*color);
 }
 
-vec3 Ambient_Light::get_direction(ShadeRec& sr) const {
+vec3 Ambient_Light::get_direction(const ShadeRec& sr) const {
 	// won't get anything to invoke this method.
 	return vec3(0, 0, 0);
 
@@ -52,6 +69,22 @@ vec3 DirectionLight::L(ShadeRec& s) const{
 	return (ls * color);
 }
 
-vec3 DirectionLight::get_direction(hit_record& sr) const {
+vec3 DirectionLight::get_direction(const hit_record& sr) const {
 	return dir;
+}
+
+bool DirectionLight::in_shadows(const ray& r, const hit_record& sr) const {
+
+//	hit_record tmp;
+	ray shadowray(r.A, get_direction(sr));
+	int object_nums = sr.w->objects.size();
+
+	for (int j = 0; j < object_nums; j++) {
+		float t;
+
+		if (sr.w->objects[j]->hitP(shadowray, t)) {
+			return true;
+		}
+	}
+	return false;
 }

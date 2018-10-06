@@ -3,7 +3,7 @@
 
 class DirectionLight : public Light {
 public:
-	DirectionLight():ls(1.0),color(vec3(1.0,1.0,1.0)),dir(vec3(0.0,0.0,0.0)){}
+	DirectionLight():ls(1.0),color(vec3(1.0,1.0,1.0)),dir(vec3(0.0,0.0,0.0)){ shadows = false; }
 
 	void
 		scale_radiance(const float b);
@@ -20,9 +20,9 @@ public:
 	void
 		set_direction(vec3 d);
 
-	vec3 get_direction(hit_record& sr) const;
+	vec3 get_direction(const hit_record& sr) const;
 	vec3 L(ShadeRec& s) const;
-
+	bool in_shadows(const ray& r, const hit_record& sr) const;
 private:
 
 	float		ls;
