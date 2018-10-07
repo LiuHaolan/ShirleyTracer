@@ -32,6 +32,8 @@ Matrix 											// divsion by a double
 Matrix::operator/ (const double d) {
 	for (int j = 0; j < 16; j++)
 		m[j / 4][j % 4] /= d;
+
+	return *this;
 }
 
 void Matrix::set_identity(void) {

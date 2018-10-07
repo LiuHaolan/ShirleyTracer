@@ -31,6 +31,12 @@
     <Filter Include="头文件\BRDF">
       <UniqueIdentifier>{7da7c6e1-cfa8-4dc7-8ffc-ab9dc7403ad9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\texture">
+      <UniqueIdentifier>{ffe6f532-5915-4d7b-86f9-a0e7fb5709af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\entrance">
+      <UniqueIdentifier>{802cbf5f-cf02-47e2-a78b-3d2605d37d83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
@@ -49,9 +55,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\materials\materials.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\shirleyTracer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\shirley.h">
@@ -82,6 +85,36 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\shapes\Box.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\materials\Emissive.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture\constant_color.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BRDF\SVLambertian.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\materials\SV_Matte.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\extern\Image.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture\ImageTexture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture\SphericalMap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shapes\sphere.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shirleyTracer.cpp">
+      <Filter>源文件\entrance</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture\Checker3D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -202,6 +235,33 @@
     </ClInclude>
     <ClInclude Include="src\shapes\Box.h">
       <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\Emissive.h">
+      <Filter>头文件\material</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BRDF\SVLambertian.h">
+      <Filter>头文件\BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture\constant_color.h">
+      <Filter>头文件\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\SV_Matte.h">
+      <Filter>头文件\material</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture\ImageTexture.h">
+      <Filter>头文件\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\extern\Image.h">
+      <Filter>头文件\extern</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture\SphericalMap.h">
+      <Filter>头文件\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture\mapping.h">
+      <Filter>头文件\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture\Checker3D.h">
+      <Filter>头文件\texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

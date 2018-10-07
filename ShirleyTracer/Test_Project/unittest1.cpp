@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "..\ShirleyTracer\src\pdf.h"
+#include "..\ShirleyTracer\src\utility.h"
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

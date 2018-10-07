@@ -9,6 +9,7 @@
 #include ".\integrator\RayCastIntegrator.h"
 #include "materials/matte_material.h"
 #include "materials/Phong.h"
+#include "materials/SV_Matte.h"
 
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
@@ -17,22 +18,27 @@
 #include "shapes/triangle.h"
 #include "shapes/Box.h"
 
+#include "extern/Image.h"
+#include "texture/ImageTexture.h"
+#include "texture/SphericalMap.h"
+#include "texture/Checker3D.h"
+
 #include "lights/DirectionLight.h"
 #include "lights/PointLight.h"
 #include <iostream>
 
 World* build() {
 	
-	int nx = 600;
-	int ny = 400;
-	int ns = 16;
+	int nx = 300;
+	int ny = 200;
+	int ns = 1;
 
 	World* w = new World;
-	vec3 lookfrom(2, 2.5, 15);
-	vec3 lookat(3, 2.5, 0);
+	vec3 lookfrom(100, 500, 100);
+	vec3 lookat(0, 450.0, 0);
 	float dist_to_focus = (lookfrom-lookat).length();
 	float aperture = 0.0;
-	float distance = 700;
+	float distance = 175;
 
 	// an temporary method to deal with it
 	float vfov = 2*atan2(200,distance)*180/M_PI;
@@ -44,72 +50,31 @@ World* build() {
 	w->ny = ny;
 	w->ns = ns;
 
-	w->ambient_ptr = new Ambient_Light(0.5,vec3(1.0,1.0,1.0));
+	w->ambient_ptr = new Ambient_Light(1.0,vec3(1.0,1.0,1.0));
 
 	DirectionLight* light_ptr1 = new DirectionLight;
-	light_ptr1->set_direction(vec3(200, 150, 125));
+	light_ptr1->set_direction(vec3(0, 1, 0));
 	light_ptr1->scale_radiance(4.0);
-//	light_ptr1->set_shadows(true);				// for Figure 16.1(b)
 	w->add_light(light_ptr1);
 
-
-	PointLight* light_ptr3 = new PointLight(4.0, vec3(1.0, 1.0, 1.0), vec3(-12, 15, 30));
-//	light_ptr3->set_shadows(true);
-	w->add_light(light_ptr3);
-
-	Matte* matte_ptr1 = new Matte;
-	matte_ptr1->set_ka(0.3);
-	matte_ptr1->set_kd(0.3);
-	matte_ptr1->set_cd(0.5, 0.6, 0);
-
-	sphere*	sphere_ptr1 = new sphere(vec3(0.0, 2.4, 0), 1.5);
-	sphere_ptr1->set_material(matte_ptr1);
-	w->add_object(sphere_ptr1);
-
-	Matte* matte_ptr3 = new Matte;
-	matte_ptr3->set_ka(0.35);
-	matte_ptr3->set_kd(0.50);
-	matte_ptr3->set_cd(0, 0.5, 0.5);      // cyan
-
-	Triangle* triangle_ptr1 = new Triangle(vec3(1.5, -0.5, 1.8), 		// front
-		vec3(7.5, -0.5, -9.00), 		// back
-		vec3(2.35, 5.8, 1.4));		// top									
-	triangle_ptr1->set_material(matte_ptr3);
-	w->add_object(triangle_ptr1);
-
-	Matte* matte_ptr2 = new Matte();
-	matte_ptr2->set_ka(0.2);
-	matte_ptr2->set_kd(0.3);
-	matte_ptr2->set_cd(0.8, 0.5, 0);
-
-	Box* box_ptr1 = new Box(vec3(5.4, -0.5, -3), vec3(7.5, 4.75, 0.60));
-	box_ptr1->set_material(matte_ptr2);
-	w->add_object(box_ptr1);
-
-	// cylinder
-
-	float bottom = -0.5;
-	float top = 1.0;
-	float radius = 1.0;
+	Checker3D* checker_pt1 = new Checker3D;
+	checker_pt1->set_size(250.0);
+	checker_pt1->set_color1(black);
+	checker_pt1->set_color2(white);
 
 
-	cylinder* cylinder_ptr = new cylinder(bottom, top, radius);
-	cylinder_ptr->set_material(matte_ptr2);
-	w->add_object(cylinder_ptr);
+	// textured material:
 
-	// ground plane
+	SV_Matte* sv_matte_ptr1 = new SV_Matte;
+	sv_matte_ptr1->set_ka(0.5);
+	sv_matte_ptr1->set_kd(0.35);
+	sv_matte_ptr1->set_cd(checker_pt1);
 
-	Matte* matte_ptr4 = new Matte;
-	matte_ptr4->set_ka(0.1);
-	matte_ptr4->set_kd(0.2);
-	matte_ptr4->set_cd(vec3(1.0,1.0,1.0));
-
-	Plane* plane_ptr = new Plane(vec3(0, -0.5, 0), vec3(0, 1, 0));
-	plane_ptr->set_material(matte_ptr4);
+	Plane* plane_ptr = new Plane(vec3(0.0), vec3(0.0, 1.0, 0.0));
+	plane_ptr->set_material(sv_matte_ptr1);
 	w->add_object(plane_ptr);
 
-
-	w->background_color = vec3(0.0, 0, 0);
+	w->background_color = vec3(0.25, 0.25, 0.25);
 
 	return w;
 }
@@ -151,12 +116,12 @@ int main() {
 	
 				col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
 
-				//// do some out of gamut processing
-				//if (col[0] > 1.0 || col[1] > 1.0 || col[2] > 1.0) {
-				//	float maxfre = max(col[0], max(col[1], col[2]));
-				//	for (int j = 0; j < 3; j++)
-				//		col[j] /= maxfre;
-				//}
+				// do some out of gamut processing
+				if (col[0] > 1.0 || col[1] > 1.0 || col[2] > 1.0) {
+					float maxfre = max(col[0], max(col[1], col[2]));
+					for (int j = 0; j < 3; j++)
+						col[j] /= maxfre;
+				}
 
 				int ir = int(255.99*col[0]);
 				int ig = int(255.99*col[1]);
@@ -167,7 +132,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/15-8.bmp");
+		pic->SaveBMP("./results/4.08(a).bmp");
 	
 	
 		lanlog::endLogging();

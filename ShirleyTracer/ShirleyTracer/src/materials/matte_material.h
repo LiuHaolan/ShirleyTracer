@@ -22,7 +22,7 @@ public:
 
 	void
 		set_cd(const float c);
-
+	vec3 area_light_shade(ShadeRec& sr);
 
 private:
 	Lambertian_BRDF* ambient_brdf;
@@ -71,4 +71,5 @@ Matte::set_cd(const float c) {
 	ambient_brdf->set_cd(c);
 	diffuse_brdf->set_cd(c);
 }
+
 

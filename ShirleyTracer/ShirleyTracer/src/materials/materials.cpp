@@ -40,6 +40,31 @@ vec3 Matte::shade(ShadeRec& sr) {
 	return (L);
 }
 
+vec3 Matte::area_light_shade(ShadeRec& sr) {
+	vec3 	wo = -sr.r.B;
+	vec3 	L = ambient_brdf->rho(sr, wo) * sr.w->ambient_ptr->L(sr);
+	int 		num_lights = sr.w->lights.size();
+
+	for (int j = 0; j < num_lights; j++) {
+		vec3 	wi = sr.w->lights[j]->get_direction(sr);
+		float 		ndotwi = dot(sr.normal, wi);
+
+		if (ndotwi > 0.0) {
+			bool in_shadow = false;
+
+			if (sr.w->lights[j]->cast_shadows()) {
+				ray shadow_ray(sr.p, wi);
+				in_shadow = sr.w->lights[j]->in_shadows(shadow_ray, sr);
+			}
+
+			if (!in_shadow)
+				L += diffuse_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * sr.w->lights[j]->G(sr) * ndotwi / sr.w->lights[j]->pdf(sr);
+		}
+	}
+
+	return (L);
+}
+
 vec3 Phong::shade(hit_record& sr) {
 	vec3 wo = -sr.r.B;
 	//	assert(sr.w->ambient_ptr != 0);

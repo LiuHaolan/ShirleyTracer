@@ -1,5 +1,7 @@
 #include "utility.h"
 
+
+
 std::string output_vec3(vec3& c) {
 	std::string s = "";
 	s += to_string(c.x()) + " " + to_string(c.y()) + " " + to_string(c.z());

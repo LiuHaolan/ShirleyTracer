@@ -13,6 +13,9 @@ bool Instance::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
 		if (object_ptr->get_material() == 0)
 			rec.mat_ptr = mat;
 
+		if (!transform_the_texture)
+			rec.local_hit_point = r.point_at_parameter(rec.t);
+
 	//	rec.p = r.A + rec.t*r.B;
 
 		return true;

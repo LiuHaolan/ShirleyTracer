@@ -13,6 +13,8 @@ struct hit_record {
 	float t;
 	ray r;
 	vec3 p;
+
+	vec3 local_hit_point;
 	vec3 normal;
 	Material* mat_ptr;
 	World* w;

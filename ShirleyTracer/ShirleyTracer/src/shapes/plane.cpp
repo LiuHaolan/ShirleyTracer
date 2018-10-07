@@ -25,6 +25,7 @@ bool Plane::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
 			rec.normal = -n;
 		rec.t = t;
 		rec.p = r.point_at_parameter(t);
+		rec.local_hit_point = rec.p;
 
 		return true;
 	}

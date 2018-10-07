@@ -122,19 +122,28 @@
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp" />
     <ClCompile Include="src\BRDF\BRDF.cpp" />
+    <ClCompile Include="src\BRDF\SVLambertian.cpp" />
+    <ClCompile Include="src\extern\Image.cpp" />
     <ClCompile Include="src\integrator\AreaLightIntegrator.cpp" />
     <ClCompile Include="src\integrator\RayCastIntegrator.cpp" />
     <ClCompile Include="src\lanlog.cpp" />
     <ClCompile Include="src\lights\lights.cpp" />
+    <ClCompile Include="src\materials\Emissive.cpp" />
+    <ClCompile Include="src\materials\SV_Matte.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
     <ClCompile Include="src\shapes\Box.cpp" />
     <ClCompile Include="src\shapes\instance.cpp" />
     <ClCompile Include="src\shapes\plane.cpp" />
+    <ClCompile Include="src\shapes\sphere.cpp" />
     <ClCompile Include="src\shapes\triangle.cpp" />
     <ClCompile Include="src\shirley.h" />
     <ClCompile Include="src\materials\materials.cpp" />
     <ClCompile Include="src\shapes\cylinder.cpp" />
     <ClCompile Include="src\shirleyTracer.cpp" />
+    <ClCompile Include="src\texture\Checker3D.cpp" />
+    <ClCompile Include="src\texture\constant_color.cpp" />
+    <ClCompile Include="src\texture\ImageTexture.cpp" />
+    <ClCompile Include="src\texture\SphericalMap.cpp" />
     <ClCompile Include="src\utility.cpp" />
     <ClCompile Include="src\world.cpp" />
   </ItemGroup>
@@ -144,7 +153,9 @@
     <ClInclude Include="src\brdf.h" />
     <ClInclude Include="src\BRDF\GlossySpecularBRDF.h" />
     <ClInclude Include="src\BRDF\LambertianBRDF.h" />
+    <ClInclude Include="src\BRDF\SVLambertian.h" />
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\extern\Image.h" />
     <ClInclude Include="src\extern\stb_image.h" />
     <ClInclude Include="src\hitable.h" />
     <ClInclude Include="src\hitable_list.h" />
@@ -158,8 +169,10 @@
     <ClInclude Include="src\lights\DirectionLight.h" />
     <ClInclude Include="src\lights\PointLight.h" />
     <ClInclude Include="src\materials.h" />
+    <ClInclude Include="src\materials\Emissive.h" />
     <ClInclude Include="src\materials\matte_material.h" />
     <ClInclude Include="src\materials\Phong.h" />
+    <ClInclude Include="src\materials\SV_Matte.h" />
     <ClInclude Include="src\Matrix.h" />
     <ClInclude Include="src\onb.h" />
     <ClInclude Include="src\parsing.h" />
@@ -174,6 +187,11 @@
     <ClInclude Include="src\shapes\sphere.h" />
     <ClInclude Include="src\shapes\triangle.h" />
     <ClInclude Include="src\texture.h" />
+    <ClInclude Include="src\texture\Checker3D.h" />
+    <ClInclude Include="src\texture\constant_color.h" />
+    <ClInclude Include="src\texture\ImageTexture.h" />
+    <ClInclude Include="src\texture\mapping.h" />
+    <ClInclude Include="src\texture\SphericalMap.h" />
     <ClInclude Include="src\utility.h" />
     <ClInclude Include="src\vec3.h" />
     <ClInclude Include="src\World.h" />

@@ -7,7 +7,7 @@
 class Instance : public hitable {
 public:
 //	Instance();
-	Instance(hitable* ptr) : object_ptr(ptr) { inv_matrix.set_identity(); }
+	Instance(hitable* ptr) : object_ptr(ptr) { inv_matrix.set_identity(); transform_the_texture = false; }
 	bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
 
 	void translate(const vec3& trans);
@@ -15,6 +15,9 @@ public:
 
 	void scale(const vec3& s);
 	void scale(const double a, const double b, const double c);
+	void transform_texture(bool transform) {
+		transform_the_texture = transform;
+	}
 
 	virtual void rotate_x(const double r);
 	virtual void rotate_y(const double r);
