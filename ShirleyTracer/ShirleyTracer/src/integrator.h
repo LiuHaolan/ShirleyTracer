@@ -9,7 +9,7 @@ class World;
 class Integrator {
 public:
 	Integrator(World* ptr) : world(ptr) {}
-	virtual vec3 Li(const ray& r, int depth);
+	virtual vec3 Li(const ray& r, int depth) = 0;
 protected:
 	World* world;
 };

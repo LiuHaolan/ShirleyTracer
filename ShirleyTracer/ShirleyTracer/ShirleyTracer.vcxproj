@@ -122,10 +122,12 @@
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp" />
     <ClCompile Include="src\BRDF\BRDF.cpp" />
+    <ClCompile Include="src\integrator\AreaLightIntegrator.cpp" />
     <ClCompile Include="src\integrator\RayCastIntegrator.cpp" />
     <ClCompile Include="src\lanlog.cpp" />
     <ClCompile Include="src\lights\lights.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
+    <ClCompile Include="src\shapes\Box.cpp" />
     <ClCompile Include="src\shapes\instance.cpp" />
     <ClCompile Include="src\shapes\plane.cpp" />
     <ClCompile Include="src\shapes\triangle.cpp" />
@@ -147,6 +149,7 @@
     <ClInclude Include="src\hitable.h" />
     <ClInclude Include="src\hitable_list.h" />
     <ClInclude Include="src\integrator.h" />
+    <ClInclude Include="src\integrator\AreaLightIntegrator.h" />
     <ClInclude Include="src\integrator\RayCastIntegrator.h" />
     <ClInclude Include="src\Integrator\SampleIntegrator.h" />
     <ClInclude Include="src\lanlog.h" />
@@ -154,7 +157,6 @@
     <ClInclude Include="src\lights\Ambient.h" />
     <ClInclude Include="src\lights\DirectionLight.h" />
     <ClInclude Include="src\lights\PointLight.h" />
-    <ClInclude Include="src\material.h" />
     <ClInclude Include="src\materials.h" />
     <ClInclude Include="src\materials\matte_material.h" />
     <ClInclude Include="src\materials\Phong.h" />
@@ -165,6 +167,7 @@
     <ClInclude Include="src\ray.h" />
     <ClInclude Include="src\scenefile.h" />
     <ClInclude Include="src\shaderec.h" />
+    <ClInclude Include="src\shapes\Box.h" />
     <ClInclude Include="src\shapes\cylinder.h" />
     <ClInclude Include="src\shapes\Instance.h" />
     <ClInclude Include="src\shapes\Plane.h" />

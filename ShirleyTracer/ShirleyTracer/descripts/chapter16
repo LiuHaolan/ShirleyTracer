@@ -1,26 +1,4 @@
 
-#include "utility.h"
-#include "lanlog.h"
-#include "Bitmap.h"
-#include "hitable.h"
-#include "camera.h"
-
-#include "World.h"
-#include ".\integrator\RayCastIntegrator.h"
-#include "materials/matte_material.h"
-#include "materials/Phong.h"
-
-#include "shapes/sphere.h"
-#include "shapes/cylinder.h"
-#include "shapes/Plane.h"
-#include "shapes/Instance.h"
-#include "shapes/triangle.h"
-#include "shapes/Box.h"
-
-#include "lights/DirectionLight.h"
-#include "lights/PointLight.h"
-#include <iostream>
-
 World* build() {
 	
 	int nx = 600;
@@ -49,7 +27,7 @@ World* build() {
 	DirectionLight* light_ptr1 = new DirectionLight;
 	light_ptr1->set_direction(vec3(200, 150, 125));
 	light_ptr1->scale_radiance(4.0);
-//	light_ptr1->set_shadows(true);				// for Figure 16.1(b)
+	light_ptr1->set_shadows(true);				// for Figure 16.1(b)
 	w->add_light(light_ptr1);
 
 
@@ -77,21 +55,16 @@ World* build() {
 	triangle_ptr1->set_material(matte_ptr3);
 	w->add_object(triangle_ptr1);
 
-	Matte* matte_ptr2 = new Matte();
-	matte_ptr2->set_ka(0.2);
-	matte_ptr2->set_kd(0.3);
-	matte_ptr2->set_cd(0.8, 0.5, 0);
-
-	Box* box_ptr1 = new Box(vec3(5.4, -0.5, -3), vec3(7.5, 4.75, 0.60));
-	box_ptr1->set_material(matte_ptr2);
-	w->add_object(box_ptr1);
-
 	// cylinder
 
 	float bottom = -0.5;
 	float top = 1.0;
 	float radius = 1.0;
 
+	Matte* matte_ptr2 = new Matte();
+	matte_ptr2->set_ka(0.2);
+	matte_ptr2->set_kd(0.3);
+	matte_ptr2->set_cd(0.8, 0.5, 0);
 
 	cylinder* cylinder_ptr = new cylinder(bottom, top, radius);
 	cylinder_ptr->set_material(matte_ptr2);
@@ -113,63 +86,3 @@ World* build() {
 
 	return w;
 }
-
-int main() {
-
-	lanlog::initLogging();
-	
-	//	LOG(WARNING) << "This is a warning message";
-		//LOG(ERROR) << "This is an error message";
-		//LOG(FATAL) << "This is a fatal message";
-	
-
-
-	
-		World* w = build();
-
-		std::auto_ptr<Bitmap> pic(new Bitmap(w->nx, w->ny));
-		for (int j = w->ny - 1; j >= 0; j--) {
-	
-			if (j % (w->ny / 10) == 0)
-				std::cout << "-";
-	
-			for (int i = 0; i < w->nx; i++) {
-	
-	
-				vec3 col;
-				for (int s = 0; s < w->ns; s++) {
-					float u = (float(i) + randd()) / float(w->nx);
-					float v = (float(j) + randd()) / float(w->ny);
-					ray r = w->camera_ptr->get_ray(u, v);
-	
-					//		vec3 p = r.point_at_parameter(2.0);
-					col += w->integrator_ptr->Li(r,0);
-				
-				}
-	
-				col /= w->ns;
-	
-				col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
-
-				//// do some out of gamut processing
-				//if (col[0] > 1.0 || col[1] > 1.0 || col[2] > 1.0) {
-				//	float maxfre = max(col[0], max(col[1], col[2]));
-				//	for (int j = 0; j < 3; j++)
-				//		col[j] /= maxfre;
-				//}
-
-				int ir = int(255.99*col[0]);
-				int ig = int(255.99*col[1]);
-				int ib = int(255.99*col[2]);
-				pic->SetPixel(i, j, (ir << 16) | (ig << 8) | ib);
-			}
-		}
-	
-	
-		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/15-8.bmp");
-	
-	
-		lanlog::endLogging();
-}
-

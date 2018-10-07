@@ -78,6 +78,12 @@
     <ClCompile Include="src\shapes\triangle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\integrator\AreaLightIntegrator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shapes\Box.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -96,9 +102,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\camera.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\material.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\utility.h">
@@ -192,6 +195,12 @@
       <Filter>头文件\shape</Filter>
     </ClInclude>
     <ClInclude Include="src\shapes\triangle.h">
+      <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\integrator\AreaLightIntegrator.h">
+      <Filter>头文件\Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\Box.h">
       <Filter>头文件\shape</Filter>
     </ClInclude>
   </ItemGroup>
