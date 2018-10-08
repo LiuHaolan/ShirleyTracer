@@ -25,13 +25,16 @@
 
 #include "lights/DirectionLight.h"
 #include "lights/PointLight.h"
+
+#include "sampler/Jittered.h"
+
 #include <iostream>
 
 World* build() {
 	
 	int nx = 300;
 	int ny = 200;
-	int ns = 1;
+	int ns = 16;
 
 	World* w = new World;
 	vec3 lookfrom(100, 500, 100);
@@ -87,10 +90,9 @@ int main() {
 		//LOG(ERROR) << "This is an error message";
 		//LOG(FATAL) << "This is a fatal message";
 	
-
-
 	
 		World* w = build();
+		Jittered* sampler = new Jittered(w->ns);
 
 		std::auto_ptr<Bitmap> pic(new Bitmap(w->nx, w->ny));
 		for (int j = w->ny - 1; j >= 0; j--) {
@@ -103,8 +105,11 @@ int main() {
 	
 				vec3 col;
 				for (int s = 0; s < w->ns; s++) {
-					float u = (float(i) + randd()) / float(w->nx);
-					float v = (float(j) + randd()) / float(w->ny);
+					/*float u = (float(i) + randd()) / float(w->nx);
+					float v = (float(j) + randd()) / float(w->ny);*/
+					vec2 sampled = sampler->sample_unit_square();
+					float u = (float(i) + sampled[0]) / float(w->nx);
+					float v = (float(j) + sampled[1]) / float(w->ny);
 					ray r = w->camera_ptr->get_ray(u, v);
 	
 					//		vec3 p = r.point_at_parameter(2.0);
@@ -132,7 +137,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/4.08(a).bmp");
+		pic->SaveBMP("./results/4.08(b).bmp");
 	
 	
 		lanlog::endLogging();

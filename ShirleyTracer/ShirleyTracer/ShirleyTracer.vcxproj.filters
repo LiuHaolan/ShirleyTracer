@@ -37,6 +37,9 @@
     <Filter Include="源文件\entrance">
       <UniqueIdentifier>{802cbf5f-cf02-47e2-a78b-3d2605d37d83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Sampler">
+      <UniqueIdentifier>{a900c7ab-cc5a-428f-9356-1c45d8b64ddb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
@@ -115,6 +118,12 @@
       <Filter>源文件\entrance</Filter>
     </ClCompile>
     <ClCompile Include="src\texture\Checker3D.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sampler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sampler\Jittered.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -262,6 +271,12 @@
     </ClInclude>
     <ClInclude Include="src\texture\Checker3D.h">
       <Filter>头文件\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sampler.h">
+      <Filter>头文件\Sampler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sampler\Jittered.h">
+      <Filter>头文件\Sampler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -131,6 +131,8 @@
     <ClCompile Include="src\materials\Emissive.cpp" />
     <ClCompile Include="src\materials\SV_Matte.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
+    <ClCompile Include="src\Sampler.cpp" />
+    <ClCompile Include="src\sampler\Jittered.cpp" />
     <ClCompile Include="src\shapes\Box.cpp" />
     <ClCompile Include="src\shapes\instance.cpp" />
     <ClCompile Include="src\shapes\plane.cpp" />
@@ -178,6 +180,8 @@
     <ClInclude Include="src\parsing.h" />
     <ClInclude Include="src\pdf.h" />
     <ClInclude Include="src\ray.h" />
+    <ClInclude Include="src\Sampler.h" />
+    <ClInclude Include="src\sampler\Jittered.h" />
     <ClInclude Include="src\scenefile.h" />
     <ClInclude Include="src\shaderec.h" />
     <ClInclude Include="src\shapes\Box.h" />
