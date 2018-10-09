@@ -23,6 +23,7 @@ public:
 	inline float operator[](int i) const { return e[i]; }
 	inline float& operator[](int i) { return e[i]; };
 
+
 	inline vec3& operator+=(const vec3 &v2);
 	inline vec3& operator-=(const vec3 &v2);
 	inline vec3& operator*=(const vec3 &v2);

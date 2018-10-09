@@ -3,6 +3,7 @@
 #include "ray.h"
 #include "aabb.h"
 #include "lanlog.h"
+#include "Sampler.h"
 
 class Material;
 class World;
@@ -38,6 +39,21 @@ public:
 	virtual vec3 random(const vec3& o) const { return vec3(1, 0, 0); }
 	void set_material(Material* mat_) { mat = mat_; }
 	Material* get_material() { return mat; }
+
+	virtual void set_sampler(Sampler* sampler){}
+
+	virtual vec3 sample(void) { 
+		lanlog::log_info("warning: base class function sample() is called");
+		return vec3(0, 0, 0); }
+
+	virtual vec3 get_normal(const vec3& p) {
+		lanlog::log_info("warning: base class function get_normal() is called");
+		return vec3(0, 0, 0);
+	}
+
+	virtual float pdf(const hit_record& sr){
+		lanlog::log_info("warning: base class function pdf() is called");
+		return 1.0; }
 
 protected:
 	

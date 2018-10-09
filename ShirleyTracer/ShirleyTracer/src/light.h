@@ -3,8 +3,8 @@
 
 class Light {
 public:
-	virtual vec3 get_direction(const ShadeRec& sr) const = 0;
-	virtual vec3 L(ShadeRec& sr) const = 0;
+	virtual vec3 get_direction(const hit_record& sr) const = 0;
+	virtual vec3 L(hit_record& sr) const = 0;
 	void set_shadows(bool shadow) { shadows = shadow; }
 	bool cast_shadows() { return shadows; }
 	virtual bool in_shadows(const ray& r, const hit_record& sr) const = 0;

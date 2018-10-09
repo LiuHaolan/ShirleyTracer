@@ -126,6 +126,12 @@
     <ClCompile Include="src\sampler\Jittered.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\shapes\Rectangle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lights\AreaLight.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -277,6 +283,12 @@
     </ClInclude>
     <ClInclude Include="src\sampler\Jittered.h">
       <Filter>头文件\Sampler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\Rectangle.h">
+      <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lights\AreaLight.h">
+      <Filter>头文件\light</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
