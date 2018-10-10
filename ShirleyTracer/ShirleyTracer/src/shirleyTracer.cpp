@@ -15,6 +15,10 @@
 
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
+#include "shapes/openCylinder.h"
+#include "shapes/Compound.h"
+#include "shapes/SolidCylinder.h"
+
 #include "shapes/Plane.h"
 #include "shapes/Instance.h"
 #include "shapes/triangle.h"
@@ -36,101 +40,50 @@
 
 World* build() {
 	
-	int nx = 600;
-	int ny = 600;
-	int ns = 16;
+	int nx = 400;
+	int ny = 400;
+	int ns = 1;
 
 	World* w = new World;
-	vec3 lookfrom(-20, 10, 20);
-	vec3 lookat(0, 2, 0);
+	vec3 lookfrom(0, 5, 10);
+	vec3 lookat(0, 0, 0);
 	float dist_to_focus = (lookfrom-lookat).length();
 	float aperture = 0.0;
-	float distance = 800;
+	float distance = 1200;
 
 	// an temporary method to deal with it
 	float vfov = 2*atan2(200,distance)*180/M_PI;
 	// default up vector vec3(0,1,0)
 	Camera* c = new Camera(lookfrom, lookat, vec3(0, 1, 0), vfov, float(nx) / float(ny), aperture, dist_to_focus);
 	w->camera_ptr = c;
-	w->integrator_ptr = new AreaLightIntegrator(w);
+	w->integrator_ptr = new RayCastIntegrator(w);
 	w->nx = nx;
 	w->ny = ny;
 	w->ns = ns;
 
 	w->ambient_ptr = new Ambient_Light(0.2,vec3(1.0,1.0,1.0));
 
-	Emissive* emissive_ptr = new Emissive;
-	emissive_ptr->scale_radiance(40.0);
-	emissive_ptr->set_ce(white);
+	// point light
+
+	PointLight* light_ptr1 = new PointLight(3.0,white, vec3(10, 13, 20));
+	//light_ptr1->set_location(vec3(10, 13, 20));
+	//light_ptr1->scale_radiance(3.0);
+	light_ptr1->set_shadows(true);
+	w->add_light(light_ptr1);
 
 	// define a rectangle for the rectangular light
 
-	float width = 4.0;				// for Figure 18.4(a) & (b)
-	float height = 4.0;
-	//	float width = 2.0;				// for Figure 18.4(c)
-	//	float height = 2.0;
-	vec3 center(0.0, 7.0, -7.0);	// center of each area light (rectangular, disk, and spherical)
-	vec3 p0(-0.5 * width, center.y() - 0.5 * height, center.z());
-	vec3 a(width, 0.0, 0.0);
-	vec3 b(0.0, height, 0.0);
-	vec3 normal(0, 0, 1);
-
-	Sampler* sampler_ptr = new Jittered(ns);
-	
-	Rectangle* rectangle_ptr = new Rectangle(p0, a, b, normal);
-	rectangle_ptr->set_material(emissive_ptr);
-	rectangle_ptr->set_sampler(sampler_ptr);
-	w->add_object(rectangle_ptr);
-
-	AreaLight* area_light_ptr = new AreaLight;
-	area_light_ptr->set_object(rectangle_ptr);
-	area_light_ptr->set_Emissive(emissive_ptr);
-	area_light_ptr->set_shadows(true);
-	w->add_light(area_light_ptr);
-
-	// Four axis aligned boxes
-
-	float box_width = 1.0; 		// x dimension
-	float box_depth = 1.0; 		// z dimension
-	float box_height = 4.5; 		// y dimension
-	float gap = 3.0;
-
 	Matte* matte_ptr1 = new Matte;
-	matte_ptr1->set_ka(0.25);
-	matte_ptr1->set_kd(0.75);
-	matte_ptr1->set_cd(0.4, 0.7, 0.4);     // green
+	matte_ptr1->set_cd(1, 1, 0); // yellow
+	matte_ptr1->set_ka(0.3);
+	matte_ptr1->set_kd(0.6);
 
-	Box* box_ptr0 = new Box(vec3(-1.5 * gap - 2.0 * box_width, 0.0, -0.5 * box_depth),
-		vec3(-1.5 * gap - box_width, box_height, 0.5 * box_depth));
-	box_ptr0->set_material(matte_ptr1);
-	w->add_object(box_ptr0);
-
-	Box* box_ptr1 = new Box(vec3(-0.5 * gap - box_width, 0.0, -0.5 * box_depth),
-		vec3(-0.5 * gap, box_height, 0.5 * box_depth));
-	box_ptr1->set_material(matte_ptr1);
-	w->add_object(box_ptr1);
-
-	Box* box_ptr2 = new Box(vec3(0.5 * gap, 0.0, -0.5 * box_depth),
-		vec3(0.5 * gap + box_width, box_height, 0.5 * box_depth));
-	box_ptr2->set_material(matte_ptr1);
-	w->add_object(box_ptr2);
-
-	Box* box_ptr3 = new Box(vec3(1.5 * gap + box_width, 0.0, -0.5 * box_depth),
-		vec3(1.5 * gap + 2.0 * box_width, box_height, 0.5 * box_depth));
-	box_ptr3->set_material(matte_ptr1);
-	w->add_object(box_ptr3);
-
-
-	// ground plane
-
-	Matte* matte_ptr2 = new Matte;
-	matte_ptr2->set_ka(0.1);
-	matte_ptr2->set_kd(0.90);
-	matte_ptr2->set_cd(white);
-
-	Plane* plane_ptr = new Plane(vec3(0.0), vec3(0, 1, 0));
-	plane_ptr->set_material(matte_ptr2);
-	w->add_object(plane_ptr);
+	float bottom = -1.0;
+	float top = 1.0;
+	float radius = 1.0;
+	SolidCylinder* cylinder_ptr = new SolidCylinder(bottom, top, radius);
+	cylinder_ptr->set_material(matte_ptr1);
+	w->add_object(cylinder_ptr);
 
 	w->background_color = vec3(0.);
 
@@ -194,7 +147,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/18.04.bmp");
+		pic->SaveBMP("./results/19-23.bmp");
 	
 	
 		lanlog::endLogging();

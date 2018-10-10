@@ -132,6 +132,12 @@
     <ClCompile Include="src\lights\AreaLight.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\shapes\Compound.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shapes\Disk.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -286,6 +292,18 @@
     </ClInclude>
     <ClInclude Include="src\lights\AreaLight.h">
       <Filter>头文件\light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\Compound.h">
+      <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\Disk.h">
+      <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\SolidCylinder.h">
+      <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\openCylinder.h">
+      <Filter>头文件\shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

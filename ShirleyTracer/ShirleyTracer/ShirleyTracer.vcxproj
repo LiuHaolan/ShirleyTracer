@@ -135,6 +135,8 @@
     <ClCompile Include="src\Sampler.cpp" />
     <ClCompile Include="src\sampler\Jittered.cpp" />
     <ClCompile Include="src\shapes\Box.cpp" />
+    <ClCompile Include="src\shapes\Compound.cpp" />
+    <ClCompile Include="src\shapes\Disk.cpp" />
     <ClCompile Include="src\shapes\instance.cpp" />
     <ClCompile Include="src\shapes\plane.cpp" />
     <ClCompile Include="src\shapes\Rectangle.cpp" />
@@ -187,10 +189,14 @@
     <ClInclude Include="src\sampler\Jittered.h" />
     <ClInclude Include="src\scenefile.h" />
     <ClInclude Include="src\shapes\Box.h" />
+    <ClInclude Include="src\shapes\Compound.h" />
     <ClInclude Include="src\shapes\cylinder.h" />
+    <ClInclude Include="src\shapes\Disk.h" />
     <ClInclude Include="src\shapes\Instance.h" />
+    <ClInclude Include="src\shapes\openCylinder.h" />
     <ClInclude Include="src\shapes\Plane.h" />
     <ClInclude Include="src\shapes\Rectangle.h" />
+    <ClInclude Include="src\shapes\SolidCylinder.h" />
     <ClInclude Include="src\shapes\sphere.h" />
     <ClInclude Include="src\shapes\triangle.h" />
     <ClInclude Include="src\texture.h" />
