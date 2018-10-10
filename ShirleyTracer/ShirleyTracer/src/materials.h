@@ -6,10 +6,10 @@
 
 class Material {
 public:
-	virtual vec3 shade(ShadeRec& sr)= 0;
-	virtual vec3 area_light_shade(ShadeRec& sr) {
+	virtual vec3 shade(hit_record& sr)= 0;
+	virtual vec3 area_light_shade(hit_record& sr) {
 		lanlog::log_error("area light shader unimplemented.");
 		return vec3(0, 0, 0); }
-	virtual vec3 path_light_shade(ShadeRec& sr) { return vec3(0, 0, 0); }
+	virtual vec3 path_light_shade(hit_record& sr) { return vec3(0, 0, 0); }
 //	virtual vec3 area_light_shade(hit_record& sr);
 };

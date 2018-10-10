@@ -1,6 +1,6 @@
 #include "RayCastIntegrator.h"
 #include "..\utility.h"
-#include "..\shaderec.h"
+#include "..\hitable.h"
 #include "..\World.h"
 #include "..\materials.h"
 

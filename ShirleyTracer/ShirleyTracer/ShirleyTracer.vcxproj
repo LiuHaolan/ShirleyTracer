@@ -186,7 +186,6 @@
     <ClInclude Include="src\Sampler.h" />
     <ClInclude Include="src\sampler\Jittered.h" />
     <ClInclude Include="src\scenefile.h" />
-    <ClInclude Include="src\shaderec.h" />
     <ClInclude Include="src\shapes\Box.h" />
     <ClInclude Include="src\shapes\cylinder.h" />
     <ClInclude Include="src\shapes\Instance.h" />

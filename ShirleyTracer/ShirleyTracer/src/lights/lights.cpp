@@ -19,23 +19,23 @@ bool PointLight::in_shadows(const ray& r, const hit_record& sr) const {
 }
 
 
-vec3 PointLight::get_direction(const ShadeRec& sr) const {
+vec3 PointLight::get_direction(const hit_record& sr) const {
 
 	return (location - sr.p);
 
 }
 
-vec3 PointLight::L(ShadeRec& sr) const {
+vec3 PointLight::L(hit_record& sr) const {
 	return (ls*color);
 }
 
-vec3 Ambient_Light::get_direction(const ShadeRec& sr) const {
+vec3 Ambient_Light::get_direction(const hit_record& sr) const {
 	// won't get anything to invoke this method.
 	return vec3(0, 0, 0);
 
 }
 
-vec3 Ambient_Light::L(ShadeRec& sr) const {
+vec3 Ambient_Light::L(hit_record& sr) const {
 	return (ls*color);
 }
 
@@ -65,7 +65,7 @@ DirectionLight::set_direction(vec3 d) {
 	dir.make_unit_vector();
 }
 
-vec3 DirectionLight::L(ShadeRec& s) const{
+vec3 DirectionLight::L(hit_record& s) const{
 	return (ls * color);
 }
 

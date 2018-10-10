@@ -42,7 +42,7 @@ ImageTexture::~ImageTexture (void) {
 // When we ray trace a triangle mesh object with uv mapping, the mapping pointer may be NULL
 // because we can define uv coordinates on an arbitrary triangle mesh.
 // In this case we don't use the local hit point because the pixel coordinates are computed 
-// from the uv coordinates stored in the ShadeRec object in the uv triangles' hit functions
+// from the uv coordinates stored in the hit_record object in the uv triangles' hit functions
 // See, for example, Listing 29.12.
 
 vec3														

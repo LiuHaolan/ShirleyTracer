@@ -215,9 +215,6 @@
     <ClInclude Include="src\integrator\RayCastIntegrator.h">
       <Filter>头文件\Integrator</Filter>
     </ClInclude>
-    <ClInclude Include="src\shaderec.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="src\World.h">
       <Filter>头文件</Filter>
     </ClInclude>

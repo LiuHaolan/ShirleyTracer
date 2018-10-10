@@ -1,5 +1,5 @@
 #pragma once
-#include "shaderec.h"
+#include "hitable.h"
 
 class Light {
 public:

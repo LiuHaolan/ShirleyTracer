@@ -2,21 +2,21 @@
 #include "GlossySpecularBRDF.h"
 
 vec3
-Lambertian_BRDF::f(const ShadeRec& sr, const vec3& wo, const vec3& wi) const { return (kd * cd * INV_PI); }
+Lambertian_BRDF::f(const hit_record& sr, const vec3& wo, const vec3& wi) const { return (kd * cd * INV_PI); }
 
 // need to implement using path tracing
 vec3
-Lambertian_BRDF::sample_f(const ShadeRec& sr, const vec3& wo, vec3& wi) const { return vec3(0, 0, 0); }
+Lambertian_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi) const { return vec3(0, 0, 0); }
 
 vec3
-Lambertian_BRDF::sample_f(const ShadeRec& sr, const vec3& wo, vec3& wi, float& pdf) const { return vec3(0, 0, 0); }
+Lambertian_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi, float& pdf) const { return vec3(0, 0, 0); }
 
 vec3
-Lambertian_BRDF::rho(const ShadeRec& sr, const vec3& wo) const { return kd*cd; }
+Lambertian_BRDF::rho(const hit_record& sr, const vec3& wo) const { return kd*cd; }
 
 
 vec3
-GlossySpecular_BRDF::f(const ShadeRec& sr, const vec3& wo, const vec3& wi) const {
+GlossySpecular_BRDF::f(const hit_record& sr, const vec3& wo, const vec3& wi) const {
 	vec3 	L;
 	vec3 norm = unit_vector(sr.normal);
 	vec3 unitwi = unit_vector(wi);

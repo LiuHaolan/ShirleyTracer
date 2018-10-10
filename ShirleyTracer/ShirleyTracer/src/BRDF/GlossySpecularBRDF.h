@@ -3,7 +3,7 @@
 
 class GlossySpecular_BRDF : public BRDF {
 public:
-	vec3 f(const ShadeRec& sr, const vec3& wo, const vec3& wi) const;
+	vec3 f(const hit_record& sr, const vec3& wo, const vec3& wi) const;
 
 	void
 		set_ks(const float ks);

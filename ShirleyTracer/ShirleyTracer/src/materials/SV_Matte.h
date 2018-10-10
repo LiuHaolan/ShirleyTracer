@@ -10,7 +10,7 @@ public:
 	void set_kd(float kd_) { diffuse_brdf->set_kd(kd_); }
 	void set_cd(Texture* t_ptr);
 
-	vec3 shade(ShadeRec& s);
+	vec3 shade(hit_record& s);
 
 private:
 

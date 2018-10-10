@@ -9,16 +9,16 @@ public:
 	Lambertian_BRDF(float kd_, vec3 cd_):kd(kd_),cd(cd_){}
 
 	vec3
-		f(const ShadeRec& sr, const vec3& wo, const vec3& wi) const;
+		f(const hit_record& sr, const vec3& wo, const vec3& wi) const;
 
 	vec3
-		sample_f(const ShadeRec& sr, const vec3& wo, vec3& wi) const;
+		sample_f(const hit_record& sr, const vec3& wo, vec3& wi) const;
 
 	vec3
-		sample_f(const ShadeRec& sr, const vec3& wo, vec3& wi, float& pdf) const;
+		sample_f(const hit_record& sr, const vec3& wo, vec3& wi, float& pdf) const;
 
 	vec3
-		rho(const ShadeRec& sr, const vec3& wo) const;
+		rho(const hit_record& sr, const vec3& wo) const;
 
 	void
 		set_ka(const float ka);

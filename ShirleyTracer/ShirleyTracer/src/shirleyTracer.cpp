@@ -57,7 +57,7 @@ World* build() {
 	w->ny = ny;
 	w->ns = ns;
 
-	w->ambient_ptr = new Ambient_Light(1.0,vec3(1.0,1.0,1.0));
+	w->ambient_ptr = new Ambient_Light(0.0,vec3(1.0,1.0,1.0));
 
 	Emissive* emissive_ptr = new Emissive;
 	emissive_ptr->scale_radiance(40.0);
@@ -80,11 +80,11 @@ World* build() {
 	Rectangle* rectangle_ptr = new Rectangle(p0, a, b, normal);
 	rectangle_ptr->set_material(emissive_ptr);
 	rectangle_ptr->set_sampler(sampler_ptr);
-//	rectangle_ptr->set_shadows(false);
-	w->add_object(rectangle_ptr);
+	//w->add_object(rectangle_ptr);
 
 	AreaLight* area_light_ptr = new AreaLight;
 	area_light_ptr->set_object(rectangle_ptr);
+	area_light_ptr->set_Emissive(emissive_ptr);
 	area_light_ptr->set_shadows(false);
 	w->add_light(area_light_ptr);
 
@@ -123,14 +123,14 @@ World* build() {
 
 	// ground plane
 
-	Matte* matte_ptr2 = new Matte;
-	matte_ptr2->set_ka(0.1);
-	matte_ptr2->set_kd(0.90);
-	matte_ptr2->set_cd(white);
+	//Matte* matte_ptr2 = new Matte;
+	//matte_ptr2->set_ka(0.1);
+	//matte_ptr2->set_kd(0.90);
+	//matte_ptr2->set_cd(white);
 
-	Plane* plane_ptr = new Plane(vec3(0.0), vec3(0, 1, 0));
-	plane_ptr->set_material(matte_ptr2);
-	w->add_object(plane_ptr);
+	//Plane* plane_ptr = new Plane(vec3(0.0), vec3(0, 1, 0));
+	//plane_ptr->set_material(matte_ptr2);
+	//w->add_object(plane_ptr);
 
 	w->background_color = vec3(0.);
 
@@ -174,6 +174,8 @@ int main() {
 	
 				col /= w->ns;
 	
+				for(int idx = 0;idx <3;idx++)
+					col[idx] = col[idx] < 0 ? 0 : col[idx];
 				col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
 
 				// do some out of gamut processing

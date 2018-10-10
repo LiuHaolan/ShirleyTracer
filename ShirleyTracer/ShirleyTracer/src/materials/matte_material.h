@@ -7,7 +7,7 @@ class Matte : public Material {
 public:
 	Matte();
 
-	vec3 shade(ShadeRec& src);
+	vec3 shade(hit_record& src);
 	void
 		set_ka(const float k);
 
@@ -22,7 +22,7 @@ public:
 
 	void
 		set_cd(const float c);
-	vec3 area_light_shade(ShadeRec& sr);
+	vec3 area_light_shade(hit_record& sr);
 
 private:
 	Lambertian_BRDF* ambient_brdf;

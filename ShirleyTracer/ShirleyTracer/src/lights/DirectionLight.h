@@ -21,7 +21,7 @@ public:
 		set_direction(vec3 d);
 
 	vec3 get_direction(const hit_record& sr) const;
-	vec3 L(ShadeRec& s) const;
+	vec3 L(hit_record& s) const;
 	bool in_shadows(const ray& r, const hit_record& sr) const;
 private:
 

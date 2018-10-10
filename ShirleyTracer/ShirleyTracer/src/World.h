@@ -3,7 +3,7 @@
 #include <vector>
 #include "hitable.h"
 #include ".\lights\Ambient.h"
-//#include "shaderec.h"
+//#include "hit_record.h"
 #include "camera.h"
 #include "integrator.h"
 #include "light.h"
