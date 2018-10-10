@@ -12,10 +12,7 @@ public:
 	bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
 	bool hitP(const ray& r, float& t) const;
 
-	virtual bool bounding_box(float t0, float t1, aabb& box) const { 
-		box = aabb(center - vec3(radius, radius, radius), center + vec3(radius, radius, radius));
-		return true;
-	}
+	virtual BBox get_bounding_box();
 
 	//void set_material(Material* m) { mat = m; }
 	float get_radius() const{ return radius; }

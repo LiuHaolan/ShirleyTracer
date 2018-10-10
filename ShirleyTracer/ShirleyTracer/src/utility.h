@@ -45,3 +45,7 @@ void get_sphere_uv(const vec3& p, float &u, float&v);
 //	std::string fullname = "./LOG/" + filename;
 //	pica->SaveBMP(fullname.c_str());
 //}
+
+inline float clamp(float x, float min, float max) {
+	return (x < min ? min : ((x > max) ? max : x));
+};

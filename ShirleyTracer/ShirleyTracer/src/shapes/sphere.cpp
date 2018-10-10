@@ -1,6 +1,6 @@
 
 #include "sphere.h"
-
+#include "BBox.h"
 
 bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 	vec3 oc = r.origin() - center;
@@ -62,3 +62,7 @@ bool sphere::hitP(const ray& r, float& t) const {
 
 }
 
+BBox sphere::get_bounding_box() {
+	BBox box = BBox(center - vec3(radius, radius, radius), center + vec3(radius, radius, radius));
+	return box;
+}

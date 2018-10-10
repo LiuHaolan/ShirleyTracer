@@ -40,6 +40,12 @@
     <Filter Include="头文件\Sampler">
       <UniqueIdentifier>{a900c7ab-cc5a-428f-9356-1c45d8b64ddb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Accelerator">
+      <UniqueIdentifier>{44327cd5-3827-4797-9ddd-d378ef1bd395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\shape\Mesh">
+      <UniqueIdentifier>{0cc6d089-8f4e-4e17-9668-205031e2c224}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
@@ -138,6 +144,18 @@
     <ClCompile Include="src\shapes\Disk.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\shapes\BBox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shapes\accelerator\Grid.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\extern\tinyply.cpp">
+      <Filter>头文件\extern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hitable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -165,12 +183,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\xy_rect.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\aabb.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\scenefile.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\onb.h">
@@ -304,6 +316,24 @@
     </ClInclude>
     <ClInclude Include="src\shapes\openCylinder.h">
       <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\accelerator\Grid.h">
+      <Filter>头文件\Accelerator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\BBox.h">
+      <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\mesh\Mesh.h">
+      <Filter>头文件\shape\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\Mesh\MeshTriangle.h">
+      <Filter>头文件\shape\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\extern\tinyply.h">
+      <Filter>头文件\extern</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plyparser.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

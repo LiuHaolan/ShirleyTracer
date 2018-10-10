@@ -1,12 +1,13 @@
 #pragma once
 
 #include "ray.h"
-#include "aabb.h"
+//#include "aabb.h"
 #include "lanlog.h"
 #include "Sampler.h"
 
 class Material;
 class World;
+class BBox;
 
 // you need to include material files here!
 
@@ -25,6 +26,8 @@ struct hit_record {
 
 class hitable {
 public:
+
+	virtual BBox get_bounding_box();
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
 	virtual bool hitP(const ray& r, float& t) const {
 		//Log here!
@@ -33,10 +36,10 @@ public:
 		return false;
 	}
 
-	virtual bool bounding_box(float t0, float t1, aabb& box) const { return false; }
+	//virtual bool bounding_box(float t0, float t1, aabb& box) const { return false; }
 
-	virtual float pdf_value(const vec3& o, const vec3& v) const { return 0.0; }
-	virtual vec3 random(const vec3& o) const { return vec3(1, 0, 0); }
+	//virtual float pdf_value(const vec3& o, const vec3& v) const { return 0.0; }
+	//virtual vec3 random(const vec3& o) const { return vec3(1, 0, 0); }
 	virtual void set_material(Material* mat_) { mat = mat_; }
 	Material* get_material() { return mat; }
 

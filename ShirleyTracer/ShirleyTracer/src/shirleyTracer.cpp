@@ -24,8 +24,10 @@
 #include "shapes/triangle.h"
 #include "shapes/Box.h"
 #include "shapes/Rectangle.h"
+#include "shapes/accelerator/Grid.h"
 
 #include "extern/Image.h"
+
 #include "texture/ImageTexture.h"
 #include "texture/SphericalMap.h"
 #include "texture/Checker3D.h"
@@ -37,6 +39,8 @@
 #include "sampler/Jittered.h"
 
 #include <iostream>
+
+#include "plyparser.h"
 
 World* build() {
 	
@@ -90,10 +94,43 @@ World* build() {
 	return w;
 }
 
+
 int main() {
 
+	int num_spheres = 1000;			// for Figure 22.11(a)
+//	int num_spheres = 10000;		// for Figure 22.11(b)
+//	int num_spheres = 100000;		// for Figure 22.11(c)
+//	int num_spheres = 1000000;		// for Figure 22.11(d)			
+
+	float volume = 0.1 / num_spheres;
+	float radius = pow(0.75 * volume / 3.14159, 0.333333);
+
+	//set_rand_seed(15);
+
+	Grid* grid_ptr = new Grid;
+
+	for (int j = 0; j < num_spheres; j++) {
+		Matte* matte_ptr = new Matte;
+		matte_ptr->set_ka(0.25);
+		matte_ptr->set_kd(0.75);
+		matte_ptr->set_cd(randd(), randd(), randd());
+
+		sphere*	sphere_ptr = new sphere(vec3(1.0 - 2.0 * randd(),
+			1.0 - 2.0 * randd(),
+			1.0 - 2.0 * randd()),radius,matte_ptr);
+
+	//	sphere_ptr->set_material(matte_ptr);
+		grid_ptr->add_objects(sphere_ptr);
+	}
+
+	grid_ptr->setup_cells();
+
+	//read_ply_file("./geometry/dragon.ply");
+	while (1);
+	return 0;
+
 	lanlog::initLogging();
-	
+
 	//	LOG(WARNING) << "This is a warning message";
 		//LOG(ERROR) << "This is an error message";
 		//LOG(FATAL) << "This is a fatal message";
@@ -147,7 +184,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/19-23.bmp");
+		pic->SaveBMP("./results/23-9.bmp");
 	
 	
 		lanlog::endLogging();

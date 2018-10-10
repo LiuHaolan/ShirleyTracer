@@ -124,6 +124,8 @@
     <ClCompile Include="src\BRDF\BRDF.cpp" />
     <ClCompile Include="src\BRDF\SVLambertian.cpp" />
     <ClCompile Include="src\extern\Image.cpp" />
+    <ClCompile Include="src\extern\tinyply.cpp" />
+    <ClCompile Include="src\hitable.cpp" />
     <ClCompile Include="src\integrator\AreaLightIntegrator.cpp" />
     <ClCompile Include="src\integrator\RayCastIntegrator.cpp" />
     <ClCompile Include="src\lanlog.cpp" />
@@ -134,6 +136,8 @@
     <ClCompile Include="src\Matrix.cpp" />
     <ClCompile Include="src\Sampler.cpp" />
     <ClCompile Include="src\sampler\Jittered.cpp" />
+    <ClCompile Include="src\shapes\accelerator\Grid.cpp" />
+    <ClCompile Include="src\shapes\BBox.cpp" />
     <ClCompile Include="src\shapes\Box.cpp" />
     <ClCompile Include="src\shapes\Compound.cpp" />
     <ClCompile Include="src\shapes\Disk.cpp" />
@@ -154,7 +158,6 @@
     <ClCompile Include="src\world.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\aabb.h" />
     <ClInclude Include="src\Bitmap.h" />
     <ClInclude Include="src\brdf.h" />
     <ClInclude Include="src\BRDF\GlossySpecularBRDF.h" />
@@ -163,6 +166,7 @@
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\extern\Image.h" />
     <ClInclude Include="src\extern\stb_image.h" />
+    <ClInclude Include="src\extern\tinyply.h" />
     <ClInclude Include="src\hitable.h" />
     <ClInclude Include="src\hitable_list.h" />
     <ClInclude Include="src\integrator.h" />
@@ -184,15 +188,19 @@
     <ClInclude Include="src\onb.h" />
     <ClInclude Include="src\parsing.h" />
     <ClInclude Include="src\pdf.h" />
+    <ClInclude Include="src\plyparser.h" />
     <ClInclude Include="src\ray.h" />
     <ClInclude Include="src\Sampler.h" />
     <ClInclude Include="src\sampler\Jittered.h" />
-    <ClInclude Include="src\scenefile.h" />
+    <ClInclude Include="src\shapes\accelerator\Grid.h" />
+    <ClInclude Include="src\shapes\BBox.h" />
     <ClInclude Include="src\shapes\Box.h" />
     <ClInclude Include="src\shapes\Compound.h" />
     <ClInclude Include="src\shapes\cylinder.h" />
     <ClInclude Include="src\shapes\Disk.h" />
     <ClInclude Include="src\shapes\Instance.h" />
+    <ClInclude Include="src\shapes\mesh\Mesh.h" />
+    <ClInclude Include="src\shapes\Mesh\MeshTriangle.h" />
     <ClInclude Include="src\shapes\openCylinder.h" />
     <ClInclude Include="src\shapes\Plane.h" />
     <ClInclude Include="src\shapes\Rectangle.h" />

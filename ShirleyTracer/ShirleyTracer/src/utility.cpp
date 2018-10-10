@@ -39,3 +39,4 @@ void get_sphere_uv(const vec3& p, float &u, float&v) {
 	u = 1 - (phi + M_PI) / (2 * M_PI);
 	v = (theta + M_PI / 2) / M_PI;
 }
+
