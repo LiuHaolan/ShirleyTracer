@@ -38,7 +38,7 @@ World* build() {
 	
 	int nx = 600;
 	int ny = 600;
-	int ns = 1;
+	int ns = 16;
 
 	World* w = new World;
 	vec3 lookfrom(-20, 10, 20);
@@ -57,7 +57,7 @@ World* build() {
 	w->ny = ny;
 	w->ns = ns;
 
-	w->ambient_ptr = new Ambient_Light(0.0,vec3(1.0,1.0,1.0));
+	w->ambient_ptr = new Ambient_Light(0.2,vec3(1.0,1.0,1.0));
 
 	Emissive* emissive_ptr = new Emissive;
 	emissive_ptr->scale_radiance(40.0);
@@ -80,12 +80,12 @@ World* build() {
 	Rectangle* rectangle_ptr = new Rectangle(p0, a, b, normal);
 	rectangle_ptr->set_material(emissive_ptr);
 	rectangle_ptr->set_sampler(sampler_ptr);
-	//w->add_object(rectangle_ptr);
+	w->add_object(rectangle_ptr);
 
 	AreaLight* area_light_ptr = new AreaLight;
 	area_light_ptr->set_object(rectangle_ptr);
 	area_light_ptr->set_Emissive(emissive_ptr);
-	area_light_ptr->set_shadows(false);
+	area_light_ptr->set_shadows(true);
 	w->add_light(area_light_ptr);
 
 	// Four axis aligned boxes
@@ -123,14 +123,14 @@ World* build() {
 
 	// ground plane
 
-	//Matte* matte_ptr2 = new Matte;
-	//matte_ptr2->set_ka(0.1);
-	//matte_ptr2->set_kd(0.90);
-	//matte_ptr2->set_cd(white);
+	Matte* matte_ptr2 = new Matte;
+	matte_ptr2->set_ka(0.1);
+	matte_ptr2->set_kd(0.90);
+	matte_ptr2->set_cd(white);
 
-	//Plane* plane_ptr = new Plane(vec3(0.0), vec3(0, 1, 0));
-	//plane_ptr->set_material(matte_ptr2);
-	//w->add_object(plane_ptr);
+	Plane* plane_ptr = new Plane(vec3(0.0), vec3(0, 1, 0));
+	plane_ptr->set_material(matte_ptr2);
+	w->add_object(plane_ptr);
 
 	w->background_color = vec3(0.);
 
@@ -194,7 +194,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/4.08(b).bmp");
+		pic->SaveBMP("./results/18.04.bmp");
 	
 	
 		lanlog::endLogging();

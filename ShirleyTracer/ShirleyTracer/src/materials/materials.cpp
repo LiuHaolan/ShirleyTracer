@@ -62,9 +62,9 @@ vec3 Matte::area_light_shade(hit_record& sr) {
 	//			vec3 radiance = diffuse_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * sr.w->lights[j]->G(sr) * ndotwi / sr.w->lights[j]->pdf(sr);
 	//			AreaLight* ptr = static_cast<AreaLight*>(sr.w->lights[j]);
 
-				vec3 s1 = sr.w->lights[j]->L(sr);
-				float s2 = sr.w->lights[j]->G(sr);
-				float s3 = ndotwi / sr.w->lights[j]->pdf(sr);
+				//vec3 s1 = sr.w->lights[j]->L(sr);
+				//float s2 = sr.w->lights[j]->G(sr);
+				//float s3 = ndotwi / sr.w->lights[j]->pdf(sr);
 				vec3 radiance = diffuse_brdf->f(sr, wo, wi) * sr.w->lights[j]->L(sr) * sr.w->lights[j]->G(sr) * ndotwi / sr.w->lights[j]->pdf(sr);
 				radiance = vec3(abs(radiance[0]), abs(radiance[1]), abs(radiance[2]));
 				L += radiance;
