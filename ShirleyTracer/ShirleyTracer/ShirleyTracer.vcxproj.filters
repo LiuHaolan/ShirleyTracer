@@ -156,6 +156,15 @@
     <ClCompile Include="src\hitable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\plyparser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shapes\mesh\Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shapes\Mesh\MeshTriangle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">

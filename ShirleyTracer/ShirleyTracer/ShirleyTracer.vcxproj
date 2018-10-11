@@ -134,6 +134,7 @@
     <ClCompile Include="src\materials\Emissive.cpp" />
     <ClCompile Include="src\materials\SV_Matte.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
+    <ClCompile Include="src\plyparser.cpp" />
     <ClCompile Include="src\Sampler.cpp" />
     <ClCompile Include="src\sampler\Jittered.cpp" />
     <ClCompile Include="src\shapes\accelerator\Grid.cpp" />
@@ -142,6 +143,8 @@
     <ClCompile Include="src\shapes\Compound.cpp" />
     <ClCompile Include="src\shapes\Disk.cpp" />
     <ClCompile Include="src\shapes\instance.cpp" />
+    <ClCompile Include="src\shapes\mesh\Mesh.cpp" />
+    <ClCompile Include="src\shapes\Mesh\MeshTriangle.cpp" />
     <ClCompile Include="src\shapes\plane.cpp" />
     <ClCompile Include="src\shapes\Rectangle.cpp" />
     <ClCompile Include="src\shapes\sphere.cpp" />

@@ -111,7 +111,7 @@ void Grid::setup_cells() {
 						counts[index] += 1;  						// now = 1
 					}
 					else {
-						if (counts[index] == 1) {
+						if (counts[index] >= 1) {
 							Compound* compound_ptr = new Compound;	// construct a compound object
 							compound_ptr->add_objects(cells[index]); // add object already in cell
 							compound_ptr->add_objects(objects[j]);  	// add the new object
@@ -166,6 +166,23 @@ void Grid::setup_cells() {
 }
 
 bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+
+	//// turn off the grid, the code
+	//hit_record tmp;
+	//float tmin = MAXFLOAT;
+	//bool flag = false;
+	//for (int i = 0; i < cells.size(); i++) {
+	//	if (cells[i] && cells[i]->hit(r, t_min, t_max, tmp)) {
+	//		flag = true;
+	//		if (tmp.t < tmin) {
+	//			tmin = tmp.t;
+	//			rec = tmp;
+	//		}
+	//	}
+	//}
+	//return flag;
+
+	// the code
 
 	double ox = r.A.x();
 	double oy = r.A.y();
@@ -574,3 +591,17 @@ bool Grid::hitP(const ray& r, float& t) const {
 		}
 	}
 }	//end of hit
+
+
+Grid::Grid(Mesh* ptr) {
+	for (int j = 0; j < ptr->num_triangles; j++) {
+		int a = ptr->vertex_faces[j][0];
+		int b = ptr->vertex_faces[j][1];
+		int c = ptr->vertex_faces[j][2];
+
+		MeshTriangle* obj_ptr = new MeshTriangle(ptr, a, b, c);
+		add_objects(obj_ptr);
+	}
+
+	setup_cells();
+}

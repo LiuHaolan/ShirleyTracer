@@ -44,16 +44,16 @@
 
 World* build() {
 	
-	int nx = 400;
-	int ny = 400;
+	int nx = 600;
+	int ny = 600;
 	int ns = 16;
 
 	World* w = new World;
-	vec3 lookfrom(0, 0, 20);
-	vec3 lookat(0, 0, 0);
+	vec3 lookfrom(-6, 5, 11);
+	vec3 lookat(-0.009, 0.11, 0);
 	float dist_to_focus = (lookfrom-lookat).length();
 	float aperture = 0.0;
-	float distance = 3600;
+	float distance = 30000;
 
 	// an temporary method to deal with it
 	float vfov = 2*atan2(200,distance)*180/M_PI;
@@ -68,38 +68,23 @@ World* build() {
 	w->ambient_ptr = new Ambient_Light(0.25,vec3(1.0,1.0,1.0));
 
 	DirectionLight* light_ptr = new DirectionLight;
-	light_ptr->set_direction(vec3(-10, 20, 20));
-	light_ptr->scale_radiance(3.0);
-	light_ptr->set_shadows(true);
+	light_ptr->set_direction(vec3(0.5, 1, 0.75));
+	light_ptr->scale_radiance(1.0);
+	light_ptr->set_shadows(false);
 	w->add_light(light_ptr);
 
-	int num_spheres = 100;			// for Figure 22.11(a)
-//	int num_spheres = 10000;		// for Figure 22.11(b)
-//	int num_spheres = 100000;		// for Figure 22.11(c)
-//	int num_spheres = 1000000;		// for Figure 22.11(d)			
+	Phong* phong_ptr = new Phong;
+	phong_ptr->set_ka(0.2);
+	phong_ptr->set_kd(0.95);
+	phong_ptr->set_cd(1, 0.6, 0);   // orange
+	phong_ptr->set_ks(0.5);
+	phong_ptr->set_exp(20);
+//	phong_ptr->set_cs(vec3(1, 0.6, 0));   // orange   
 
-	float volume = 0.1 / num_spheres;
-	float radius = pow(0.75 * volume / 3.14159, 0.333333);
-
-	//set_rand_seed(15);
-
-	Grid* grid_ptr = new Grid;
-
-	for (int j = 0; j < num_spheres; j++) {
-		Matte* matte_ptr = new Matte;
-		matte_ptr->set_ka(0.25);
-		matte_ptr->set_kd(0.75);
-		matte_ptr->set_cd(randd(), randd(), randd());
-
-		sphere*	sphere_ptr = new sphere(vec3(1.0 - 2.0 * randd(),
-			1.0 - 2.0 * randd(),
-			1.0 - 2.0 * randd()), radius, matte_ptr);
-
-//		sphere_ptr->set_material(matte_ptr);
-		grid_ptr->add_objects(sphere_ptr);
-	}
-
-	grid_ptr->setup_cells();
+	Mesh* m = new Mesh;
+	m->read_file("./geometry/dragon.ply");
+	m->set_mesh_material(phong_ptr);
+	Grid* grid_ptr = new Grid(m);
 	w->add_object(grid_ptr);
 
 	w->background_color = vec3(0.);
@@ -110,11 +95,7 @@ World* build() {
 
 int main() {
 
-	
 
-	////read_ply_file("./geometry/dragon.ply");
-	//while (1);
-	//return 0;
 
 	lanlog::initLogging();
 
@@ -171,7 +152,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/23-9.bmp");
+		pic->SaveBMP("./results/this_time.bmp");
 	
 	
 		lanlog::endLogging();
