@@ -2,7 +2,6 @@
 #include "..\BRDF\LambertianBRDF.h"
 #include "..\BRDF\GlossySpecularBRDF.h"
 #include "Phong.h"
-#include "Reflective.h"
 
 #include "..\lanlog.h"
 
@@ -113,17 +112,4 @@ Phong::Phong() {
 	ambient_brdf = new Lambertian_BRDF;
 	diffuse_brdf = new Lambertian_BRDF;
 	specular_brdf = new GlossySpecular_BRDF;
-}
-
-vec3 Reflective::shade(hit_record& sr) {
-	vec3 L(Phong::shade(sr));  // direct illumination
-
-	vec3 wo = -sr.r.B;
-	vec3 wi;
-	vec3 fr = reflective_brdf->sample_f(sr, wo, wi);
-	ray reflected_ray(sr.p, wi);
-
-	L += fr * sr.w->integrator_ptr->Li(reflected_ray, sr.depth + 1) * (dot(sr.normal , wi)/sr.normal.length()/wi.length());
-
-	return (L);
 }

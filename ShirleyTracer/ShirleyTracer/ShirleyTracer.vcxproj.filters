@@ -105,6 +105,9 @@
     <ClCompile Include="src\BRDF\SVLambertian.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\materials\SV_Matte.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="src\extern\Image.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -160,15 +163,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\shapes\Mesh\MeshTriangle.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\integrator\WhittedIntegrator.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\texture\PlaneChecker.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\materials\SV_Matte.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -349,18 +343,6 @@
     </ClInclude>
     <ClInclude Include="src\plyparser.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\integrator\WhittedIntegrator.h">
-      <Filter>头文件\Integrator</Filter>
-    </ClInclude>
-    <ClInclude Include="src\materials\Reflective.h">
-      <Filter>头文件\material</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BRDF\PerfectSpecular.h">
-      <Filter>头文件\BRDF</Filter>
-    </ClInclude>
-    <ClInclude Include="src\texture\PlaneChecker.h">
-      <Filter>头文件\texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

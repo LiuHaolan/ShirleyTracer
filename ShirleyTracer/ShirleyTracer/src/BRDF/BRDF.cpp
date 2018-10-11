@@ -1,6 +1,5 @@
 #include "LambertianBRDF.h"
 #include "GlossySpecularBRDF.h"
-#include "PerfectSpecular.h"
 
 vec3
 Lambertian_BRDF::f(const hit_record& sr, const vec3& wo, const vec3& wi) const { return (kd * cd * INV_PI); }
@@ -59,13 +58,3 @@ void
 GlossySpecular_BRDF::set_cs(const float c) {
 	cs = vec3(c, c, c);
 }
-
-vec3 PerfectSpecularBRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi) const {
-	vec3 normal = unit_vector(sr.normal);
-	vec3 woo = unit_vector(wo);
-	float ndotwo = dot(normal , woo);
-	wi = -woo + 2 * normal * ndotwo;
-
-	return (kr*cr / (normal*wi));
-}
-

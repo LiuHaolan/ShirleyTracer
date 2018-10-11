@@ -7,7 +7,7 @@ class Phong : public Material {
 public:
 	Phong();
 
-	virtual vec3 shade(hit_record& sr);
+	vec3 shade(hit_record& sr);
 
 	void
 		set_ka(const float k);

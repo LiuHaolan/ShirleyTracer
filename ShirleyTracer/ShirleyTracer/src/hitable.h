@@ -20,7 +20,6 @@ struct hit_record {
 	vec3 normal;
 	Material* mat_ptr;
 	World* w;
-	int depth;
 
 	float u, v;
 };
