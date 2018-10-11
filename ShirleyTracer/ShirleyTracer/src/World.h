@@ -32,4 +32,5 @@ public:
 	vector<Light* > lights;
 
 	vec3 background_color;
+	int max_depth;
 };

@@ -8,10 +8,12 @@
 #include "World.h"
 #include ".\integrator\RayCastIntegrator.h"
 #include "integrator/AreaLightIntegrator.h"
+#include "integrator/WhittedIntegrator.h"
 
 #include "materials/matte_material.h"
 #include "materials/Phong.h"
 #include "materials/SV_Matte.h"
+#include "materials/Reflective.h"
 
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
@@ -31,6 +33,7 @@
 #include "texture/ImageTexture.h"
 #include "texture/SphericalMap.h"
 #include "texture/Checker3D.h"
+#include "texture/PlaneChecker.h"
 
 #include "lights/DirectionLight.h"
 #include "lights/PointLight.h"
@@ -45,49 +48,68 @@
 World* build() {
 	
 	int nx = 600;
-	int ny = 600;
+	int ny = 400;
 	int ns = 16;
 
 	World* w = new World;
-	vec3 lookfrom(-6, 5, 11);
-	vec3 lookat(-0.009, 0.11, 0);
+	vec3 lookfrom(75, 40, 100);
+	vec3 lookat(-10, 39, 0);
 	float dist_to_focus = (lookfrom-lookat).length();
 	float aperture = 0.0;
-	float distance = 30000;
+	float distance = 360;
 
 	// an temporary method to deal with it
 	float vfov = 2*atan2(200,distance)*180/M_PI;
 	// default up vector vec3(0,1,0)
 	Camera* c = new Camera(lookfrom, lookat, vec3(0, 1, 0), vfov, float(nx) / float(ny), aperture, dist_to_focus);
 	w->camera_ptr = c;
-	w->integrator_ptr = new RayCastIntegrator(w);
+	w->integrator_ptr = new WhittedIntegrator(w);
 	w->nx = nx;
 	w->ny = ny;
 	w->ns = ns;
 
-	w->ambient_ptr = new Ambient_Light(0.25,vec3(1.0,1.0,1.0));
+	w->ambient_ptr = new Ambient_Light(0.5,vec3(1.0,1.0,1.0));
 
-	DirectionLight* light_ptr = new DirectionLight;
-	light_ptr->set_direction(vec3(0.5, 1, 0.75));
-	light_ptr->scale_radiance(1.0);
-	light_ptr->set_shadows(false);
+	w->max_depth = 1;
+	PointLight* light_ptr = new PointLight(3.0,white,vec3(150,150,0));
+	light_ptr->set_shadows(true);
 	w->add_light(light_ptr);
 
-	Phong* phong_ptr = new Phong;
-	phong_ptr->set_ka(0.2);
-	phong_ptr->set_kd(0.95);
-	phong_ptr->set_cd(1, 0.6, 0);   // orange
-	phong_ptr->set_ks(0.5);
-	phong_ptr->set_exp(20);
-//	phong_ptr->set_cs(vec3(1, 0.6, 0));   // orange   
+	// yellow-green reflective sphere
 
-	Mesh* m = new Mesh;
-	m->read_file("./geometry/dragon.ply");
-	m->set_mesh_material(phong_ptr);
-	Grid* grid_ptr = new Grid(m);
-	w->add_object(grid_ptr);
+	Reflective* reflective_ptr1 = new Reflective;
+	reflective_ptr1->set_ka(0.25);
+	reflective_ptr1->set_kd(0.5);
+	reflective_ptr1->set_cd(0.75, 0.75, 0);    	// yellow
+	reflective_ptr1->set_ks(0.15);
+	reflective_ptr1->set_exp(100.0);
+	reflective_ptr1->set_kr(0.75);
+	reflective_ptr1->set_cr(white); 			// default color
 
-	w->background_color = vec3(0.);
+	float radius = 23.0;
+	sphere* sphere_ptr1 = new sphere(vec3(38, radius, -25), radius);
+	sphere_ptr1->set_material(reflective_ptr1);
+	w->add_object(sphere_ptr1);
+
+	// ground plane
+
+	PlaneChecker* checker_ptr = new PlaneChecker;
+	checker_ptr->set_size(20.0);
+	checker_ptr->set_outline_width(2.0);
+	checker_ptr->set_color1(white);
+	checker_ptr->set_color2(white);
+	checker_ptr->set_outline_color(black);
+
+	SV_Matte* sv_matte_ptr = new SV_Matte;
+	sv_matte_ptr->set_ka(0.30);
+	sv_matte_ptr->set_kd(0.9);
+	sv_matte_ptr->set_cd(checker_ptr);
+
+	Plane* plane_ptr = new Plane(vec3(0), vec3(0, 1, 0));
+	plane_ptr->set_material(sv_matte_ptr);
+	w->add_object(plane_ptr);
+
+	w->background_color = vec3(0.15);
 
 	return w;
 }
@@ -152,7 +174,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/this_time.bmp");
+		pic->SaveBMP("./results/24-6.bmp");
 	
 	
 		lanlog::endLogging();

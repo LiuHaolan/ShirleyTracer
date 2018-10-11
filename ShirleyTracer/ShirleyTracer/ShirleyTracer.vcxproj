@@ -128,6 +128,7 @@
     <ClCompile Include="src\hitable.cpp" />
     <ClCompile Include="src\integrator\AreaLightIntegrator.cpp" />
     <ClCompile Include="src\integrator\RayCastIntegrator.cpp" />
+    <ClCompile Include="src\integrator\WhittedIntegrator.cpp" />
     <ClCompile Include="src\lanlog.cpp" />
     <ClCompile Include="src\lights\AreaLight.cpp" />
     <ClCompile Include="src\lights\lights.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="src\texture\Checker3D.cpp" />
     <ClCompile Include="src\texture\constant_color.cpp" />
     <ClCompile Include="src\texture\ImageTexture.cpp" />
+    <ClCompile Include="src\texture\PlaneChecker.cpp" />
     <ClCompile Include="src\texture\SphericalMap.cpp" />
     <ClCompile Include="src\utility.cpp" />
     <ClCompile Include="src\world.cpp" />
@@ -165,6 +167,7 @@
     <ClInclude Include="src\brdf.h" />
     <ClInclude Include="src\BRDF\GlossySpecularBRDF.h" />
     <ClInclude Include="src\BRDF\LambertianBRDF.h" />
+    <ClInclude Include="src\BRDF\PerfectSpecular.h" />
     <ClInclude Include="src\BRDF\SVLambertian.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\extern\Image.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="src\integrator\AreaLightIntegrator.h" />
     <ClInclude Include="src\integrator\RayCastIntegrator.h" />
     <ClInclude Include="src\Integrator\SampleIntegrator.h" />
+    <ClInclude Include="src\integrator\WhittedIntegrator.h" />
     <ClInclude Include="src\lanlog.h" />
     <ClInclude Include="src\light.h" />
     <ClInclude Include="src\lights\Ambient.h" />
@@ -186,6 +190,7 @@
     <ClInclude Include="src\materials\Emissive.h" />
     <ClInclude Include="src\materials\matte_material.h" />
     <ClInclude Include="src\materials\Phong.h" />
+    <ClInclude Include="src\materials\Reflective.h" />
     <ClInclude Include="src\materials\SV_Matte.h" />
     <ClInclude Include="src\Matrix.h" />
     <ClInclude Include="src\onb.h" />
@@ -215,6 +220,7 @@
     <ClInclude Include="src\texture\constant_color.h" />
     <ClInclude Include="src\texture\ImageTexture.h" />
     <ClInclude Include="src\texture\mapping.h" />
+    <ClInclude Include="src\texture\PlaneChecker.h" />
     <ClInclude Include="src\texture\SphericalMap.h" />
     <ClInclude Include="src\utility.h" />
     <ClInclude Include="src\vec3.h" />

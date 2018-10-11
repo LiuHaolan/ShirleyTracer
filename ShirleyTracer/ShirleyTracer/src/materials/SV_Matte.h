@@ -5,7 +5,10 @@
 
 class SV_Matte : public Material {
 public:
-	SV_Matte();
+	SV_Matte() {
+		ambient_brdf = new SVLambertianBRDF;
+		diffuse_brdf = new SVLambertianBRDF;
+	}
 	void set_ka(float ka_) { ambient_brdf->set_kd(ka_); }
 	void set_kd(float kd_) { diffuse_brdf->set_kd(kd_); }
 	void set_cd(Texture* t_ptr);
