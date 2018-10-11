@@ -37,3 +37,13 @@ bool BBox::hit(const ray& r) const {
 		}
 	}
 }
+
+bool BBox::inside(vec3 o)const {
+	if (o.x() < p.x() || o.x() > q.x())
+		return false;
+	if (o.y() < p.y() || o.y() > q.y())
+		return false;
+	if (o.z() < p.z() || o.z() > q.z())
+		return false;
+	return true;
+}

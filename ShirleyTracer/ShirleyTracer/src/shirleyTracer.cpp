@@ -46,14 +46,14 @@ World* build() {
 	
 	int nx = 400;
 	int ny = 400;
-	int ns = 1;
+	int ns = 16;
 
 	World* w = new World;
-	vec3 lookfrom(0, 5, 10);
+	vec3 lookfrom(0, 0, 20);
 	vec3 lookat(0, 0, 0);
 	float dist_to_focus = (lookfrom-lookat).length();
 	float aperture = 0.0;
-	float distance = 1200;
+	float distance = 3600;
 
 	// an temporary method to deal with it
 	float vfov = 2*atan2(200,distance)*180/M_PI;
@@ -65,39 +65,15 @@ World* build() {
 	w->ny = ny;
 	w->ns = ns;
 
-	w->ambient_ptr = new Ambient_Light(0.2,vec3(1.0,1.0,1.0));
+	w->ambient_ptr = new Ambient_Light(0.25,vec3(1.0,1.0,1.0));
 
-	// point light
+	DirectionLight* light_ptr = new DirectionLight;
+	light_ptr->set_direction(vec3(-10, 20, 20));
+	light_ptr->scale_radiance(3.0);
+	light_ptr->set_shadows(true);
+	w->add_light(light_ptr);
 
-	PointLight* light_ptr1 = new PointLight(3.0,white, vec3(10, 13, 20));
-	//light_ptr1->set_location(vec3(10, 13, 20));
-	//light_ptr1->scale_radiance(3.0);
-	light_ptr1->set_shadows(true);
-	w->add_light(light_ptr1);
-
-	// define a rectangle for the rectangular light
-
-	Matte* matte_ptr1 = new Matte;
-	matte_ptr1->set_cd(1, 1, 0); // yellow
-	matte_ptr1->set_ka(0.3);
-	matte_ptr1->set_kd(0.6);
-
-	float bottom = -1.0;
-	float top = 1.0;
-	float radius = 1.0;
-	SolidCylinder* cylinder_ptr = new SolidCylinder(bottom, top, radius);
-	cylinder_ptr->set_material(matte_ptr1);
-	w->add_object(cylinder_ptr);
-
-	w->background_color = vec3(0.);
-
-	return w;
-}
-
-
-int main() {
-
-	int num_spheres = 1000;			// for Figure 22.11(a)
+	int num_spheres = 100;			// for Figure 22.11(a)
 //	int num_spheres = 10000;		// for Figure 22.11(b)
 //	int num_spheres = 100000;		// for Figure 22.11(c)
 //	int num_spheres = 1000000;		// for Figure 22.11(d)			
@@ -117,17 +93,28 @@ int main() {
 
 		sphere*	sphere_ptr = new sphere(vec3(1.0 - 2.0 * randd(),
 			1.0 - 2.0 * randd(),
-			1.0 - 2.0 * randd()),radius,matte_ptr);
+			1.0 - 2.0 * randd()), radius, matte_ptr);
 
-	//	sphere_ptr->set_material(matte_ptr);
+//		sphere_ptr->set_material(matte_ptr);
 		grid_ptr->add_objects(sphere_ptr);
 	}
 
 	grid_ptr->setup_cells();
+	w->add_object(grid_ptr);
 
-	//read_ply_file("./geometry/dragon.ply");
-	while (1);
-	return 0;
+	w->background_color = vec3(0.);
+
+	return w;
+}
+
+
+int main() {
+
+	
+
+	////read_ply_file("./geometry/dragon.ply");
+	//while (1);
+	//return 0;
 
 	lanlog::initLogging();
 
@@ -188,5 +175,7 @@ int main() {
 	
 	
 		lanlog::endLogging();
+
+	//	while (1);
 }
 
