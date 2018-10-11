@@ -66,6 +66,6 @@ vec3 PerfectSpecularBRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& w
 	float ndotwo = dot(normal , woo);
 	wi = -woo + 2 * normal * ndotwo;
 
-	return (kr*cr / (normal*wi));
+	return (kr*cr / dot(normal,wi));
 }
 
