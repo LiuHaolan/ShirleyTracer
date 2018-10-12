@@ -133,6 +133,7 @@
     <ClCompile Include="src\lights\AreaLight.cpp" />
     <ClCompile Include="src\lights\lights.cpp" />
     <ClCompile Include="src\materials\Emissive.cpp" />
+    <ClCompile Include="src\materials\GlossyReflective.cpp" />
     <ClCompile Include="src\materials\SV_Matte.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
     <ClCompile Include="src\plyparser.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\lights\PointLight.h" />
     <ClInclude Include="src\materials.h" />
     <ClInclude Include="src\materials\Emissive.h" />
+    <ClInclude Include="src\materials\GlossyReflective.h" />
     <ClInclude Include="src\materials\matte_material.h" />
     <ClInclude Include="src\materials\Phong.h" />
     <ClInclude Include="src\materials\Reflective.h" />

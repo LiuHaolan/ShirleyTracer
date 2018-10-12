@@ -19,8 +19,9 @@ public:
 	//virtual
 	//	~BRDF(void);
 
-	//void
-	//	set_sampler(Sampler* sPtr);
+	void set_sampler(Sampler* sPtr) {
+		sampler_ptr = sPtr;
+	}
 
 	virtual vec3
 		f(const hit_record& sr, const vec3& wo, const vec3& wi) const { return vec3(0, 0, 0); }
@@ -37,7 +38,7 @@ public:
 
 protected:
 
-//	Sampler* sampler_ptr;		// for indirect illumination
+	Sampler* sampler_ptr;		// for indirect illumination
 };
 
 

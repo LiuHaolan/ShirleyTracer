@@ -2,6 +2,9 @@
 #include "GlossySpecularBRDF.h"
 #include "PerfectSpecular.h"
 
+#include "..\onb.h"
+
+
 vec3
 Lambertian_BRDF::f(const hit_record& sr, const vec3& wo, const vec3& wi) const { return (kd * cd * INV_PI); }
 
@@ -67,5 +70,27 @@ vec3 PerfectSpecularBRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& w
 	wi = -woo + 2 * normal * ndotwo;
 
 	return (kr*cr / dot(normal,wi));
+}
+
+vec3 GlossySpecular_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi, float& pdf) {
+	float ndotwo = dot(sr.normal, wo) / wo.length() / sr.normal.length();
+
+	vec3 r = -unit_vector(wo) + 2.0*unit_vector(sr.normal)*ndotwo;
+
+	onb cor;
+	cor.build_from_w(r);
+
+	vec3 sp = sampler_ptr->sample_hemisphere();
+	wi = cor.local(sp);
+
+	if (dot(sr.normal, wi) < 0) {
+		wi = cor.local(-sp.x(), - sp.y(), sp.z());
+	}
+
+	wi = r;
+	float phong_lobe = pow(dot(r,wi)/r.length()/wi.length(), exp);
+	pdf = phong_lobe * dot(unit_vector(sr.normal), unit_vector(wi));
+
+	return(ks*cs *phong_lobe);
 }
 

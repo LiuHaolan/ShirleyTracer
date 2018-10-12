@@ -8,6 +8,7 @@ public:
 	Phong();
 
 	virtual vec3 shade(hit_record& sr);
+	virtual vec3 area_light_shade(hit_record& sr);
 
 	void
 		set_ka(const float k);
