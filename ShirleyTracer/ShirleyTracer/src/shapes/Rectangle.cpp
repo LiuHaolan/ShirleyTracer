@@ -6,7 +6,7 @@ bool Rectangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) con
 	if (dot(normal, r.B) > 0)
 		return false;
 	
-	double t = (dot(a, normal) - dot(r.A, normal)) / (dot(r.B, normal));
+	double t = (dot(p0, normal) - dot(r.A, normal)) / (dot(r.B, normal));
 
 	if (t < t_min || t>t_max)
 		return (false);

@@ -16,7 +16,7 @@ vec3 PathIntegrator::Li(const ray& r, int depth) {
 			sr.depth = depth;
 
 			return ((sr.mat_ptr)->path_shade(sr));
-			//		return vec3(1.0, 1.0, 1.0);
+	//				return vec3(1.0, 1.0, 1.0);
 		}
 		else {
 			// return the background color

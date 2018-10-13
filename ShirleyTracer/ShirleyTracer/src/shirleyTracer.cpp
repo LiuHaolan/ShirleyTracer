@@ -52,7 +52,7 @@ World* build() {
 
 	int nx = 300;
 	int ny = 300;
-	int ns = 25;
+	int ns = 10000;
 
 	World* w = new World;
 	vec3 lookfrom(27.6, 27.4, -80.0);
@@ -73,7 +73,7 @@ World* build() {
 
 	w->ambient_ptr = new Ambient_Light(0.5, vec3(1.0, 1.0, 1.0));
 
-	w->max_depth = 50;
+	w->max_depth = 10;
 	// the ceiling light - doesn't need samples
 
 	Emissive* emissive_ptr = new Emissive;
