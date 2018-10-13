@@ -14,7 +14,7 @@ public:
 	void set_cd(Texture* t_ptr);
 
 	vec3 shade(hit_record& s);
-
+	vec3 area_light_shade(hit_record& sr);
 private:
 
 	SVLambertianBRDF*	ambient_brdf;

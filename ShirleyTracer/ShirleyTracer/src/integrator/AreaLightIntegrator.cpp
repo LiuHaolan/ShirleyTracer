@@ -13,7 +13,7 @@ vec3 AreaLightIntegrator::Li(const ray& r, int depth) {
 			sr.r = r;
 			sr.w = world;
 			sr.p = r.point_at_parameter(sr.t);
-			sr.local_hit_point = r.point_at_parameter(sr.t);
+//			sr.local_hit_point = r.point_at_parameter(sr.t);
 			sr.depth = depth;
 
 			return ((sr.mat_ptr)->area_light_shade(sr));

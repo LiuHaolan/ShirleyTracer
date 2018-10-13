@@ -17,7 +17,11 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const 
 			rec.mat_ptr = mat;
 
 			rec.local_hit_point = r.point_at_parameter(rec.t);
-//			rec.local_hit_point /= radius;
+			rec.local_hit_point /= radius;
+
+			// consider hitting from inside or outside
+			if (dot(r.B, rec.normal) > 0.0)
+				rec.normal = -rec.normal;
 
 	//		get_sphere_uv((rec.p - center) / radius, rec.u, rec.v);
 			return true;
@@ -30,9 +34,13 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const 
 			rec.mat_ptr = mat;
 
 			rec.local_hit_point = r.point_at_parameter(rec.t);
-//			rec.local_hit_point /= radius;
+			rec.local_hit_point /= radius;
 
-	//		get_sphere_uv((rec.p - center) / radius, rec.u, rec.v);
+					// consider hitting from inside or outside
+			if (dot(r.B, rec.normal) > 0.0)
+				rec.normal = -rec.normal;
+	
+			//		get_sphere_uv((rec.p - center) / radius, rec.u, rec.v);
 			return true;
 		}
 	}

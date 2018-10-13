@@ -49,9 +49,10 @@ vec3 Matte::area_light_shade(hit_record& sr) {
 
 	for (int j = 0; j < num_lights; j++) {
 		vec3 	wi = sr.w->lights[j]->get_direction(sr);
-		float 		ndotwi = dot(sr.normal, wi);
 		wi.make_unit_vector();
 		sr.normal.make_unit_vector();
+		float 		ndotwi = dot(sr.normal, wi);
+	
 
 		if (ndotwi > 0.0) {
 			bool in_shadow = false;

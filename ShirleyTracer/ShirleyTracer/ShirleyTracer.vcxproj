@@ -158,6 +158,7 @@
     <ClCompile Include="src\texture\Checker3D.cpp" />
     <ClCompile Include="src\texture\constant_color.cpp" />
     <ClCompile Include="src\texture\ImageTexture.cpp" />
+    <ClCompile Include="src\texture\LightProbe.cpp" />
     <ClCompile Include="src\texture\PlaneChecker.cpp" />
     <ClCompile Include="src\texture\SphericalMap.cpp" />
     <ClCompile Include="src\utility.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="src\texture\Checker3D.h" />
     <ClInclude Include="src\texture\constant_color.h" />
     <ClInclude Include="src\texture\ImageTexture.h" />
+    <ClInclude Include="src\texture\LightProbe.h" />
     <ClInclude Include="src\texture\mapping.h" />
     <ClInclude Include="src\texture\PlaneChecker.h" />
     <ClInclude Include="src\texture\SphericalMap.h" />

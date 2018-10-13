@@ -5,7 +5,7 @@ vec3 GlossyReflective::area_light_shade(hit_record& sr) {
 
 	// direct lighting
 	vec3 L;
-	L += Phong::area_light_shade(sr);
+//	L += Phong::area_light_shade(sr);
 
 	vec3 wo = -sr.r.B;
 	vec3 wi;
