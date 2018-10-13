@@ -9,6 +9,7 @@
 #include ".\integrator\RayCastIntegrator.h"
 #include "integrator/AreaLightIntegrator.h"
 #include "integrator/WhittedIntegrator.h"
+#include "integrator/PathIntegrator.h"
 
 #include "materials/matte_material.h"
 #include "materials/Phong.h"
@@ -48,97 +49,232 @@
 #include "plyparser.h"
 
 World* build() {
-	
-	int nx = 600;
-	int ny = 600;
+
+	int nx = 300;
+	int ny = 300;
 	int ns = 25;
 
 	World* w = new World;
-	vec3 lookfrom(-150, 75, 500);
-	vec3 lookat(-6, 50, 0);
-	float dist_to_focus = (lookfrom-lookat).length();
+	vec3 lookfrom(27.6, 27.4, -80.0);
+	vec3 lookat(27.6, 27.4, 0.0);
+	float dist_to_focus = (lookfrom - lookat).length();
 	float aperture = 0.0;
-	float distance = 2000;
+	float distance = 400;
 
 	// an temporary method to deal with it
-	float vfov = 2*atan2(200,distance)*180/M_PI;
+	float vfov = 2 * atan2(200, distance) * 180 / M_PI;
 	// default up vector vec3(0,1,0)
 	Camera* c = new Camera(lookfrom, lookat, vec3(0, 1, 0), vfov, float(nx) / float(ny), aperture, dist_to_focus);
 	w->camera_ptr = c;
-	w->integrator_ptr = new AreaLightIntegrator(w);
+	w->integrator_ptr = new PathIntegrator(w);
 	w->nx = nx;
 	w->ny = ny;
 	w->ns = ns;
 
-	w->ambient_ptr = new Ambient_Light(0.5,vec3(1.0,1.0,1.0));
+	w->ambient_ptr = new Ambient_Light(0.5, vec3(1.0, 1.0, 1.0));
 
-	w->max_depth = 1;
-	PointLight* light_ptr = new PointLight(2.0,white,vec3(250,500,250));
-	light_ptr->set_shadows(false);
-	w->add_light(light_ptr);
+	w->max_depth = 50;
+	// the ceiling light - doesn't need samples
 
-	// yellow-green reflective sphere
+	Emissive* emissive_ptr = new Emissive;
+	emissive_ptr->set_ce(1.0, 0.73, 0.4);
+	emissive_ptr->scale_radiance(100);
 
-//	float exp = 1.0;  		// for Figure 25.30(a)
-//	float exp = 10.0;  		// for Figure 25.30(b)
-//	float exp = 100.0;  	// for Figure 25.30(c)
-//	float exp = 1000.0;  	// for Figure 25.30(d)
-	float exp = 10000.0;  	// for Figure 25.30(e)
-//	float exp = 100000.0;  	// for Figure 25.30(f)
+	vec3 p0;
+	vec3 a, b;
+	vec3 normal;
 
-	GlossyReflective* glossy_ptr = new GlossyReflective;
-	glossy_ptr->set_samples(ns, exp);
-	glossy_ptr->set_ka(0.0);
-	glossy_ptr->set_kd(0.0);
-	glossy_ptr->set_ks(0.0);	// 0.0 lhl
-	glossy_ptr->set_exp(exp);
-	glossy_ptr->set_cd(1.0, 1.0, 0.3);
-	glossy_ptr->set_kr(0.9);
-	glossy_ptr->set_exponent(exp);
-	glossy_ptr->set_cr(vec3(1.0, 1.0, 0.3));  // lemon
+	// box dimensions
 
-	sphere* sphere_ptr1 = new sphere(vec3(-6, 55, 0), 40);
-	sphere_ptr1->set_material(glossy_ptr);
-	w->add_object(sphere_ptr1);
+	double width = 55.28;   	// x direction
+	double height = 54.88;  	// y direction
+	double depth = 55.92;	// z direction
 
-	//cylinder
+	p0 = vec3(21.3, height - 0.001, 22.7);
+	a = vec3(0.0, 0.0, 10.5);
+	b = vec3(13.0, 0.0, 0.0);
+	normal = vec3(0.0, -1.0, 0.0);
+	Rectangle* light_ptr = new Rectangle(p0, a, b, normal);
+	light_ptr->set_material(emissive_ptr);
+	w->add_object(light_ptr);
 
-	Matte* matte_ptr = new Matte;
-	matte_ptr->set_ka(0.15);
-	matte_ptr->set_kd(0.75);
-	matte_ptr->set_cd(0.5, 1.0, 0.5);   // green
 
-	double bottom = -100;
-	double top = 15;
-	double radius = 30;
-	Instance* cylinder_ptr = new Instance(new SolidCylinder(bottom, top, radius));
-	cylinder_ptr->translate(-6, 0, 0);
-	cylinder_ptr->set_material(matte_ptr);
-	w->add_object(cylinder_ptr);
+	// left wall
 
-	Image* image_ptr = new Image;
-	image_ptr->read_file("uffizi_probe_small.ppm");  // for testing 
-	LightProbe* light_probe_ptr = new LightProbe;
-	light_probe_ptr->set_map_type(light_prob);
-	ImageTexture* image_texture_ptr = new ImageTexture(image_ptr);
-	image_texture_ptr->set_mapping(light_probe_ptr);
+	Matte* matte_ptr1 = new Matte;
+	matte_ptr1->set_ka(0.0);
+	matte_ptr1->set_kd(0.6);
+	matte_ptr1->set_cd(0.57, 0.025, 0.025);	 // red
+	matte_ptr1->set_sampler(new Jittered(ns));
 
-	SV_Matte* sv_matte_ptr = new SV_Matte;
-	sv_matte_ptr->set_ka(1);
-	sv_matte_ptr->set_kd(0.85);
-	sv_matte_ptr->set_cd(image_texture_ptr);
+	p0 = vec3(width, 0.0, 0.0);
+	a = vec3(0.0, 0.0, depth);
+	b = vec3(0.0, height, 0.0);
+	normal = vec3(-1.0, 0.0, 0.0);
+	Rectangle* left_wall_ptr = new Rectangle(p0, a, b, normal);
+	left_wall_ptr->set_material(matte_ptr1);
+	w->add_object(left_wall_ptr);
 
-	sphere* unit_sphere_ptr = new sphere;
-//	unit_sphere_ptr->set_shadows(false);
 
-	Instance* sphere_ptr2 = new Instance(unit_sphere_ptr);
-	sphere_ptr2->scale(1000000.0);
-	sphere_ptr2->set_material(sv_matte_ptr);
-	sphere_ptr2->transform_texture(true);
+	// right wall
 
-	w->add_object(sphere_ptr2);
+	Matte* matte_ptr2 = new Matte;
+	matte_ptr2->set_ka(0.0);
+	matte_ptr2->set_kd(0.6);
+	matte_ptr2->set_cd(0.37, 0.59, 0.2);	 // green   from Photoshop
+	matte_ptr2->set_sampler(new Jittered(ns));
 
-	w->background_color = vec3(0.15);
+	p0 = vec3(0.0, 0.0, 0.0);
+	a = vec3(0.0, 0.0, depth);
+	b = vec3(0.0, height, 0.0);
+	normal = vec3(1.0, 0.0, 0.0);
+	Rectangle* right_wall_ptr = new Rectangle(p0, a, b, normal);
+	right_wall_ptr->set_material(matte_ptr2);
+	w->add_object(right_wall_ptr);
+
+
+	// back wall
+
+	Matte* matte_ptr3 = new Matte;
+	matte_ptr3->set_ka(0.0);
+	matte_ptr3->set_kd(0.6);
+	matte_ptr3->set_cd(white);
+	matte_ptr3->set_sampler(new Jittered(ns));
+
+	p0 = vec3(0.0, 0.0, depth);
+	a = vec3(width, 0.0, 0.0);
+	b = vec3(0.0, height, 0.0);
+	normal = vec3(0.0, 0.0, -1.0);
+	Rectangle* back_wall_ptr = new Rectangle(p0, a, b, normal);
+	back_wall_ptr->set_material(matte_ptr3);
+	w->add_object(back_wall_ptr);
+
+
+	// floor
+
+	p0 = vec3(0.0, 0.0, 0.0);
+	a = vec3(0.0, 0.0, depth);
+	b = vec3(width, 0.0, 0.0);
+	normal = vec3(0.0, 1.0, 0.0);
+	Rectangle* floor_ptr = new Rectangle(p0, a, b, normal);
+	floor_ptr->set_material(matte_ptr3);
+	w->add_object(floor_ptr);
+
+
+	// ceiling
+
+	p0 = vec3(0.0, height, 0.0);
+	a = vec3(0.0, 0.0, depth);
+	b = vec3(width, 0.0, 0.0);
+	normal = vec3(0.0, -1.0, 0.0);
+	Rectangle* ceiling_ptr = new Rectangle(p0, a, b, normal);
+	ceiling_ptr->set_material(matte_ptr3);
+	w->add_object(ceiling_ptr);
+
+
+	// the two boxes defined as 5 rectangles each
+
+	// short box
+
+	// top
+
+	p0 = vec3(13.0, 16.5, 6.5);
+	a = vec3(-4.8, 0.0, 16.0);
+	b = vec3(16.0, 0.0, 4.9);
+	normal = vec3(0.0, 1.0, 0.0);
+	Rectangle* short_top_ptr = new Rectangle(p0, a, b, normal);
+	short_top_ptr->set_material(matte_ptr3);
+	w->add_object(short_top_ptr);
+
+
+	// side 1
+
+	p0 = vec3(13.0, 0.0, 6.5);
+	a = vec3(-4.8, 0.0, 16.0);
+	b = vec3(0.0, 16.5, 0.0);
+	Rectangle* short_side_ptr1 = new Rectangle(p0, a, b);
+	short_side_ptr1->set_material(matte_ptr3);
+	w->add_object(short_side_ptr1);
+
+
+	// side 2
+
+	p0 = vec3(8.2, 0.0, 22.5);
+	a = vec3(15.8, 0.0, 4.7);
+	Rectangle* short_side_ptr2 = new Rectangle(p0, a, b);
+	short_side_ptr2->set_material(matte_ptr3);
+	w->add_object(short_side_ptr2);
+
+
+	// side 3
+
+	p0 = vec3(24.2, 0.0, 27.4);
+	a = vec3(4.8, 0.0, -16.0);
+	Rectangle* short_side_ptr3 = new Rectangle(p0, a, b);
+	short_side_ptr3->set_material(matte_ptr3);
+	w->add_object(short_side_ptr3);
+
+
+	// side 4
+
+	p0 = vec3(29.0, 0.0, 11.4);
+	a = vec3(-16.0, 0.0, -4.9);
+	Rectangle* short_side_ptr4 = new Rectangle(p0, a, b);
+	short_side_ptr4->set_material(matte_ptr3);
+	w->add_object(short_side_ptr4);
+
+
+
+	// tall box
+
+	// top
+
+	p0 = vec3(42.3, 33.0, 24.7);
+	a = vec3(-15.8, 0.0, 4.9);
+	b = vec3(4.9, 0.0, 15.9);
+	normal = vec3(0.0, 1.0, 0.0);
+	Rectangle* tall_top_ptr = new Rectangle(p0, a, b, normal);
+	tall_top_ptr->set_material(matte_ptr3);
+	w->add_object(tall_top_ptr);
+
+
+	// side 1
+
+	p0 = vec3(42.3, 0.0, 24.7);
+	a = vec3(-15.8, 0.0, 4.9);
+	b = vec3(0.0, 33.0, 0.0);
+	Rectangle* tall_side_ptr1 = new Rectangle(p0, a, b);
+	tall_side_ptr1->set_material(matte_ptr3);
+	w->add_object(tall_side_ptr1);
+
+
+	// side 2
+
+	p0 = vec3(26.5, 0.0, 29.6);
+	a = vec3(4.9, 0.0, 15.9);
+	Rectangle* tall_side_ptr2 = new Rectangle(p0, a, b);
+	tall_side_ptr2->set_material(matte_ptr3);
+	w->add_object(tall_side_ptr2);
+
+
+	// side 3
+
+	p0 = vec3(31.4, 0.0, 45.5);
+	a = vec3(15.8, 0.0, -4.9);
+	Rectangle* tall_side_ptr3 = new Rectangle(p0, a, b);
+	tall_side_ptr3->set_material(matte_ptr3);
+	w->add_object(tall_side_ptr3);
+
+
+	// side 4
+
+	p0 = vec3(47.2, 0.0, 40.6);
+	a = vec3(-4.9, 0.0, -15.9);
+	Rectangle* tall_side_ptr4 = new Rectangle(p0, a, b);
+	tall_side_ptr4->set_material(matte_ptr3);
+	w->add_object(tall_side_ptr4);
+
+	w->background_color = vec3(0.0);
 
 	return w;
 }
@@ -201,7 +337,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/24-6.bmp");
+		pic->SaveBMP("./results/25-8.bmp");
 	
 	
 		lanlog::endLogging();

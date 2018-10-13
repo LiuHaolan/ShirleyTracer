@@ -78,6 +78,6 @@ void Sampler::map_samples_to_hemisphere(const float e) {
 		float pv = sin_theta * sin(phi);
 		float pw = cos_theta;
 
-		hemisphere_samples.push_back(vec3(pu, pv, pw));
+		hemisphere_samples[j] = (vec3(pu, pv, pw));
 	}
 }

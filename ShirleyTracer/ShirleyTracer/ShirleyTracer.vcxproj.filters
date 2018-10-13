@@ -177,6 +177,9 @@
     <ClCompile Include="src\texture\LightProbe.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\integrator\PathIntegrator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="src\texture\LightProbe.h">
       <Filter>头文件\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\integrator\PathIntegrator.h">
+      <Filter>头文件\Integrator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

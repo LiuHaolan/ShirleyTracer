@@ -35,6 +35,10 @@ public:
 	void
 		set_cd(const float c);
 
+	void set_sampler(Sampler* sPtr) {
+		sampler_ptr = sPtr;
+		sampler_ptr->map_samples_to_hemisphere(1.0);
+	}
 
 private:
 

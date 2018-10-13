@@ -23,6 +23,11 @@ public:
 	void
 		set_cd(const float c);
 	vec3 area_light_shade(hit_record& sr);
+	vec3 path_shade(hit_record& sr);
+
+	void set_sampler(Sampler* s) {
+		diffuse_brdf->set_sampler(s);
+	}
 
 private:
 	Lambertian_BRDF* ambient_brdf;

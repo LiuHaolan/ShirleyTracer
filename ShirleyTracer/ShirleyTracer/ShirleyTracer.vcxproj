@@ -127,6 +127,7 @@
     <ClCompile Include="src\extern\tinyply.cpp" />
     <ClCompile Include="src\hitable.cpp" />
     <ClCompile Include="src\integrator\AreaLightIntegrator.cpp" />
+    <ClCompile Include="src\integrator\PathIntegrator.cpp" />
     <ClCompile Include="src\integrator\RayCastIntegrator.cpp" />
     <ClCompile Include="src\integrator\WhittedIntegrator.cpp" />
     <ClCompile Include="src\lanlog.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="src\hitable_list.h" />
     <ClInclude Include="src\integrator.h" />
     <ClInclude Include="src\integrator\AreaLightIntegrator.h" />
+    <ClInclude Include="src\integrator\PathIntegrator.h" />
     <ClInclude Include="src\integrator\RayCastIntegrator.h" />
     <ClInclude Include="src\Integrator\SampleIntegrator.h" />
     <ClInclude Include="src\integrator\WhittedIntegrator.h" />

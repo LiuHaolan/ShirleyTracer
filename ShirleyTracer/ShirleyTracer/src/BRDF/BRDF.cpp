@@ -10,10 +10,25 @@ Lambertian_BRDF::f(const hit_record& sr, const vec3& wo, const vec3& wi) const {
 
 // need to implement using path tracing
 vec3
-Lambertian_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi) const { return vec3(0, 0, 0); }
+Lambertian_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi) const { 
+	lanlog::log_error("Lambertian BRDF unimplemented");
+	return vec3(0, 0, 0); 
+}
 
 vec3
-Lambertian_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi, float& pdf) const { return vec3(0, 0, 0); }
+Lambertian_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi, float& pdf) const { 
+	
+	vec3 w = unit_vector(sr.normal);
+	onb cor;
+	cor.build_from_w(w);
+
+	vec3 sp = sampler_ptr->sample_hemisphere();
+	wi = cor.local(sp[0], sp[1], sp[2]);
+	wi.make_unit_vector();
+	pdf = dot(w, wi) * INV_PI;
+
+	return kd*cd*INV_PI; 
+}
 
 vec3
 Lambertian_BRDF::rho(const hit_record& sr, const vec3& wo) const { return kd*cd; }
@@ -87,7 +102,6 @@ vec3 GlossySpecular_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& w
 		wi = cor.local(-sp.x(), - sp.y(), sp.z());
 	}
 
-	wi = r;
 	float phong_lobe = pow(dot(r,wi)/r.length()/wi.length(), exp);
 	pdf = phong_lobe * dot(unit_vector(sr.normal), unit_vector(wi));
 
