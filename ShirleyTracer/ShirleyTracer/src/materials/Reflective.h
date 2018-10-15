@@ -6,6 +6,7 @@ public:
 	Reflective():reflective_brdf(new PerfectSpecularBRDF){}
 
 	vec3 shade(hit_record& sr);
+	vec3 path_shade(hit_record& sr);
 	void set_kr(float a) {
 		reflective_brdf->set_kr(a);
 	}

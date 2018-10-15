@@ -173,107 +173,24 @@ World* build() {
 	w->add_object(ceiling_ptr);
 
 
-	//// the two boxes defined as 5 rectangles each
+	// the two boxes defined as 5 rectangles each
 
-	//// short box
+	// short box
 
-	//// top
-
-	//p0 = vec3(13.0, 16.5, 6.5);
-	//a = vec3(-4.8, 0.0, 16.0);
-	//b = vec3(16.0, 0.0, 4.9);
-	//normal = vec3(0.0, 1.0, 0.0);
-	//Rectangle* short_top_ptr = new Rectangle(p0, a, b, normal);
-	//short_top_ptr->set_material(matte_ptr3);
-	//w->add_object(short_top_ptr);
+	// top
 
 
-	//// side 1
-
-	//p0 = vec3(13.0, 0.0, 6.5);
-	//a = vec3(-4.8, 0.0, 16.0);
-	//b = vec3(0.0, 16.5, 0.0);
-	//Rectangle* short_side_ptr1 = new Rectangle(p0, a, b);
-	//short_side_ptr1->set_material(matte_ptr3);
-	//w->add_object(short_side_ptr1);
-
-
-	//// side 2
-
-	//p0 = vec3(8.2, 0.0, 22.5);
-	//a = vec3(15.8, 0.0, 4.7);
-	//Rectangle* short_side_ptr2 = new Rectangle(p0, a, b);
-	//short_side_ptr2->set_material(matte_ptr3);
-	//w->add_object(short_side_ptr2);
-
-
-	//// side 3
-
-	//p0 = vec3(24.2, 0.0, 27.4);
-	//a = vec3(4.8, 0.0, -16.0);
-	//Rectangle* short_side_ptr3 = new Rectangle(p0, a, b);
-	//short_side_ptr3->set_material(matte_ptr3);
-	//w->add_object(short_side_ptr3);
-
-
-	//// side 4
-
-	//p0 = vec3(29.0, 0.0, 11.4);
-	//a = vec3(-16.0, 0.0, -4.9);
-	//Rectangle* short_side_ptr4 = new Rectangle(p0, a, b);
-	//short_side_ptr4->set_material(matte_ptr3);
-	//w->add_object(short_side_ptr4);
+	Box* short_top_ptr = new Box(vec3(8.2,0,6.5),vec3(24.2,16.5,27.4));
+	short_top_ptr->set_material(matte_ptr3);
+	w->add_object(short_top_ptr);
 
 
 
 	//// tall box
-
-	//// top
-
-	//p0 = vec3(42.3, 33.0, 24.7);
-	//a = vec3(-15.8, 0.0, 4.9);
-	//b = vec3(4.9, 0.0, 15.9);
-	//normal = vec3(0.0, 1.0, 0.0);
-	//Rectangle* tall_top_ptr = new Rectangle(p0, a, b, normal);
-	//tall_top_ptr->set_material(matte_ptr3);
-	//w->add_object(tall_top_ptr);
-
-
-	//// side 1
-
-	//p0 = vec3(42.3, 0.0, 24.7);
-	//a = vec3(-15.8, 0.0, 4.9);
-	//b = vec3(0.0, 33.0, 0.0);
-	//Rectangle* tall_side_ptr1 = new Rectangle(p0, a, b);
-	//tall_side_ptr1->set_material(matte_ptr3);
-	//w->add_object(tall_side_ptr1);
-
-
-	//// side 2
-
-	//p0 = vec3(26.5, 0.0, 29.6);
-	//a = vec3(4.9, 0.0, 15.9);
-	//Rectangle* tall_side_ptr2 = new Rectangle(p0, a, b);
-	//tall_side_ptr2->set_material(matte_ptr3);
-	//w->add_object(tall_side_ptr2);
-
-
-	//// side 3
-
-	//p0 = vec3(31.4, 0.0, 45.5);
-	//a = vec3(15.8, 0.0, -4.9);
-	//Rectangle* tall_side_ptr3 = new Rectangle(p0, a, b);
-	//tall_side_ptr3->set_material(matte_ptr3);
-	//w->add_object(tall_side_ptr3);
-
-
-	//// side 4
-
-	//p0 = vec3(47.2, 0.0, 40.6);
-	//a = vec3(-4.9, 0.0, -15.9);
-	//Rectangle* tall_side_ptr4 = new Rectangle(p0, a, b);
-	//tall_side_ptr4->set_material(matte_ptr3);
-	//w->add_object(tall_side_ptr4);
+	Box* tall_top_ptr = new Box(vec3(26.5, 0, 24.7), vec3(47.2, 33, 45.5));
+	tall_top_ptr->set_material(matte_ptr3);
+	w->add_object(tall_top_ptr);
+	
 
 	w->background_color = vec3(0.0);
 
@@ -376,7 +293,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/25-8shuffled.bmp");
+		pic->SaveBMP("./results/25-8final.bmp");
 	
 	
 		lanlog::endLogging();
