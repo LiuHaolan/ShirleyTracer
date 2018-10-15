@@ -26,12 +26,13 @@ public:
 	int get_num_samples(void);
 
 	virtual void generate_samples() = 0;
-//	void setup_shuffled_indices();
+	void setup_shuffled_indices();
 //	void shuffle_samples();
 	vec2 sample_unit_square();
 	vec3 sample_hemisphere();
 
 	void map_samples_to_unit_disk();
+	void map_samples_to_hemisphere();
 	void map_samples_to_hemisphere(const float e);
 
 protected:

@@ -26,7 +26,7 @@ public:
 	vec3 path_shade(hit_record& sr);
 
 	void set_sampler(Sampler* s) {
-		diffuse_brdf->set_sampler(s);
+		diffuse_brdf->set_cosine_sampler(s);
 	}
 
 private:

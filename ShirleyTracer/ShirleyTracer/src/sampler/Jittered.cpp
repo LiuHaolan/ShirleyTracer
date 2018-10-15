@@ -9,6 +9,8 @@ void Jittered::generate_samples() {
 			vec2 sp(0.5, 0.5);
 			samples.push_back(sp);
 		}
+
+		return;
 	}
 
 	int n = (int)sqrt(num_samples);

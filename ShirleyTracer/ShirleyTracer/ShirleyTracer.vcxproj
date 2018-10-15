@@ -140,6 +140,7 @@
     <ClCompile Include="src\plyparser.cpp" />
     <ClCompile Include="src\Sampler.cpp" />
     <ClCompile Include="src\sampler\Jittered.cpp" />
+    <ClCompile Include="src\Sampler\MultiJittered.cpp" />
     <ClCompile Include="src\shapes\accelerator\Grid.cpp" />
     <ClCompile Include="src\shapes\BBox.cpp" />
     <ClCompile Include="src\shapes\Box.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="src\ray.h" />
     <ClInclude Include="src\Sampler.h" />
     <ClInclude Include="src\sampler\Jittered.h" />
+    <ClInclude Include="src\Sampler\MultiJittered.h" />
     <ClInclude Include="src\shapes\accelerator\Grid.h" />
     <ClInclude Include="src\shapes\BBox.h" />
     <ClInclude Include="src\shapes\Box.h" />

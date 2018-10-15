@@ -35,7 +35,7 @@ public:
 	void
 		set_cd(const float c);
 
-	void set_sampler(Sampler* sPtr) {
+	void set_cosine_sampler(Sampler* sPtr) {
 		sampler_ptr = sPtr;
 		sampler_ptr->map_samples_to_hemisphere(1.0);
 	}

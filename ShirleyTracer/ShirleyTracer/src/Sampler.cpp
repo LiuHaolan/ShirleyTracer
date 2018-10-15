@@ -7,7 +7,7 @@ Sampler::Sampler(void)
 	count(0),
 	jump(0) {
 	samples.reserve(num_samples * num_sets);
-	//setup_shuffled_indices();
+	setup_shuffled_indices();
 }
 
 Sampler::Sampler(const int num_sample) {
@@ -15,6 +15,7 @@ Sampler::Sampler(const int num_sample) {
 	num_sets = 83;
 	count = 0;
 	jump = 0;
+	setup_shuffled_indices();
 }
 
 void Sampler::set_num_sets(const int np) {
@@ -25,12 +26,14 @@ int Sampler::get_num_samples(void) {
 	return (num_samples);
 }
 
-vec2 Sampler::sample_unit_square() {
-	return (samples[count++ % (num_samples * num_sets)]);
-}
+//vec2 Sampler::sample_unit_square() {
+//	return (samples[count++ % (num_samples * num_sets)]);
+//}
 
 vec3 Sampler::sample_hemisphere(){
-	return (hemisphere_samples[count++ % (num_samples * num_sets)]);
+	if (count % num_samples == 0)
+		jump = ((int)(randd()*num_sets))*num_samples;
+	return hemisphere_samples[jump + shuffled_indices[jump + count++ % num_samples]];
 }
 
 void Sampler::map_samples_to_unit_disk() {
@@ -68,11 +71,28 @@ void Sampler::map_samples_to_unit_disk() {
 	}
 }
 
+void Sampler::map_samples_to_hemisphere() {
+	hemisphere_samples.resize(num_samples * num_sets);
+	for (int j = 0; j < samples.size(); j++) {
+	/*	float phi = 2.0*M_PI * samples[j].x();
+		float cos_theta = sqrt(samples[j].y());
+		float sin_theta = sqrt(1 - cos_theta * cos_theta);*/
+		float phi = 2.0*M_PI * randd();
+		float cos_theta = sqrt(randd());
+		float sin_theta = sqrt(1 - cos_theta * cos_theta);
+		float pu = cos_theta * cos(phi);
+		float pv = cos_theta * sin(phi);
+		float pw = sin_theta;
+
+		hemisphere_samples[j] = (vec3(pu, pv, pw));
+	}
+}
+
 void Sampler::map_samples_to_hemisphere(const float e) {
 	hemisphere_samples.resize(num_samples * num_sets);
 	for (int j = 0; j < samples.size(); j++) {
 		float phi = 2.0*M_PI * samples[j].x();
-		float cos_theta = pow(1 - samples[j].y(), 1.0 / (e + 1.0));
+		float cos_theta = pow((1 - samples[j].y()), 1.0 / (e + 1.0));
 		float sin_theta = sqrt(1 - cos_theta * cos_theta);
 		float pu = sin_theta * cos(phi);
 		float pv = sin_theta * sin(phi);
@@ -80,4 +100,24 @@ void Sampler::map_samples_to_hemisphere(const float e) {
 
 		hemisphere_samples[j] = (vec3(pu, pv, pw));
 	}
+}
+
+void Sampler::setup_shuffled_indices() {
+	shuffled_indices.reserve(num_samples*num_sets);
+	vector<int> indices;
+
+	for (int j = 0; j < num_samples; j++)
+		indices.push_back(j);
+
+	for (int p = 0; p < num_sets; p++) {
+		random_shuffle(indices.begin(), indices.end());
+		for (int j = 0; j < num_samples; j++)
+			shuffled_indices.push_back(indices[j]);
+	}
+}
+
+vec2 Sampler::sample_unit_square() {
+	if (count % num_samples == 0)
+		jump = ((int)(randd()*num_sets))*num_samples;
+	return samples[jump + shuffled_indices[jump + count++ % num_samples]];
 }

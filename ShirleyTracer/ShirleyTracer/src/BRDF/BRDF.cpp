@@ -22,7 +22,14 @@ Lambertian_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi, float&
 	onb cor;
 	cor.build_from_w(w);
 
-	vec3 sp = sampler_ptr->sample_hemisphere();
+ 	vec3 sp = sampler_ptr->sample_hemisphere();
+	
+	////debug
+	//vec3 sp;
+	//double r1 = 2 * M_PI*randd(), r2 = randd(), r2s = sqrt(r2);
+	//sp = vec3(cos(r1)*r2s , sin(r1)*r2s , sqrt(1 - r2));
+	//sp.make_unit_vector();
+
 	wi = cor.local(sp[0], sp[1], sp[2]);
 	wi.make_unit_vector();
 	pdf = dot(w, wi) * INV_PI;

@@ -180,6 +180,9 @@
     <ClCompile Include="src\integrator\PathIntegrator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sampler\MultiJittered.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="src\integrator\PathIntegrator.h">
       <Filter>头文件\Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sampler\MultiJittered.h">
+      <Filter>头文件\Sampler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

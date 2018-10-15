@@ -42,6 +42,7 @@
 #include "lights/PointLight.h"
 #include "lights/AreaLight.h"
 
+#include "sampler/MultiJittered.h"
 #include "sampler/Jittered.h"
 
 #include <iostream>
@@ -52,7 +53,7 @@ World* build() {
 
 	int nx = 300;
 	int ny = 300;
-	int ns = 10000;
+	int ns = 1024;
 
 	World* w = new World;
 	vec3 lookfrom(27.6, 27.4, -80.0);
@@ -71,7 +72,7 @@ World* build() {
 	w->ny = ny;
 	w->ns = ns;
 
-	w->ambient_ptr = new Ambient_Light(0.5, vec3(1.0, 1.0, 1.0));
+	w->ambient_ptr = new Ambient_Light(0.0, vec3(1.0, 1.0, 1.0));
 
 	w->max_depth = 10;
 	// the ceiling light - doesn't need samples
@@ -172,107 +173,107 @@ World* build() {
 	w->add_object(ceiling_ptr);
 
 
-	// the two boxes defined as 5 rectangles each
+	//// the two boxes defined as 5 rectangles each
 
-	// short box
+	//// short box
 
-	// top
+	//// top
 
-	p0 = vec3(13.0, 16.5, 6.5);
-	a = vec3(-4.8, 0.0, 16.0);
-	b = vec3(16.0, 0.0, 4.9);
-	normal = vec3(0.0, 1.0, 0.0);
-	Rectangle* short_top_ptr = new Rectangle(p0, a, b, normal);
-	short_top_ptr->set_material(matte_ptr3);
-	w->add_object(short_top_ptr);
-
-
-	// side 1
-
-	p0 = vec3(13.0, 0.0, 6.5);
-	a = vec3(-4.8, 0.0, 16.0);
-	b = vec3(0.0, 16.5, 0.0);
-	Rectangle* short_side_ptr1 = new Rectangle(p0, a, b);
-	short_side_ptr1->set_material(matte_ptr3);
-	w->add_object(short_side_ptr1);
+	//p0 = vec3(13.0, 16.5, 6.5);
+	//a = vec3(-4.8, 0.0, 16.0);
+	//b = vec3(16.0, 0.0, 4.9);
+	//normal = vec3(0.0, 1.0, 0.0);
+	//Rectangle* short_top_ptr = new Rectangle(p0, a, b, normal);
+	//short_top_ptr->set_material(matte_ptr3);
+	//w->add_object(short_top_ptr);
 
 
-	// side 2
+	//// side 1
 
-	p0 = vec3(8.2, 0.0, 22.5);
-	a = vec3(15.8, 0.0, 4.7);
-	Rectangle* short_side_ptr2 = new Rectangle(p0, a, b);
-	short_side_ptr2->set_material(matte_ptr3);
-	w->add_object(short_side_ptr2);
-
-
-	// side 3
-
-	p0 = vec3(24.2, 0.0, 27.4);
-	a = vec3(4.8, 0.0, -16.0);
-	Rectangle* short_side_ptr3 = new Rectangle(p0, a, b);
-	short_side_ptr3->set_material(matte_ptr3);
-	w->add_object(short_side_ptr3);
+	//p0 = vec3(13.0, 0.0, 6.5);
+	//a = vec3(-4.8, 0.0, 16.0);
+	//b = vec3(0.0, 16.5, 0.0);
+	//Rectangle* short_side_ptr1 = new Rectangle(p0, a, b);
+	//short_side_ptr1->set_material(matte_ptr3);
+	//w->add_object(short_side_ptr1);
 
 
-	// side 4
+	//// side 2
 
-	p0 = vec3(29.0, 0.0, 11.4);
-	a = vec3(-16.0, 0.0, -4.9);
-	Rectangle* short_side_ptr4 = new Rectangle(p0, a, b);
-	short_side_ptr4->set_material(matte_ptr3);
-	w->add_object(short_side_ptr4);
-
-
-
-	// tall box
-
-	// top
-
-	p0 = vec3(42.3, 33.0, 24.7);
-	a = vec3(-15.8, 0.0, 4.9);
-	b = vec3(4.9, 0.0, 15.9);
-	normal = vec3(0.0, 1.0, 0.0);
-	Rectangle* tall_top_ptr = new Rectangle(p0, a, b, normal);
-	tall_top_ptr->set_material(matte_ptr3);
-	w->add_object(tall_top_ptr);
+	//p0 = vec3(8.2, 0.0, 22.5);
+	//a = vec3(15.8, 0.0, 4.7);
+	//Rectangle* short_side_ptr2 = new Rectangle(p0, a, b);
+	//short_side_ptr2->set_material(matte_ptr3);
+	//w->add_object(short_side_ptr2);
 
 
-	// side 1
+	//// side 3
 
-	p0 = vec3(42.3, 0.0, 24.7);
-	a = vec3(-15.8, 0.0, 4.9);
-	b = vec3(0.0, 33.0, 0.0);
-	Rectangle* tall_side_ptr1 = new Rectangle(p0, a, b);
-	tall_side_ptr1->set_material(matte_ptr3);
-	w->add_object(tall_side_ptr1);
-
-
-	// side 2
-
-	p0 = vec3(26.5, 0.0, 29.6);
-	a = vec3(4.9, 0.0, 15.9);
-	Rectangle* tall_side_ptr2 = new Rectangle(p0, a, b);
-	tall_side_ptr2->set_material(matte_ptr3);
-	w->add_object(tall_side_ptr2);
+	//p0 = vec3(24.2, 0.0, 27.4);
+	//a = vec3(4.8, 0.0, -16.0);
+	//Rectangle* short_side_ptr3 = new Rectangle(p0, a, b);
+	//short_side_ptr3->set_material(matte_ptr3);
+	//w->add_object(short_side_ptr3);
 
 
-	// side 3
+	//// side 4
 
-	p0 = vec3(31.4, 0.0, 45.5);
-	a = vec3(15.8, 0.0, -4.9);
-	Rectangle* tall_side_ptr3 = new Rectangle(p0, a, b);
-	tall_side_ptr3->set_material(matte_ptr3);
-	w->add_object(tall_side_ptr3);
+	//p0 = vec3(29.0, 0.0, 11.4);
+	//a = vec3(-16.0, 0.0, -4.9);
+	//Rectangle* short_side_ptr4 = new Rectangle(p0, a, b);
+	//short_side_ptr4->set_material(matte_ptr3);
+	//w->add_object(short_side_ptr4);
 
 
-	// side 4
 
-	p0 = vec3(47.2, 0.0, 40.6);
-	a = vec3(-4.9, 0.0, -15.9);
-	Rectangle* tall_side_ptr4 = new Rectangle(p0, a, b);
-	tall_side_ptr4->set_material(matte_ptr3);
-	w->add_object(tall_side_ptr4);
+	//// tall box
+
+	//// top
+
+	//p0 = vec3(42.3, 33.0, 24.7);
+	//a = vec3(-15.8, 0.0, 4.9);
+	//b = vec3(4.9, 0.0, 15.9);
+	//normal = vec3(0.0, 1.0, 0.0);
+	//Rectangle* tall_top_ptr = new Rectangle(p0, a, b, normal);
+	//tall_top_ptr->set_material(matte_ptr3);
+	//w->add_object(tall_top_ptr);
+
+
+	//// side 1
+
+	//p0 = vec3(42.3, 0.0, 24.7);
+	//a = vec3(-15.8, 0.0, 4.9);
+	//b = vec3(0.0, 33.0, 0.0);
+	//Rectangle* tall_side_ptr1 = new Rectangle(p0, a, b);
+	//tall_side_ptr1->set_material(matte_ptr3);
+	//w->add_object(tall_side_ptr1);
+
+
+	//// side 2
+
+	//p0 = vec3(26.5, 0.0, 29.6);
+	//a = vec3(4.9, 0.0, 15.9);
+	//Rectangle* tall_side_ptr2 = new Rectangle(p0, a, b);
+	//tall_side_ptr2->set_material(matte_ptr3);
+	//w->add_object(tall_side_ptr2);
+
+
+	//// side 3
+
+	//p0 = vec3(31.4, 0.0, 45.5);
+	//a = vec3(15.8, 0.0, -4.9);
+	//Rectangle* tall_side_ptr3 = new Rectangle(p0, a, b);
+	//tall_side_ptr3->set_material(matte_ptr3);
+	//w->add_object(tall_side_ptr3);
+
+
+	//// side 4
+
+	//p0 = vec3(47.2, 0.0, 40.6);
+	//a = vec3(-4.9, 0.0, -15.9);
+	//Rectangle* tall_side_ptr4 = new Rectangle(p0, a, b);
+	//tall_side_ptr4->set_material(matte_ptr3);
+	//w->add_object(tall_side_ptr4);
 
 	w->background_color = vec3(0.0);
 
@@ -282,7 +283,45 @@ World* build() {
 
 int main() {
 
+//	// visualize sampler.
+//	int num = 100;
+//	MultiJittered* s = new MultiJittered(100);
+//	s->map_samples_to_hemisphere(1.0);
+//	std::auto_ptr<Bitmap> p(new Bitmap(300, 300));
+//	vec3 col = white;
+//	vec3 back = black;
+//	int ir = int(255.99*col[0]);
+//	int ig = int(255.99*col[1]);
+//	int ib = int(255.99*col[2]);
+//	for (int j = 0; j < 300*300; j++) {
+//		p->SetPixel(j/300, j%300, (0 << 16) | (0 << 8) | 0);
+//	}
+//	int cnt = 0;
+//	int q_cnt = 0;
+//	for (int j = 0; j < num; j++) {
+//		vec2 sam = s->sample_unit_square();
+//		int x = (int)(sam[0]*300);
+//		int y = (int)(sam[1] * 300);
+//		p->SetPixel(x, y, (ir << 16) | (ig << 8) | ib);
+//		// test hemisphere
+////		vec3 sam = s->sample_hemisphere();
+//		//int x = (int)(sam[0] * 300);
+//		//int y = (int)(sam[2] * 300);
+//		//if (y > 150)
+//		//	cnt++;
+//		//else
+//		//	q_cnt++;
+//		//p->SetPixel(x, y, (ir << 16) | (ig << 8) | ib);
+//	}
+//	p->SaveBMP("./results/sample.bmp");
+////	std::cout << cnt << " " << q_cnt << std::endl;
+////	while (1);
+//	return 0;
+
+
 	lanlog::initLogging();
+
+
 
 	//	LOG(WARNING) << "This is a warning message";
 		//LOG(ERROR) << "This is an error message";
@@ -319,7 +358,7 @@ int main() {
 	
 				for(int idx = 0;idx <3;idx++)
 					col[idx] = col[idx] < 0 ? 0 : col[idx];
-			//	col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
+				col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
 
 				// do some out of gamut processing
 				if (col[0] > 1.0 || col[1] > 1.0 || col[2] > 1.0) {
@@ -337,7 +376,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/25-8.bmp");
+		pic->SaveBMP("./results/25-8shuffled.bmp");
 	
 	
 		lanlog::endLogging();

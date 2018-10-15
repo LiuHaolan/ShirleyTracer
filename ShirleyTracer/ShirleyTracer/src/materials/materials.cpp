@@ -84,14 +84,15 @@ vec3 Matte::path_shade(hit_record& sr) {
 	vec3 wo = -sr.r.B;
 
 	// debug
-
+	vec3 	L = ambient_brdf->rho(sr, wo) * sr.w->ambient_ptr->L(sr);
+	L = 0;
 
 	float pdf;
 
 	vec3 reflectance = diffuse_brdf->sample_f(sr, wo, wi, pdf);
 	ray scattered_ray(sr.p  + wi*0.0001, wi);
 	float ndotwi = dot(unit_vector(sr.normal), unit_vector(wi));
-	vec3 L = reflectance * sr.w->integrator_ptr->Li(scattered_ray, sr.depth + 1)/pdf*ndotwi;
+	L += reflectance * sr.w->integrator_ptr->Li(scattered_ray, sr.depth + 1)*ndotwi/pdf;
 	return L;
 }
 

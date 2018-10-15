@@ -20,7 +20,7 @@ public:
 	virtual vec3 get_Le(hit_record& sr) const { return ls * ce; }
 
 	virtual vec3 shade(hit_record& sr) {
-		lanlog::log_error("arelight using common shading!");
+		lanlog::log_error("arealight using common shading!");
 		return vec3(0, 0, 0);
 	}
 
