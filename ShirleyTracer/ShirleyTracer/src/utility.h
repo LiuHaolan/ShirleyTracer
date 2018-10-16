@@ -14,6 +14,7 @@ using namespace std;
 
 const static vec3 white = vec3(1.0, 1.0, 1.0);
 const static vec3 black = vec3(0.0, 0.0, 0.0);
+const static vec3 red = vec3(1.0, 0.0, 0.0);
 
 static std::default_random_engine generator;
 static std::uniform_real_distribution<float> distr(0.0, 1.0);

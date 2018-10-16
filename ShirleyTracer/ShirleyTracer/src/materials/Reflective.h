@@ -3,7 +3,8 @@
 #include "..\BRDF\PerfectSpecular.h"
 class Reflective : public Phong {
 public:
-	Reflective():reflective_brdf(new PerfectSpecularBRDF){}
+	Reflective():reflective_brdf(new PerfectSpecularBRDF){
+	}
 
 	vec3 shade(hit_record& sr);
 	vec3 path_shade(hit_record& sr);

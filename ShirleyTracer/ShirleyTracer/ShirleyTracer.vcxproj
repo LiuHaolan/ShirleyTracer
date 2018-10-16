@@ -123,10 +123,12 @@
     <ClCompile Include="src\Bitmap.cpp" />
     <ClCompile Include="src\BRDF\BRDF.cpp" />
     <ClCompile Include="src\BRDF\SVLambertian.cpp" />
+    <ClCompile Include="src\BTDF\PerfectTransmitter.cpp" />
     <ClCompile Include="src\extern\Image.cpp" />
     <ClCompile Include="src\extern\tinyply.cpp" />
     <ClCompile Include="src\hitable.cpp" />
     <ClCompile Include="src\integrator\AreaLightIntegrator.cpp" />
+    <ClCompile Include="src\integrator\GlobalIntegrator.cpp" />
     <ClCompile Include="src\integrator\PathIntegrator.cpp" />
     <ClCompile Include="src\integrator\RayCastIntegrator.cpp" />
     <ClCompile Include="src\integrator\WhittedIntegrator.cpp" />
@@ -136,7 +138,9 @@
     <ClCompile Include="src\materials\Emissive.cpp" />
     <ClCompile Include="src\materials\GlossyReflective.cpp" />
     <ClCompile Include="src\materials\SV_Matte.cpp" />
+    <ClCompile Include="src\materials\Transparent.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
+    <ClCompile Include="src\parsing.cpp" />
     <ClCompile Include="src\plyparser.cpp" />
     <ClCompile Include="src\Sampler.cpp" />
     <ClCompile Include="src\sampler\Jittered.cpp" />
@@ -173,6 +177,8 @@
     <ClInclude Include="src\BRDF\LambertianBRDF.h" />
     <ClInclude Include="src\BRDF\PerfectSpecular.h" />
     <ClInclude Include="src\BRDF\SVLambertian.h" />
+    <ClInclude Include="src\BTDF\BTDF.h" />
+    <ClInclude Include="src\BTDF\PerfectTransmitter.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\extern\Image.h" />
     <ClInclude Include="src\extern\stb_image.h" />
@@ -181,6 +187,7 @@
     <ClInclude Include="src\hitable_list.h" />
     <ClInclude Include="src\integrator.h" />
     <ClInclude Include="src\integrator\AreaLightIntegrator.h" />
+    <ClInclude Include="src\integrator\GlobalPathIntegrator.h" />
     <ClInclude Include="src\integrator\PathIntegrator.h" />
     <ClInclude Include="src\integrator\RayCastIntegrator.h" />
     <ClInclude Include="src\Integrator\SampleIntegrator.h" />
@@ -198,6 +205,7 @@
     <ClInclude Include="src\materials\Phong.h" />
     <ClInclude Include="src\materials\Reflective.h" />
     <ClInclude Include="src\materials\SV_Matte.h" />
+    <ClInclude Include="src\materials\Transparent.h" />
     <ClInclude Include="src\Matrix.h" />
     <ClInclude Include="src\onb.h" />
     <ClInclude Include="src\parsing.h" />
@@ -222,6 +230,7 @@
     <ClInclude Include="src\shapes\SolidCylinder.h" />
     <ClInclude Include="src\shapes\sphere.h" />
     <ClInclude Include="src\shapes\triangle.h" />
+    <ClInclude Include="src\sse.h" />
     <ClInclude Include="src\texture.h" />
     <ClInclude Include="src\texture\Checker3D.h" />
     <ClInclude Include="src\texture\constant_color.h" />

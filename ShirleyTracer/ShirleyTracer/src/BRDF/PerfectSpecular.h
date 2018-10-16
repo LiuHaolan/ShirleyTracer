@@ -3,6 +3,11 @@
 
 class PerfectSpecularBRDF : public BRDF {
 public:
+	PerfectSpecularBRDF() {
+		kr = 1.0;
+		cr = white;
+	}
+
 	vec3 sample_f(const hit_record& sr, const vec3& wo, vec3& wi) const;
 
 	void set_kr(const float k) { kr = k; }
@@ -15,5 +20,5 @@ public:
 
 private:
 	float		kr;			// reflection coefficient
-	vec3 	cr;			// the reflection colour
+	vec3 	cr;			// the reflection color
 };

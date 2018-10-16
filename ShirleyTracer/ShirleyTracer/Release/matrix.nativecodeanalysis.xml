@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>d:\sample\shirleytracer\shirleytracer\shirleytracer\src\</FILEPATH>
+      <FILENAME>matrix.cpp</FILENAME>
+      <LINE>3</LINE>
+      <COLUMN>8</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Matrix::m' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Matrix::{ctor}</FUNCTION>
+    <DECORATED>??0Matrix@@QAE@XZ</DECORATED>
+    <FUNCLINE>3</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

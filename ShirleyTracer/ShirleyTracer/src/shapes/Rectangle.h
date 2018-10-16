@@ -7,12 +7,14 @@
 class Rectangle : public hitable {
 public:
 
-	Rectangle(void) : p0(0.0), a(0.0), b(0.0) {}
+	Rectangle(void) : p0(0.0), a(0.0), b(0.0) { lanlog::log_error("the normal not set."); }
 
 	Rectangle(const vec3& _p0, const vec3& _a, const vec3& _b): p0(_p0), a(_a),b(_b){
 		a_len_squared = (a ).squared_length();
 		b_len_squared = (b ).squared_length();
 		inv_area = 1.0 / sqrt(a_len_squared*b_len_squared);
+		lanlog::log_error("the normal not set.");
+//		normal = unit_vector(cross(a,b));
 	}
 
 	Rectangle(const vec3& _p0, const vec3& _a, const vec3& _b, const vec3& n) : p0(_p0), a(_a), b(_b), normal(n) {

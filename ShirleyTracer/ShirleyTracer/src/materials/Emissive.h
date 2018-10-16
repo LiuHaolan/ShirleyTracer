@@ -27,4 +27,5 @@ public:
 	virtual vec3 area_light_shade(hit_record& sr);
 
 	virtual vec3 path_shade(hit_record& sr);
+	virtual vec3 global_path_shade(hit_record& sr);
 };

@@ -10,12 +10,14 @@
 #include "integrator/AreaLightIntegrator.h"
 #include "integrator/WhittedIntegrator.h"
 #include "integrator/PathIntegrator.h"
+#include "integrator/GlobalPathIntegrator.h"
 
 #include "materials/matte_material.h"
 #include "materials/Phong.h"
 #include "materials/SV_Matte.h"
 #include "materials/Reflective.h"
 #include "materials/GlossyReflective.h"
+#include "materials/Transparent.h"
 
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
@@ -48,151 +50,111 @@
 #include <iostream>
 
 #include "plyparser.h"
+#include "parsing.h"
 
 World* build() {
 
-	int nx = 300;
-	int ny = 300;
-	int ns = 1024;
+	int nx = 600;
+	int ny = 600;
+	int ns = 16;
 
 	World* w = new World;
-	vec3 lookfrom(27.6, 27.4, -80.0);
-	vec3 lookat(27.6, 27.4, 0.0);
+	vec3 lookfrom(-8, 5.5, 40.0);
+	vec3 lookat(1, 4, 0.0);
 	float dist_to_focus = (lookfrom - lookat).length();
 	float aperture = 0.0;
-	float distance = 400;
+	float distance = 1800;
 
 	// an temporary method to deal with it
 	float vfov = 2 * atan2(200, distance) * 180 / M_PI;
 	// default up vector vec3(0,1,0)
 	Camera* c = new Camera(lookfrom, lookat, vec3(0, 1, 0), vfov, float(nx) / float(ny), aperture, dist_to_focus);
 	w->camera_ptr = c;
-	w->integrator_ptr = new PathIntegrator(w);
+	w->integrator_ptr = new WhittedIntegrator(w);
 	w->nx = nx;
 	w->ny = ny;
 	w->ns = ns;
 
-	w->ambient_ptr = new Ambient_Light(0.0, vec3(1.0, 1.0, 1.0));
+	w->background_color = vec3(0.0,0.3,0.25);
+	w->ambient_ptr = new Ambient_Light(0.25, vec3(1.0, 1.0, 1.0));
 
-	w->max_depth = 10;
-	// the ceiling light - doesn't need samples
+	w->max_depth = 5;
 
-	Emissive* emissive_ptr = new Emissive;
-	emissive_ptr->set_ce(1.0, 0.73, 0.4);
-	emissive_ptr->scale_radiance(100);
+	// point light 
 
-	vec3 p0;
-	vec3 a, b;
-	vec3 normal;
-
-	// box dimensions
-
-	double width = 55.28;   	// x direction
-	double height = 54.88;  	// y direction
-	double depth = 55.92;	// z direction
-
-	p0 = vec3(21.3, height - 0.001, 22.7);
-	a = vec3(0.0, 0.0, 10.5);
-	b = vec3(13.0, 0.0, 0.0);
-	normal = vec3(0.0, -1.0, 0.0);
-	Rectangle* light_ptr = new Rectangle(p0, a, b, normal);
-	light_ptr->set_material(emissive_ptr);
-	w->add_object(light_ptr);
+	PointLight* light_ptr1 = new PointLight(4.5,white,vec3(40,50,0));
+	light_ptr1->set_shadows(true);
+	w->add_light(light_ptr1);
 
 
-	// left wall
+	// point light 
 
-	Matte* matte_ptr1 = new Matte;
-	matte_ptr1->set_ka(0.0);
-	matte_ptr1->set_kd(0.6);
-	matte_ptr1->set_cd(0.57, 0.025, 0.025);	 // red
-	matte_ptr1->set_sampler(new Jittered(ns));
-
-	p0 = vec3(width, 0.0, 0.0);
-	a = vec3(0.0, 0.0, depth);
-	b = vec3(0.0, height, 0.0);
-	normal = vec3(-1.0, 0.0, 0.0);
-	Rectangle* left_wall_ptr = new Rectangle(p0, a, b, normal);
-	left_wall_ptr->set_material(matte_ptr1);
-	w->add_object(left_wall_ptr);
+	PointLight* light_ptr2 = new PointLight(4.5,vec3(1.0,1.0,1.0), vec3(-10, 20, 10));
+	light_ptr2->set_shadows(true);
+	w->add_light(light_ptr2);
 
 
-	// right wall
+	// directional light 
 
-	Matte* matte_ptr2 = new Matte;
-	matte_ptr2->set_ka(0.0);
-	matte_ptr2->set_kd(0.6);
-	matte_ptr2->set_cd(0.37, 0.59, 0.2);	 // green   from Photoshop
-	matte_ptr2->set_sampler(new Jittered(ns));
-
-	p0 = vec3(0.0, 0.0, 0.0);
-	a = vec3(0.0, 0.0, depth);
-	b = vec3(0.0, height, 0.0);
-	normal = vec3(1.0, 0.0, 0.0);
-	Rectangle* right_wall_ptr = new Rectangle(p0, a, b, normal);
-	right_wall_ptr->set_material(matte_ptr2);
-	w->add_object(right_wall_ptr);
+	DirectionLight* light_ptr3 = new DirectionLight;
+	light_ptr3->set_direction(vec3(-1, 0, 0));
+	light_ptr3->scale_radiance(4.5);
+	light_ptr3->set_shadows(true);
+	w->add_light(light_ptr3);
 
 
-	// back wall
+	// transparent sphere
 
-	Matte* matte_ptr3 = new Matte;
-	matte_ptr3->set_ka(0.0);
-	matte_ptr3->set_kd(0.6);
-	matte_ptr3->set_cd(white);
-	matte_ptr3->set_sampler(new Jittered(ns));
+	Transparent* glass_ptr = new Transparent;
+	glass_ptr->set_ks(0.2);
+	glass_ptr->set_exp(2000.0);
+	glass_ptr->set_ior(1.1);
+	glass_ptr->set_kr(0.1);
+	glass_ptr->set_kt(0.9);
 
-	p0 = vec3(0.0, 0.0, depth);
-	a = vec3(width, 0.0, 0.0);
-	b = vec3(0.0, height, 0.0);
-	normal = vec3(0.0, 0.0, -1.0);
-	Rectangle* back_wall_ptr = new Rectangle(p0, a, b, normal);
-	back_wall_ptr->set_material(matte_ptr3);
-	w->add_object(back_wall_ptr);
+	sphere* sphere_ptr1 = new sphere(vec3(0.0, 4.5, 0.0), 3.0);
+	sphere_ptr1->set_material(glass_ptr);
+	w->add_object(sphere_ptr1);
 
 
-	// floor
+	// red sphere
 
-	p0 = vec3(0.0, 0.0, 0.0);
-	a = vec3(0.0, 0.0, depth);
-	b = vec3(width, 0.0, 0.0);
-	normal = vec3(0.0, 1.0, 0.0);
-	Rectangle* floor_ptr = new Rectangle(p0, a, b, normal);
-	floor_ptr->set_material(matte_ptr3);
-	w->add_object(floor_ptr);
+	Reflective*	reflective_ptr = new Reflective;
+	reflective_ptr->set_ka(0.3);
+	reflective_ptr->set_kd(0.3);
+	reflective_ptr->set_cd(red);
+	reflective_ptr->set_ks(0.2);
+	reflective_ptr->set_exp(2000.0);
+	reflective_ptr->set_kr(0.25);
 
-
-	// ceiling
-
-	p0 = vec3(0.0, height, 0.0);
-	a = vec3(0.0, 0.0, depth);
-	b = vec3(width, 0.0, 0.0);
-	normal = vec3(0.0, -1.0, 0.0);
-	Rectangle* ceiling_ptr = new Rectangle(p0, a, b, normal);
-	ceiling_ptr->set_material(matte_ptr3);
-	w->add_object(ceiling_ptr);
+	sphere* sphere_ptr2 = new sphere(vec3(4, 4, -6), 3);
+	sphere_ptr2->set_material(reflective_ptr);
+	w->add_object(sphere_ptr2);
 
 
-	// the two boxes defined as 5 rectangles each
+	Checker3D* checker_ptr = new Checker3D;
+	checker_ptr->set_size(4);
+	checker_ptr->set_color1(0.75);
+	checker_ptr->set_color2(white);
 
-	// short box
+	SV_Matte* sv_matte_ptr = new SV_Matte;
+	sv_matte_ptr->set_ka(0.5);
+	sv_matte_ptr->set_kd(0.35);
+	sv_matte_ptr->set_cd(checker_ptr);
 
-	// top
+	// rectangle
 
+	vec3 p0(-20, 0, -100);
+	vec3 a(0, 0, 120);
+	vec3 b(40, 0, 0);
+	vec3 normal(0, 1, 0);
 
-	Box* short_top_ptr = new Box(vec3(8.2,0,6.5),vec3(24.2,16.5,27.4));
-	short_top_ptr->set_material(matte_ptr3);
-	w->add_object(short_top_ptr);
-
-
-
-	//// tall box
-	Box* tall_top_ptr = new Box(vec3(26.5, 0, 24.7), vec3(47.2, 33, 45.5));
-	tall_top_ptr->set_material(matte_ptr3);
-	w->add_object(tall_top_ptr);
+	Rectangle* rectangle_ptr = new Rectangle(p0, a, b,normal);
+	rectangle_ptr->set_material(sv_matte_ptr);
+	w->add_object(rectangle_ptr);
 	
 
-	w->background_color = vec3(0.0);
+	
 
 	return w;
 }
@@ -200,43 +162,19 @@ World* build() {
 
 int main() {
 
-//	// visualize sampler.
-//	int num = 100;
-//	MultiJittered* s = new MultiJittered(100);
-//	s->map_samples_to_hemisphere(1.0);
-//	std::auto_ptr<Bitmap> p(new Bitmap(300, 300));
-//	vec3 col = white;
-//	vec3 back = black;
-//	int ir = int(255.99*col[0]);
-//	int ig = int(255.99*col[1]);
-//	int ib = int(255.99*col[2]);
-//	for (int j = 0; j < 300*300; j++) {
-//		p->SetPixel(j/300, j%300, (0 << 16) | (0 << 8) | 0);
-//	}
-//	int cnt = 0;
-//	int q_cnt = 0;
-//	for (int j = 0; j < num; j++) {
-//		vec2 sam = s->sample_unit_square();
-//		int x = (int)(sam[0]*300);
-//		int y = (int)(sam[1] * 300);
-//		p->SetPixel(x, y, (ir << 16) | (ig << 8) | ib);
-//		// test hemisphere
-////		vec3 sam = s->sample_hemisphere();
-//		//int x = (int)(sam[0] * 300);
-//		//int y = (int)(sam[2] * 300);
-//		//if (y > 150)
-//		//	cnt++;
-//		//else
-//		//	q_cnt++;
-//		//p->SetPixel(x, y, (ir << 16) | (ig << 8) | ib);
-//	}
-//	p->SaveBMP("./results/sample.bmp");
-////	std::cout << cnt << " " << q_cnt << std::endl;
-////	while (1);
-//	return 0;
+	/*World* ptr = new World;
+	FILE* f;
+	fopen_s(&f, "./kitchen/kitchen.aff","r");
+	viParseFile(f, ptr);
+	fclose(f);
 
+	while (1);
+	return 0;*/
 
 	lanlog::initLogging();
+	manual_timer read_timer;
+
+	read_timer.start();
 
 
 
@@ -246,7 +184,7 @@ int main() {
 	
 	
 		World* w = build();
-		Jittered* sampler = new Jittered(w->ns);
+		MultiJittered* sampler = new MultiJittered(w->ns);
 
 		std::auto_ptr<Bitmap> pic(new Bitmap(w->nx, w->ny));
 		for (int j = w->ny - 1; j >= 0; j--) {
@@ -292,12 +230,14 @@ int main() {
 		}
 	
 	
-		std::cout << "\n" << "Rendering done";
-		pic->SaveBMP("./results/25-8final.bmp");
+		std::cout << "\n" << "Rendering done\n";
+		pic->SaveBMP("./results/27.14testa.bmp");
 	
-	
+
+		read_timer.stop();
 		lanlog::endLogging();
 
-	//	while (1);
+		std::cout << read_timer.get()/1000.0 << "s consumed" << endl;
+		while (1);
 }
 

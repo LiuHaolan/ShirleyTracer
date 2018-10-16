@@ -20,6 +20,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const 
 			rec.local_hit_point /= radius;
 
 			// consider hitting from inside or outside
+			rec.topo_normal = rec.normal;
 			if (dot(r.B, rec.normal) > 0.0)
 				rec.normal = -rec.normal;
 
@@ -36,6 +37,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const 
 			rec.local_hit_point = r.point_at_parameter(rec.t);
 			rec.local_hit_point /= radius;
 
+			rec.topo_normal = rec.normal;
 					// consider hitting from inside or outside
 			if (dot(r.B, rec.normal) > 0.0)
 				rec.normal = -rec.normal;

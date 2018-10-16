@@ -46,6 +46,9 @@
     <Filter Include="头文件\shape\Mesh">
       <UniqueIdentifier>{0cc6d089-8f4e-4e17-9668-205031e2c224}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\BTDF">
+      <UniqueIdentifier>{3e6d6ae3-3d49-4ae2-95ef-4496c0c0597b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
@@ -182,6 +185,18 @@
     </ClCompile>
     <ClCompile Include="src\Sampler\MultiJittered.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\integrator\GlobalIntegrator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parsing.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BTDF\PerfectTransmitter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\materials\Transparent.cpp">
+      <Filter>头文件\material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +400,21 @@
     </ClInclude>
     <ClInclude Include="src\Sampler\MultiJittered.h">
       <Filter>头文件\Sampler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\integrator\GlobalPathIntegrator.h">
+      <Filter>头文件\Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sse.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BTDF\BTDF.h">
+      <Filter>头文件\BTDF</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BTDF\PerfectTransmitter.h">
+      <Filter>头文件\BTDF</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\Transparent.h">
+      <Filter>头文件\material</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

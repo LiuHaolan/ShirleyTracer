@@ -96,6 +96,18 @@ vec3 Matte::path_shade(hit_record& sr) {
 	return L;
 }
 
+vec3 Matte::global_path_shade(hit_record& sr) {
+	vec3 L;
+
+//	L = area_light_shade(sr);
+	if (sr.depth == 0) {
+		L = area_light_shade(sr);
+	}
+
+	L += path_shade(sr);
+	return L;
+}
+
 vec3 Phong::area_light_shade(hit_record& sr) {
 	vec3 	wo = -sr.r.B;
 	vec3 	L = ambient_brdf->rho(sr, wo) * sr.w->ambient_ptr->L(sr);
@@ -188,6 +200,8 @@ vec3 Reflective::shade(hit_record& sr) {
 }
 
 vec3 Reflective::path_shade(hit_record& sr) {
+
+
 	vec3 wo = -sr.r.B;
 	vec3 wi;
 	vec3 fr = reflective_brdf->sample_f(sr, wo, wi);

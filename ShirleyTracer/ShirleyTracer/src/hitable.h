@@ -18,6 +18,10 @@ struct hit_record {
 
 	vec3 local_hit_point;
 	vec3 normal;
+
+	// topological normal
+	vec3 topo_normal;
+
 	Material* mat_ptr;
 	World* w;
 	int depth;

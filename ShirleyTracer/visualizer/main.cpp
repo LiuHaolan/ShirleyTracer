@@ -1,5 +1,4 @@
-#include "Bitmap.h"
-#include "Jittered.h"
+
 
 int main() {
 	//// visualize sampler.
