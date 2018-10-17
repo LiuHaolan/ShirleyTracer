@@ -1,4 +1,6 @@
 #include "World.h"
+bool World::inside;
+
 void World::add_light(Light* lit) {
 	lights.push_back(lit);
 }

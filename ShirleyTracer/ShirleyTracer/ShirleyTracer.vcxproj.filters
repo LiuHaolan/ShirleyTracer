@@ -196,7 +196,7 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\materials\Transparent.cpp">
-      <Filter>头文件\material</Filter>
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

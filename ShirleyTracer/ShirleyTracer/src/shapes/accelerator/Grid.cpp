@@ -3,6 +3,7 @@
 static const float kEpsilon = 0.0001;
 static const float kHugeValue = MAXFLOAT;
 
+
 vec3 Grid::min_coordinates(void) {
 	BBox 	object_box;
 	vec3 p0(MAXFLOAT);
@@ -165,6 +166,7 @@ void Grid::setup_cells() {
 
 }
 
+
 bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 
 	//// turn off the grid, the code
@@ -198,8 +200,8 @@ bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 	double y1 = bbox.q[1];
 	double z1 = bbox.q[2];
 
-	double tx_min, ty_min, tz_min;
-	double tx_max, ty_max, tz_max;
+	double tx_min = 0, ty_min = 0, tz_min = 0.0;
+	double tx_max = 0, ty_max = 0, tz_max = 0.0;
 
 	// the following code includes modifications from Shirley and Morley (2003)
 
@@ -233,7 +235,7 @@ bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 		tz_max = (z0 - oz) * c;
 	}
 
-	double t0, t1;
+	double t0 = 0, t1 = 0;
 
 	if (tx_min > ty_min)
 		t0 = tx_min;
@@ -256,7 +258,7 @@ bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 
 	// initial cell coordinates
 
-	int ix, iy, iz;
+	int ix = 0, iy = 0, iz = 0;
 
 	if (bbox.inside(r.A)) {  			// does the ray start inside the grid?
 		ix = clamp((ox - x0) * nx / (x1 - x0), 0, nx - 1);
@@ -276,9 +278,9 @@ bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 	double dty = (ty_max - ty_min) / ny;
 	double dtz = (tz_max - tz_min) / nz;
 
-	double 	tx_next, ty_next, tz_next;
-	int 	ix_step, iy_step, iz_step;
-	int 	ix_stop, iy_stop, iz_stop;
+	double 	tx_next = 0, ty_next = 0, tz_next = 0.0;
+	int 	ix_step = 0, iy_step = 0, iz_step = 0;
+	int 	ix_stop = 0, iy_stop = 0, iz_stop = 0;
 
 	if (dx > 0) {
 		tx_next = tx_min + (ix + 1) * dtx;
@@ -348,6 +350,7 @@ bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 			if (object_ptr ) {
 				if (object_ptr->hit(r, t_min, t_max, rec) && rec.t < tx_next) {
 	//				rec.mat_ptr = object_ptr->get_material();
+
 					return (true);
 				}
 			}
@@ -360,11 +363,13 @@ bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 		}
 		else {
 			if (ty_next < tz_next) {
-				if (object_ptr && object_ptr->hit(r, t_min,t_max, rec) && rec.t < ty_next) {
-	//				rec.mat_ptr = object_ptr->get_material();
-					return (true);
-				}
+				if (object_ptr) {
+					if (object_ptr->hit(r, t_min, t_max, rec) && rec.t < ty_next) {
+						//				rec.mat_ptr = object_ptr->get_material();
 
+						return (true);
+					}
+				}
 				ty_next += dty;
 				iy += iy_step;
 
@@ -372,11 +377,13 @@ bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 					return (false);
 			}
 			else {
-				if (object_ptr && object_ptr->hit(r, t_min,t_max, rec) && rec.t < tz_next) {
-	//				rec.mat_ptr = object_ptr->get_material();
-					return (true);
-				}
+				if (object_ptr) {
+					if (object_ptr->hit(r, t_min, t_max, rec) && rec.t < tz_next) {
+						//				rec.mat_ptr = object_ptr->get_material();
 
+						return (true);
+					}
+				}
 				tz_next += dtz;
 				iz += iz_step;
 
@@ -403,8 +410,8 @@ bool Grid::hitP(const ray& r, float& t) const {
 	double y1 = bbox.q[1];
 	double z1 = bbox.q[2];
 
-	double tx_min, ty_min, tz_min;
-	double tx_max, ty_max, tz_max;
+	double tx_min = 0 , ty_min = 0, tz_min = 0;
+	double tx_max = 0, ty_max = 0, tz_max = 0;
 
 	// the following code includes modifications from Shirley and Morley (2003)
 
@@ -461,7 +468,7 @@ bool Grid::hitP(const ray& r, float& t) const {
 
 	// initial cell coordinates
 
-	int ix, iy, iz;
+	int ix = 0, iy = 0, iz = 0;
 
 	if (bbox.inside(r.A)) {  			// does the ray start inside the grid?
 		ix = clamp((ox - x0) * nx / (x1 - x0), 0, nx - 1);
@@ -481,9 +488,9 @@ bool Grid::hitP(const ray& r, float& t) const {
 	double dty = (ty_max - ty_min) / ny;
 	double dtz = (tz_max - tz_min) / nz;
 
-	double 	tx_next, ty_next, tz_next;
-	int 	ix_step, iy_step, iz_step;
-	int 	ix_stop, iy_stop, iz_stop;
+	double 	tx_next = 0, ty_next = 0, tz_next = 0;
+	int 	ix_step = 0, iy_step = 0, iz_step = 0;
+	int 	ix_stop = 0, iy_stop = 0, iz_stop = 0;
 
 	if (dx > 0) {
 		tx_next = tx_min + (ix + 1) * dtx;
@@ -594,6 +601,7 @@ bool Grid::hitP(const ray& r, float& t) const {
 
 
 Grid::Grid(Mesh* ptr) {
+
 	for (int j = 0; j < ptr->num_triangles; j++) {
 		int a = ptr->vertex_faces[j][0];
 		int b = ptr->vertex_faces[j][1];
@@ -601,7 +609,10 @@ Grid::Grid(Mesh* ptr) {
 
 		MeshTriangle* obj_ptr = new MeshTriangle(ptr, a, b, c);
 		add_objects(obj_ptr);
+
 	}
 
 	setup_cells();
+
+	mat = ptr->material;
 }

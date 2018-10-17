@@ -52,6 +52,57 @@
 #include "plyparser.h"
 #include "parsing.h"
 
+// you gonna test flat mesh shading using this scene
+World* build1() {
+
+	int nx = 600;
+	int ny = 600;
+	int ns = 1;
+
+	World* w = new World;
+	vec3 lookfrom(-6, 5, 11);
+	vec3 lookat(-0.009, 0.11, 0);
+	float dist_to_focus = (lookfrom - lookat).length();
+	float aperture = 0.0;
+	float distance = 20000;
+
+	// an temporary method to deal with it
+	float vfov = 2 * atan2(200, distance) * 180 / M_PI;
+	// default up vector vec3(0,1,0)
+	Camera* c = new Camera(lookfrom, lookat, vec3(0, 1, 0), vfov, float(nx) / float(ny), aperture, dist_to_focus);
+	w->camera_ptr = c;
+	w->integrator_ptr = new RayCastIntegrator(w);
+	w->nx = nx;
+	w->ny = ny;
+	w->ns = ns;
+
+	w->ambient_ptr = new Ambient_Light(0.25, vec3(1.0, 1.0, 1.0));
+
+	DirectionLight* light_ptr = new DirectionLight;
+	light_ptr->set_direction(vec3(0.5, 1, 0.75));
+	light_ptr->scale_radiance(1.0);
+	light_ptr->set_shadows(false);
+	w->add_light(light_ptr);
+
+	Phong* phong_ptr = new Phong;
+	phong_ptr->set_ka(0.2);
+	phong_ptr->set_kd(0.95);
+	phong_ptr->set_cd(1, 0.6, 0);   // orange
+	phong_ptr->set_ks(0.5);
+	phong_ptr->set_exp(20);
+	//	phong_ptr->set_cs(vec3(1, 0.6, 0));   // orange   
+
+	Mesh* m = new Mesh;
+	m->read_file("./geometry/dragon.ply");
+	m->set_mesh_material(phong_ptr);
+	Grid* grid_ptr = new Grid(m);
+	w->add_object(grid_ptr);
+
+	w->background_color = vec3(0.);
+
+	return w;
+}
+
 World* build() {
 
 	int nx = 600;
@@ -59,11 +110,11 @@ World* build() {
 	int ns = 16;
 
 	World* w = new World;
-	vec3 lookfrom(-8, 5.5, 40.0);
-	vec3 lookat(1, 4, 0.0);
+	vec3 lookfrom(-5, 5.5, 35.0);
+	vec3 lookat(1.25, 3.5, 0.0);
 	float dist_to_focus = (lookfrom - lookat).length();
 	float aperture = 0.0;
-	float distance = 1800;
+	float distance = 1200;
 
 	// an temporary method to deal with it
 	float vfov = 2 * atan2(200, distance) * 180 / M_PI;
@@ -78,46 +129,15 @@ World* build() {
 	w->background_color = vec3(0.0,0.3,0.25);
 	w->ambient_ptr = new Ambient_Light(0.25, vec3(1.0, 1.0, 1.0));
 
-	w->max_depth = 5;
+	w->max_depth = 10;
 
-	// point light 
-
-	PointLight* light_ptr1 = new PointLight(4.5,white,vec3(40,50,0));
-	light_ptr1->set_shadows(true);
-	w->add_light(light_ptr1);
-
-
-	// point light 
-
-	PointLight* light_ptr2 = new PointLight(4.5,vec3(1.0,1.0,1.0), vec3(-10, 20, 10));
-	light_ptr2->set_shadows(true);
-	w->add_light(light_ptr2);
-
-
-	// directional light 
-
-	DirectionLight* light_ptr3 = new DirectionLight;
-	light_ptr3->set_direction(vec3(-1, 0, 0));
-	light_ptr3->scale_radiance(4.5);
-	light_ptr3->set_shadows(true);
-	w->add_light(light_ptr3);
-
-
-	// transparent sphere
 
 	Transparent* glass_ptr = new Transparent;
 	glass_ptr->set_ks(0.2);
 	glass_ptr->set_exp(2000.0);
-	glass_ptr->set_ior(1.1);
+	glass_ptr->set_ior(1.5);
 	glass_ptr->set_kr(0.1);
 	glass_ptr->set_kt(0.9);
-
-	sphere* sphere_ptr1 = new sphere(vec3(0.0, 4.5, 0.0), 3.0);
-	sphere_ptr1->set_material(glass_ptr);
-	w->add_object(sphere_ptr1);
-
-
-	// red sphere
 
 	Reflective*	reflective_ptr = new Reflective;
 	reflective_ptr->set_ka(0.3);
@@ -130,6 +150,35 @@ World* build() {
 	sphere* sphere_ptr2 = new sphere(vec3(4, 4, -6), 3);
 	sphere_ptr2->set_material(reflective_ptr);
 	w->add_object(sphere_ptr2);
+
+	Mesh* m = new Mesh;
+	m->read_file("./geometry/bunny.ply");
+	m->set_mesh_material(glass_ptr);
+	Grid* grid_ptr = new Grid(m);
+//	w->add_object(grid_ptr);
+	// point light 
+
+	Instance* big_bunny_ptr = new Instance(grid_ptr);
+	big_bunny_ptr->scale(45.0);
+	big_bunny_ptr->translate(1.7, -1.5, 0.0);
+//	big_bunny_ptr->set_material(glass_ptr);
+	w->add_object(big_bunny_ptr);
+	// point light 
+
+	PointLight* light_ptr1 = new PointLight(4.0,vec3(1.0,1.0,1.0), vec3(40, 50, 0));
+	light_ptr1->set_shadows(true);
+	w->add_light(light_ptr1);
+
+	PointLight* light_ptr2 = new PointLight(4.0, vec3(1.0, 1.0, 1.0), vec3(-10, 20, 10));
+	light_ptr2->set_shadows(true);
+	w->add_light(light_ptr2);
+	// directional light 
+
+	DirectionLight* light_ptr3 = new DirectionLight;
+	light_ptr3->set_direction(vec3(-1, 0, 0));
+	light_ptr3->scale_radiance(4.0);
+	light_ptr3->set_shadows(true);
+	w->add_light(light_ptr3);
 
 
 	Checker3D* checker_ptr = new Checker3D;
@@ -152,9 +201,7 @@ World* build() {
 	Rectangle* rectangle_ptr = new Rectangle(p0, a, b,normal);
 	rectangle_ptr->set_material(sv_matte_ptr);
 	w->add_object(rectangle_ptr);
-	
 
-	
 
 	return w;
 }
@@ -175,8 +222,6 @@ int main() {
 	manual_timer read_timer;
 
 	read_timer.start();
-
-
 
 	//	LOG(WARNING) << "This is a warning message";
 		//LOG(ERROR) << "This is an error message";
@@ -231,7 +276,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done\n";
-		pic->SaveBMP("./results/27.14testa.bmp");
+		pic->SaveBMP("./results/27.30test.bmp");
 	
 
 		read_timer.stop();

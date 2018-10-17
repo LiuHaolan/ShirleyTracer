@@ -12,6 +12,8 @@ using namespace std;
 
 class World {
 public:
+	World() { inside = false; }
+
 	void add_object(hitable* obj);
 	void add_light(Light* lit);
 	bool hit(const ray& r, float tmin,float tmax, hit_record& sr);
@@ -33,4 +35,8 @@ public:
 
 	vec3 background_color;
 	int max_depth;
+
+
+	// be careful!
+	static bool inside;
 };

@@ -70,6 +70,9 @@ bool MeshTriangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) 
 		rec.normal = -unit_vector(normal);
 	rec.mat_ptr = mat;
 
+	//problem here
+	rec.topo_normal = rec.normal;
+
 	return true;
 }
 

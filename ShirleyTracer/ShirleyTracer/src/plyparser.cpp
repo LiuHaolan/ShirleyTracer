@@ -1,6 +1,6 @@
 #include "plyparser.h"
 
-void read_ply_file(const std::string & filepath, std::vector<float3>& verts, std::vector<uint3>& fs){
+void read_ply_file(const std::string & filepath, std::vector<float3>& verts, std::vector<uint3>& fs, std::vector<float3>& norms){
 try
 {
 	std::ifstream ss(filepath, std::ios::binary);
@@ -59,6 +59,12 @@ try
 		const size_t numFacesBytes = faces->buffer.size_bytes();
 		fs.resize(faces->count);
 		std::memcpy(fs.data(), faces->buffer.get(), numFacesBytes);
+
+		if (normals) {
+			const size_t numNormsBytes = normals->buffer.size_bytes();
+			norms.resize(normals->count);
+			std::memcpy(norms.data(), normals->buffer.get(), numNormsBytes);
+		}
 	}
 
 	//// type casting to your own native types - Option B

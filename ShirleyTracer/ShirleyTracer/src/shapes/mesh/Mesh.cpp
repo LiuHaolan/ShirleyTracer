@@ -5,8 +5,9 @@
 void Mesh::read_file(const char* filename) {
 	std::vector<float3> verts;
 	std::vector<uint3> faces;
+	std::vector<float3> norms;
 
-	read_ply_file(filename, verts, faces);
+	read_ply_file(filename, verts, faces, norms);
 	vertices.resize(verts.size());
 	num_vertices = verts.size();
 	for (int i = 0; i < verts.size(); i++) {
@@ -22,4 +23,8 @@ void Mesh::read_file(const char* filename) {
 		vertex_faces[j] = tmp;
 	}
 
+	normals.resize(norms.size());
+	for (int j = 0; j < norms.size(); j++) {
+		normals[j] = vec3(norms[j].x, norms[j].y, norms[j].z);
+	}
 }

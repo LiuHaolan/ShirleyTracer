@@ -4,6 +4,8 @@
 
 class GlossySpecular_BRDF : public BRDF {
 public:
+	GlossySpecular_BRDF():ks(0), cs(0), exp(0){}
+
 	vec3 f(const hit_record& sr, const vec3& wo, const vec3& wi) const;
 	vec3 sample_f(const hit_record& sr, const vec3& wo, vec3& wi, float& pdf);
 

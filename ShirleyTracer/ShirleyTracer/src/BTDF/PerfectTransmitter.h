@@ -3,7 +3,7 @@
 
 class PerfectTransmitter : public BTDF {
 public:
-	PerfectTransmitter() { kt = 1.0; }
+	PerfectTransmitter() { kt = 1.0; ior = 1.0; }
 	PerfectTransmitter(float kt_,float ior_) : kt(kt_),ior(ior_){}
 	vec3 sample_f(const hit_record& sr, const vec3& wo, vec3& wt) const;
 

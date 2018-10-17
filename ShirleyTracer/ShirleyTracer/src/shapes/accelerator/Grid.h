@@ -4,7 +4,7 @@
 
 class Grid : public Compound {
 public:
-	Grid(){}
+	Grid() {  }
 	Grid(Mesh* ptr);
 	virtual BBox get_bounding_box();
 	void setup_cells();
@@ -17,5 +17,5 @@ private:
 	int nx, ny, nz; //number of cells in the three directions;
 	vec3 min_coordinates();
 	vec3 max_coordinates();
-	
+
 };
