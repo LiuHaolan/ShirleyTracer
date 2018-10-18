@@ -93,7 +93,7 @@ World* build1() {
 	//	phong_ptr->set_cs(vec3(1, 0.6, 0));   // orange   
 
 	Mesh* m = new Mesh;
-	m->read_file("./geometry/dragon.ply");
+	m->read_file("./geometry/Bunny.ply");
 	m->set_mesh_material(phong_ptr);
 	Grid* grid_ptr = new Grid(m);
 	w->add_object(grid_ptr);
@@ -139,21 +139,28 @@ World* build() {
 	glass_ptr->set_kr(0.1);
 	glass_ptr->set_kt(0.9);
 
-	Reflective*	reflective_ptr = new Reflective;
-	reflective_ptr->set_ka(0.3);
-	reflective_ptr->set_kd(0.3);
-	reflective_ptr->set_cd(red);
-	reflective_ptr->set_ks(0.2);
-	reflective_ptr->set_exp(2000.0);
-	reflective_ptr->set_kr(0.25);
+	//Reflective*	reflective_ptr = new Reflective;
+	//reflective_ptr->set_ka(0.3);
+	//reflective_ptr->set_kd(0.3);
+	//reflective_ptr->set_cd(red);
+	//reflective_ptr->set_ks(0.2);
+	//reflective_ptr->set_exp(2000.0);
+	//reflective_ptr->set_kr(0.25);
 
-	sphere* sphere_ptr2 = new sphere(vec3(4, 4, -6), 3);
-	sphere_ptr2->set_material(reflective_ptr);
-	w->add_object(sphere_ptr2);
+	Phong* phong_ptr = new Phong;
+	phong_ptr->set_ka(0.2);
+	phong_ptr->set_kd(0.95);
+	phong_ptr->set_cd(1, 0.6, 0);   // orange
+	phong_ptr->set_ks(0.5);
+	phong_ptr->set_exp(20);
+
+	//sphere* sphere_ptr2 = new sphere(vec3(4, 4, -6), 3);
+	//sphere_ptr2->set_material(reflective_ptr);
+	//w->add_object(sphere_ptr2);
 
 	Mesh* m = new Mesh;
 	m->read_file("./geometry/bunny.ply");
-	m->set_mesh_material(glass_ptr);
+	m->set_mesh_material(phong_ptr);
 	Grid* grid_ptr = new Grid(m);
 //	w->add_object(grid_ptr);
 	// point light 
@@ -228,7 +235,7 @@ int main() {
 		//LOG(FATAL) << "This is a fatal message";
 	
 	
-		World* w = build();
+		World* w = build1();
 		MultiJittered* sampler = new MultiJittered(w->ns);
 
 		std::auto_ptr<Bitmap> pic(new Bitmap(w->nx, w->ny));

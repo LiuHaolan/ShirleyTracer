@@ -17,7 +17,7 @@ vec3 RayCastIntegrator::Li(const ray& r, int depth) {
 
 		//// this one is special
 		//sr.local_hit_point = sr.r.point_at_parameter(sr.t);
-		
+//		return unit_vector(sr.normal);
 		return ((sr.mat_ptr)->shade(sr));
 //		return vec3(1.0, 1.0, 1.0);
 	}

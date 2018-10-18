@@ -34,9 +34,6 @@ bool MeshTriangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) 
 	vec3 e1 = p2 - p1;
 	vec3 e2 = p3 - p1;
 
-	//caculating the normal vector
-	vec3 normal = cross(e1, e2);
-
 	vec3 s1 = cross(r.B, e2);
 	float divisor = dot(s1, e1);
 
@@ -63,6 +60,21 @@ bool MeshTriangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) 
 
 	rec.p = pos;
 	rec.t = t;
+
+	//caculating the normal vector
+	vec3 normal = cross(e1, e2);
+	//flat shading
+	if (smooth) {
+		vec3 normal = 0.0;
+		vec3 n1 = mesh_ptr->normals[index0];
+		vec3 n2 = mesh_ptr->normals[index1];
+		vec3 n3 = mesh_ptr->normals[index2];
+		float w1 = cross(pos - n2, pos - n3).length();
+		float w2 = cross(pos - n1, pos - n3).length();
+		float w3 = cross(pos - n1, pos - n2).length();
+		float w = w1 + w2 + w3;
+		normal = (w1*n1 + w2 * n2 + w3 * n3) / w;
+	}
 
 	if (dot(normal, r.B) < 0)
 		rec.normal = unit_vector(normal);			// something might be wrong here!

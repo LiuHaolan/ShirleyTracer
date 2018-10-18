@@ -36,5 +36,5 @@ struct geometry
 	std::vector<uint3> triangles;
 };
 
-void read_ply_file(const std::string & filepath, std::vector<float3>& verts, std::vector<uint3>& fs, std::vector<float3>& norms);
+void read_ply_file(const std::string & filepath, std::vector<float3>& verts, std::vector<uint3>& fs);
 

@@ -3,6 +3,7 @@
 #include <vector>
 #include "..\..\materials.h"
 using namespace std;
+const static bool smooth = false;
 
 class Mesh {
 public:
