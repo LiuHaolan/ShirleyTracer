@@ -120,6 +120,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\BART\animation.cpp" />
+    <ClCompile Include="src\BART\kbsplpos.cpp" />
+    <ClCompile Include="src\BART\kbsplrot.cpp" />
+    <ClCompile Include="src\BART\quat.cpp" />
     <ClCompile Include="src\Bitmap.cpp" />
     <ClCompile Include="src\BRDF\BRDF.cpp" />
     <ClCompile Include="src\BRDF\SVLambertian.cpp" />
@@ -171,6 +175,10 @@
     <ClCompile Include="src\world.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BART\animation.h" />
+    <ClInclude Include="src\BART\kbsplpos.h" />
+    <ClInclude Include="src\BART\kbsplrot.h" />
+    <ClInclude Include="src\BART\quat.h" />
     <ClInclude Include="src\Bitmap.h" />
     <ClInclude Include="src\brdf.h" />
     <ClInclude Include="src\BRDF\GlossySpecularBRDF.h" />
@@ -230,6 +238,7 @@
     <ClInclude Include="src\shapes\SolidCylinder.h" />
     <ClInclude Include="src\shapes\sphere.h" />
     <ClInclude Include="src\shapes\triangle.h" />
+    <ClInclude Include="src\shapes\UVTriangle.h" />
     <ClInclude Include="src\sse.h" />
     <ClInclude Include="src\texture.h" />
     <ClInclude Include="src\texture\Checker3D.h" />

@@ -602,6 +602,7 @@ bool Grid::hitP(const ray& r, float& t) const {
 
 Grid::Grid(Mesh* ptr) {
 
+	// you need to set num_triangles when setting the mesh
 	for (int j = 0; j < ptr->num_triangles; j++) {
 		int a = ptr->vertex_faces[j][0];
 		int b = ptr->vertex_faces[j][1];

@@ -14,8 +14,11 @@ public:
 
 	vector<vec3> 		vertices;				// mesh vertices 
 	vector<vec3> 			normals;				// average normal at each vertex;
-	//vector<float>			u;						// u texture coordinate at each vertex
-	//vector<float>			v;						// v texture coordinate at each vertex
+	vector<float>			u;						// u texture coordinate at each vertex
+	vector<float>			v;						// v texture coordinate at each vertex
+	vector<vector<int>>			faceuv_indices;
+	vector<vector<int>>			facenormal_indices;
+	
 	vector<vector<int> > 	vertex_faces;			// the triangles shared by each vertex
 	int 					num_vertices; 			// number of vertices
 	int 					num_triangles; 			// number of triangles

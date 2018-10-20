@@ -49,6 +49,9 @@
     <Filter Include="头文件\BTDF">
       <UniqueIdentifier>{3e6d6ae3-3d49-4ae2-95ef-4496c0c0597b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\BART">
+      <UniqueIdentifier>{1b5a1dd6-f543-47ab-8330-d6f35ef3b07a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
@@ -196,6 +199,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\materials\Transparent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BART\quat.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BART\kbsplrot.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BART\kbsplpos.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BART\animation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -415,6 +430,21 @@
     </ClInclude>
     <ClInclude Include="src\materials\Transparent.h">
       <Filter>头文件\material</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BART\animation.h">
+      <Filter>头文件\BART</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BART\kbsplpos.h">
+      <Filter>头文件\BART</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BART\kbsplrot.h">
+      <Filter>头文件\BART</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BART\quat.h">
+      <Filter>头文件\BART</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\UVTriangle.h">
+      <Filter>头文件\shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

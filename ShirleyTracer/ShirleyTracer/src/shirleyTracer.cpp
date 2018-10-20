@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 
 #include "utility.h"
 #include "lanlog.h"
@@ -57,7 +58,7 @@ World* build1() {
 
 	int nx = 600;
 	int ny = 600;
-	int ns = 1;
+	int ns = 16;
 
 	World* w = new World;
 	vec3 lookfrom(-6, 5, 11);
@@ -93,7 +94,7 @@ World* build1() {
 	//	phong_ptr->set_cs(vec3(1, 0.6, 0));   // orange   
 
 	Mesh* m = new Mesh;
-	m->read_file("./geometry/Bunny.ply");
+	m->read_file("./geometry/BunnyK.ply");
 	m->set_mesh_material(phong_ptr);
 	Grid* grid_ptr = new Grid(m);
 	w->add_object(grid_ptr);
@@ -216,14 +217,21 @@ World* build() {
 
 int main() {
 
-	/*World* ptr = new World;
+	World* ptr = new World;
+	ptr->integrator_ptr = new WhittedIntegrator(ptr);
 	FILE* f;
 	fopen_s(&f, "./kitchen/kitchen.aff","r");
 	viParseFile(f, ptr);
 	fclose(f);
 
+	Animation* anim;
+	const char* literalstr = "camera";
+	char* target_str = new char[strlen(literalstr)+1];
+	strcpy(target_str, literalstr);
+	anim = FindAnimation(target_str, mAnimations);
+
 	while (1);
-	return 0;*/
+	return 0;
 
 	lanlog::initLogging();
 	manual_timer read_timer;
@@ -283,7 +291,7 @@ int main() {
 	
 	
 		std::cout << "\n" << "Rendering done\n";
-		pic->SaveBMP("./results/27.30test.bmp");
+		pic->SaveBMP("./results/bart_test.bmp");
 	
 
 		read_timer.stop();

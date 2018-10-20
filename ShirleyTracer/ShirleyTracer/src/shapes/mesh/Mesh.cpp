@@ -123,6 +123,6 @@ void Mesh::read_file(const char* filename) {
 		normals[i] = normalsum / num_faces;
 	}
 
-	std::cout << cnt << std::endl;
+	std::cout << "unused vertex: " <<  cnt << std::endl;
 }
 }

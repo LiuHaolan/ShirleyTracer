@@ -8,6 +8,7 @@ MeshTriangle::MeshTriangle(Mesh* ptr,int t0, int t1, int t2) {
 	index0 = t0;
 	index1 = t1;
 	index2 = t2;
+	
 	// for uniform material
 	mat = ptr->material;
 }
@@ -65,7 +66,7 @@ bool MeshTriangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) 
 	vec3 normal = cross(e1, e2);
 	//flat shading
 	if (smooth) {
-		vec3 normal = 0.0;
+
 		vec3 n1 = mesh_ptr->normals[index0];
 		vec3 n2 = mesh_ptr->normals[index1];
 		vec3 n3 = mesh_ptr->normals[index2];

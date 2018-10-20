@@ -13,7 +13,7 @@ public:
 
 	bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
 	bool hitP(const ray& r, float& t) const;
-private:
+protected:
 	vec3 vertex[3];
 
 };

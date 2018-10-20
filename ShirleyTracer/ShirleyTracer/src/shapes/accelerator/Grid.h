@@ -1,3 +1,4 @@
+#pragma once
 #include "..\Compound.h"
 #include "..\BBox.h"
 #include "..\mesh\MeshTriangle.h"
