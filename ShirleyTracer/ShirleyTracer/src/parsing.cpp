@@ -2,6 +2,7 @@
 
 #include "parsing.h"
 
+struct viewParams* mViewParams;
 struct AnimationParams* mAnimationParams;
 struct AnimationList* mAnimations;
 float g_amb[3];
@@ -75,10 +76,16 @@ static void parseViewpoint(FILE *fp, World* ptr)
 	/* init your view point here:
 	 * e.g, viInitViewpoint(from, at, up, fov_angle, hither, resx, resy);
 	 */
-	float dist_to_focus = (from - at).length();
-	float aperture = 0.0;
-	ptr->camera_ptr = new Camera(from, at, up, fov_angle, float(resx) / float(resy), aperture, dist_to_focus);
-
+	
+//	ptr->camera_ptr = new Camera(from, at, up, fov_angle, float(resx) / float(resy), aperture, dist_to_focus);
+	mViewParams = new viewParams;
+	mViewParams->at = at;
+	mViewParams->fov_angle = fov_angle;
+	mViewParams->from = from;
+	mViewParams->hither = hither;
+	mViewParams->resx = resx;
+	mViewParams->resy = resy;
+	mViewParams->up = up;
 
 	return;
 

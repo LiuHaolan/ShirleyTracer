@@ -7,7 +7,7 @@
 class Instance : public hitable {
 public:
 //	Instance();
-	Instance(hitable* ptr) : object_ptr(ptr) { inv_matrix.set_identity(); transform_the_texture = false; }
+	Instance(hitable* ptr) : object_ptr(ptr) { inv_matrix.set_identity(); forward_matrix.set_identity(); transform_the_texture = false; }
 	bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
 
 	void translate(const vec3& trans);
@@ -22,10 +22,13 @@ public:
 	virtual void rotate_x(const double r);
 	virtual void rotate_y(const double r);
 	virtual void rotate_z(const double r);
+	void rotate_axis(const double theta, const vec3& axis);
 
+	vec3 transform(const vec3& o) const;
 private:
 	hitable* object_ptr;
 	Matrix inv_matrix;
+	Matrix forward_matrix;
 	bool transform_the_texture;
 };
 

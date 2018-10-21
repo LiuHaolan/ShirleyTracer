@@ -37,6 +37,17 @@ typedef float Vec4f[4];
 #define B 2  
 #define A 3 /* alpha */
 
+struct viewParams {
+	vec3 from;
+	vec3 at;
+	vec3 up;
+	float fov_angle;		// you read some degree.
+	float hither;
+	int resx;
+	int resy;
+};
+
+extern struct viewParams* mViewParams;
 extern struct AnimationParams* mAnimationParams;
 extern struct AnimationList* mAnimations;
 extern float g_amb[3];

@@ -94,7 +94,7 @@ World* build1() {
 	//	phong_ptr->set_cs(vec3(1, 0.6, 0));   // orange   
 
 	Mesh* m = new Mesh;
-	m->read_file("./geometry/BunnyK.ply");
+	m->read_file("./geometry/Bunny.ply");
 	m->set_mesh_material(phong_ptr);
 	Grid* grid_ptr = new Grid(m);
 	w->add_object(grid_ptr);
@@ -228,10 +228,70 @@ int main() {
 	const char* literalstr = "camera";
 	char* target_str = new char[strlen(literalstr)+1];
 	strcpy(target_str, literalstr);
-	anim = FindAnimation(target_str, mAnimations);
+	//anim = FindAnimation(target_str, mAnimations);
 
-	while (1);
-	return 0;
+	//int vis;
+	//double trans[3];
+	//double rot[4];
+	//double scale[3];
+	//trans[0] = trans[1] = trans[2] = 0;
+	//rot[0] = 1; rot[1] = rot[2] = rot[3] = 0;
+	//scale[0] = scale[1] = scale[2] = 1;
+	//
+	//hitable* empty_ptr = 0;
+	//Instance* camera_inst = new Instance(empty_ptr);
+
+	double time = 0;
+	//if (anim)
+	//{
+	//	vis = _GetVisibility(anim, time);
+	//	if (vis) {
+	//		if (anim->translations) {
+	//			_GetTranslation(anim, time, trans);
+	//			camera_inst->translate(trans[0], trans[1], trans[2]);
+	//		}
+	//		if (anim->rotations) {
+	//			_GetRotation(anim, time, rot);
+	//			camera_inst->rotate_axis(rot[0], vec3(rot[1], rot[2], rot[3]));
+	//		}
+	//		if (anim->scales) {
+	//			_GetScale(anim, time, scale);
+	//			camera_inst->scale(scale[0], scale[1], scale[2]);
+	//		}
+	//	}
+	//}
+
+	float dist_to_focus = (mViewParams->from - mViewParams->at).length();
+	float aperture = 0.0;
+//	vec3 point = camera_inst->transform(mViewParams->at);
+	int gotPosition=0;
+	double viewPos[3];
+	int gotDirection=0;
+	double viewDir[3];
+	double viewUp[3];
+	GetCamera(mAnimations, time, &gotPosition,viewPos,&gotDirection,viewDir,viewUp);
+	vec3 r_eye = mViewParams->from;
+	vec3 r_lookat = mViewParams->at;
+	vec3 up = vec3(viewUp[0], viewUp[1], viewUp[2]);
+	if(gotPosition)
+		r_eye = vec3(viewPos[0], viewPos[1], viewPos[2]);
+	if (gotDirection) {
+		r_lookat = vec3(r_eye.x() + viewDir[0], r_eye.y() + viewDir[1], r_eye.z() + viewDir[2]);
+	}
+
+
+//	std::cout << point.x() << " " << point.y() << " " << endl;
+	ptr->camera_ptr = new Camera(r_eye, r_lookat, up, mViewParams->fov_angle, float(mViewParams->resx) / float(mViewParams->resy), aperture, dist_to_focus);
+
+	ptr->integrator_ptr = new WhittedIntegrator(ptr);
+	ptr->nx = 600;
+	ptr->ny = 600;
+	ptr->ns = 1;
+
+	ptr->ambient_ptr = new Ambient_Light(0.25, vec3(1.0, 1.0, 1.0));
+
+	ptr->max_depth = 1;
+
 
 	lanlog::initLogging();
 	manual_timer read_timer;
@@ -243,7 +303,7 @@ int main() {
 		//LOG(FATAL) << "This is a fatal message";
 	
 	
-		World* w = build1();
+		World* w = ptr;
 		MultiJittered* sampler = new MultiJittered(w->ns);
 
 		std::auto_ptr<Bitmap> pic(new Bitmap(w->nx, w->ny));

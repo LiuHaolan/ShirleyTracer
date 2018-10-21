@@ -18,8 +18,8 @@ vec3 WhittedIntegrator::Li(const ray& r, int depth) {
 			sr.local_hit_point = sr.r.point_at_parameter(sr.t);
 			sr.p = r.point_at_parameter(sr.t);
 
-			return ((sr.mat_ptr)->shade(sr));
-			//		return vec3(1.0, 1.0, 1.0);
+	//		return ((sr.mat_ptr)->shade(sr));
+					return vec3(1.0, 1.0, 1.0);
 		}
 		else {
 			// return the background color

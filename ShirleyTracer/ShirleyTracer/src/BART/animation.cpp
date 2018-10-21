@@ -4,6 +4,7 @@
            This file contains all functions you need to get the animted
            transform out of an struct AnimationList
 ----------------------------------------------------------------------*/
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <math.h>
 #include <string.h>
@@ -361,7 +362,7 @@ void GetCamera(struct AnimationList *al,double time,
    //lhl
    const char* clhl = "camera";
    char* camera_string = new char[strlen(clhl) + 1];
-   strcpy_s(camera_string,sizeof camera_string, clhl);
+   strcpy(camera_string, clhl);
    a=FindAnimation(camera_string,al);
    if(a)
    {
