@@ -16,11 +16,11 @@ public:
 
 	vec3 rho(const hit_record& sr, const vec3& wo) const;
 
-	void set_cd(Texture* ptr) { cd = ptr; }
+	void set_cd(shared_ptr<Texture> ptr) { cd = ptr; }
 	void set_kd(float kd_) { kd = kd_; }
 
 private:
 
 	float		kd;
-	Texture* cd;
+	shared_ptr<Texture> cd;
 };

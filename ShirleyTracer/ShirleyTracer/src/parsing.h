@@ -12,6 +12,8 @@
 #include "shapes/mesh/MeshTriangle.h"
 #include "shapes/accelerator/Grid.h"
 #include "texture/ImageTexture.h"
+#include "texture/constant_color.h"
+#include "materials/SVPhong.h"
 
 #include "BART/animation.h"
 
@@ -53,8 +55,8 @@ extern struct AnimationList* mAnimations;
 extern float g_amb[3];
 extern float g_diff[3];
 extern float g_spec[3];
-extern float Shine;
-extern float T;
-extern float index_of_refraction;
+extern float g_Shine;
+extern float g_T;
+extern float g_index_of_refraction;
 
 bool viParseFile(FILE* f, World* ptr);

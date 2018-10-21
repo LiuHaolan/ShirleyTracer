@@ -27,9 +27,16 @@ struct hit_record {
 	int depth;
 
 	float u, v;
+
+	std::string name;
 };
 
-class hitable {
+class item {
+public:
+	std::string name;
+};
+
+class hitable :public item{
 public:
 
 	virtual BBox get_bounding_box();

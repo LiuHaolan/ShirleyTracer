@@ -213,6 +213,15 @@
     <ClCompile Include="src\BART\animation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\BRDF\SVGlossySpecular.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\materials\SVPhong.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\onb.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -445,6 +454,12 @@
     </ClInclude>
     <ClInclude Include="src\shapes\UVTriangle.h">
       <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BRDF\SVGlossySpecular.h">
+      <Filter>头文件\BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\SVPhong.h">
+      <Filter>头文件\material</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

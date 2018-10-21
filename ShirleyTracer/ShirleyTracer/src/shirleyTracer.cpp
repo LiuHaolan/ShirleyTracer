@@ -108,7 +108,7 @@ World* build() {
 
 	int nx = 600;
 	int ny = 600;
-	int ns = 16;
+	int ns = 25;
 
 	World* w = new World;
 	vec3 lookfrom(-5, 5.5, 35.0);
@@ -130,7 +130,7 @@ World* build() {
 	w->background_color = vec3(0.0,0.3,0.25);
 	w->ambient_ptr = new Ambient_Light(0.25, vec3(1.0, 1.0, 1.0));
 
-	w->max_depth = 10;
+	w->max_depth = 5;
 
 
 	Transparent* glass_ptr = new Transparent;
@@ -140,20 +140,20 @@ World* build() {
 	glass_ptr->set_kr(0.1);
 	glass_ptr->set_kt(0.9);
 
-	//Reflective*	reflective_ptr = new Reflective;
-	//reflective_ptr->set_ka(0.3);
-	//reflective_ptr->set_kd(0.3);
-	//reflective_ptr->set_cd(red);
-	//reflective_ptr->set_ks(0.2);
-	//reflective_ptr->set_exp(2000.0);
-	//reflective_ptr->set_kr(0.25);
+	Reflective*	reflective_ptr = new Reflective;
+	reflective_ptr->set_ka(0.3);
+	reflective_ptr->set_kd(0.3);
+	reflective_ptr->set_cd(red);
+	reflective_ptr->set_ks(0.2);
+	reflective_ptr->set_exp(2000.0);
+	reflective_ptr->set_kr(0.25);
 
-	Phong* phong_ptr = new Phong;
-	phong_ptr->set_ka(0.2);
-	phong_ptr->set_kd(0.95);
-	phong_ptr->set_cd(1, 0.6, 0);   // orange
-	phong_ptr->set_ks(0.5);
-	phong_ptr->set_exp(20);
+	//Phong* phong_ptr = new Phong;
+	//phong_ptr->set_ka(0.2);
+	//phong_ptr->set_kd(0.95);
+	//phong_ptr->set_cd(1, 0.6, 0);   // orange
+	//phong_ptr->set_ks(0.5);
+	//phong_ptr->set_exp(20);
 
 	//sphere* sphere_ptr2 = new sphere(vec3(4, 4, -6), 3);
 	//sphere_ptr2->set_material(reflective_ptr);
@@ -161,7 +161,7 @@ World* build() {
 
 	Mesh* m = new Mesh;
 	m->read_file("./geometry/bunny.ply");
-	m->set_mesh_material(phong_ptr);
+	m->set_mesh_material(glass_ptr);
 	Grid* grid_ptr = new Grid(m);
 //	w->add_object(grid_ptr);
 	// point light 
@@ -170,6 +170,7 @@ World* build() {
 	big_bunny_ptr->scale(45.0);
 	big_bunny_ptr->translate(1.7, -1.5, 0.0);
 //	big_bunny_ptr->set_material(glass_ptr);
+	big_bunny_ptr->name = "bunny";
 	w->add_object(big_bunny_ptr);
 	// point light 
 
@@ -197,7 +198,7 @@ World* build() {
 	SV_Matte* sv_matte_ptr = new SV_Matte;
 	sv_matte_ptr->set_ka(0.5);
 	sv_matte_ptr->set_kd(0.35);
-	sv_matte_ptr->set_cd(checker_ptr);
+	sv_matte_ptr->set_cd(shared_ptr<Texture>(checker_ptr));
 
 	// rectangle
 
@@ -304,6 +305,7 @@ int main() {
 	
 	
 		World* w = ptr;
+	//World* w = build();
 		MultiJittered* sampler = new MultiJittered(w->ns);
 
 		std::auto_ptr<Bitmap> pic(new Bitmap(w->nx, w->ny));

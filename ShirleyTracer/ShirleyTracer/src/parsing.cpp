@@ -8,9 +8,9 @@ struct AnimationList* mAnimations;
 float g_amb[3];
 float g_diff[3];
 float g_spec[3];
-float Shine;
-float T;
-float index_of_refraction;
+float g_Shine;
+float g_T;
+float g_index_of_refraction;
 
 static int gDetailLevel = 0;  /* zero as default */
 static const std::string prefix_dir = "./kitchen/";
@@ -492,6 +492,14 @@ static void parseFill(FILE *fp, World* ptr)
 		/* add your extended material here
 	 * e.g., viAddExtendedMaterial(amb,dif,spc,4.0*phong_pow,t,ior);
 		 */
+		for (int w = 0; w < 3; w++) {
+			g_amb[w] = amb[w];
+			g_diff[w] = dif[w];
+			g_spec[w] = spc[w];
+		}
+		g_Shine = phong_pow;
+		g_T = t;
+		g_index_of_refraction = ior;
 	}
 	else   /* parse the old NFF description of a material */
 	{
@@ -510,6 +518,7 @@ static void parseFill(FILE *fp, World* ptr)
 		/* add the normal NFF material here
 	 * e.g., viAddMaterial(col,kd,ks,4.0*phong_pow,t,ior);
 		 */
+
 	}
 }
 
@@ -749,6 +758,18 @@ static void parseMesh(FILE *fp, World* ptr)
 	image_ptr->read_file(full_tn.c_str());
 	ImageTexture* texture_ptr = new ImageTexture;
 	texture_ptr->set_image(image_ptr);
+
+	SVPhong* thisone = new SVPhong;
+	shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
+	shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
+	shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
+	shared_ptr<ImageTexture> txt_ptr(texture_ptr);
+	thisone->set_ka(amb_ptr);
+	thisone->set_kd(dif_ptr);
+	thisone->set_ks(spc_ptr);
+	thisone->set_cd(txt_ptr);
+	thisone->set_exp(g_Shine);
+	m->set_mesh_material(thisone);
 
 	Grid* grid_ptr = new Grid(m);
 	ptr->add_object(grid_ptr);

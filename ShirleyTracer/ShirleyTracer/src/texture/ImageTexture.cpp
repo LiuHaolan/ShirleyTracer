@@ -53,8 +53,10 @@ ImageTexture::value(const hit_record& sr) const {
 	if (mapping_ptr)
 		mapping_ptr->get_texel_coordinates(sr.local_hit_point, hres, vres, row, column);
 	else {
-		row 	= (int)(sr.v * (vres - 1));  	
-		column 	= (int)(sr.u * (hres - 1));	
+		float v = abs(sr.v - floor(sr.v));
+		float u = abs(sr.u - floor(sr.u));
+		row 	= (int)(v * (vres - 1));  	
+		column 	= (int)(u * (hres - 1));	
 	}
 	
 	return (image_ptr->get_color(row, column));

@@ -62,6 +62,19 @@ bool MeshTriangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) 
 	rec.p = pos;
 	rec.t = t;
 
+	if (mesh_ptr->u.size()) {
+		//calculating the uv
+		float w1 = cross(pos - p2, pos - p3).length();
+		float w2 = cross(pos - p1, pos - p3).length();
+		float w3 = cross(pos - p1, pos - p2).length();
+		float sum = w1 + w2 + w3;
+		w1 = w1 / sum;
+		w2 = w2 / sum;
+		w3 = w3 / sum;
+		rec.u = mesh_ptr->u[index0] * w1 + mesh_ptr->u[index1] * w2 + mesh_ptr->u[index2] * w3;
+		rec.v = mesh_ptr->v[index0] * w1 + mesh_ptr->v[index1] * w2 + mesh_ptr->v[index2] * w3;
+	}
+
 	//caculating the normal vector
 	vec3 normal = cross(e1, e2);
 	//flat shading
@@ -70,13 +83,14 @@ bool MeshTriangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) 
 		vec3 n1 = mesh_ptr->normals[index0];
 		vec3 n2 = mesh_ptr->normals[index1];
 		vec3 n3 = mesh_ptr->normals[index2];
-		float w1 = cross(pos - n2, pos - n3).length();
-		float w2 = cross(pos - n1, pos - n3).length();
-		float w3 = cross(pos - n1, pos - n2).length();
+		float w1 = cross(pos - p2, pos - p3).length();
+		float w2 = cross(pos - p1, pos - p3).length();
+		float w3 = cross(pos - p1, pos - p2).length();
 		float w = w1 + w2 + w3;
 		normal = (w1*n1 + w2 * n2 + w3 * n3) / w;
 	}
 
+//	assert(!isnan(r.B.x()));
 	if (dot(normal, r.B) < 0)
 		rec.normal = unit_vector(normal);			// something might be wrong here!
 	else

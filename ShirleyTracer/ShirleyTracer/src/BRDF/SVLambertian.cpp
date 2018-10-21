@@ -15,5 +15,5 @@ vec3 SVLambertianBRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& wi, 
 }
 
 vec3 SVLambertianBRDF::rho(const hit_record& sr, const vec3& wo) const {
-	return (kd*cd->value(sr));
+	return (kd*(cd->value(sr)));
 }

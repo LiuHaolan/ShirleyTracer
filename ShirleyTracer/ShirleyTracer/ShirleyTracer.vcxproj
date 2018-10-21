@@ -126,6 +126,7 @@
     <ClCompile Include="src\BART\quat.cpp" />
     <ClCompile Include="src\Bitmap.cpp" />
     <ClCompile Include="src\BRDF\BRDF.cpp" />
+    <ClCompile Include="src\BRDF\SVGlossySpecular.cpp" />
     <ClCompile Include="src\BRDF\SVLambertian.cpp" />
     <ClCompile Include="src\BTDF\PerfectTransmitter.cpp" />
     <ClCompile Include="src\extern\Image.cpp" />
@@ -141,9 +142,11 @@
     <ClCompile Include="src\lights\lights.cpp" />
     <ClCompile Include="src\materials\Emissive.cpp" />
     <ClCompile Include="src\materials\GlossyReflective.cpp" />
+    <ClCompile Include="src\materials\SVPhong.cpp" />
     <ClCompile Include="src\materials\SV_Matte.cpp" />
     <ClCompile Include="src\materials\Transparent.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
+    <ClCompile Include="src\onb.cpp" />
     <ClCompile Include="src\parsing.cpp" />
     <ClCompile Include="src\plyparser.cpp" />
     <ClCompile Include="src\Sampler.cpp" />
@@ -184,6 +187,7 @@
     <ClInclude Include="src\BRDF\GlossySpecularBRDF.h" />
     <ClInclude Include="src\BRDF\LambertianBRDF.h" />
     <ClInclude Include="src\BRDF\PerfectSpecular.h" />
+    <ClInclude Include="src\BRDF\SVGlossySpecular.h" />
     <ClInclude Include="src\BRDF\SVLambertian.h" />
     <ClInclude Include="src\BTDF\BTDF.h" />
     <ClInclude Include="src\BTDF\PerfectTransmitter.h" />
@@ -212,6 +216,7 @@
     <ClInclude Include="src\materials\matte_material.h" />
     <ClInclude Include="src\materials\Phong.h" />
     <ClInclude Include="src\materials\Reflective.h" />
+    <ClInclude Include="src\materials\SVPhong.h" />
     <ClInclude Include="src\materials\SV_Matte.h" />
     <ClInclude Include="src\materials\Transparent.h" />
     <ClInclude Include="src\Matrix.h" />
