@@ -24,9 +24,9 @@ l 0.25 1.40 1.00  0.40 0.40 0.40
 
 
 i 0 floor.aff
-
-
-
+i 0 roof.aff
+i 0 table.aff
+i 0 garden.aff
 
 a 0.0 20.0 800
 

@@ -1,7 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "parsing.h"
+#include "shapes/MeshAggregate.h"
 
+struct transform_global* transform_st;
 struct viewParams* mViewParams;
 struct AnimationParams* mAnimationParams;
 struct AnimationList* mAnimations;
@@ -663,6 +665,7 @@ static void parseMesh(FILE *fp, World* ptr)
 	Vec2f *txts = NULL;
 	unsigned short *indices;
 	char texturename[200];
+	bool use_ppm = false;
 
 	if (fscanf(fp, "%s", str) != 1)
 	{
@@ -686,6 +689,8 @@ static void parseMesh(FILE *fp, World* ptr)
 	{
 		getTextureCoords(fp, texturename, &num_txts, &txts);
 		fscanf(fp, "%s", str);
+
+		use_ppm = true;
 	}
 	if (!strcmp(str, "triangles"))
 	{
@@ -703,14 +708,18 @@ static void parseMesh(FILE *fp, World* ptr)
 	m->num_triangles = num_tris;
 	m->num_vertices = num_verts;
 
-	assert(num_verts == num_txts);
+//	assert(num_verts == num_txts);
 	m->vertices.resize(num_verts);
-	m->u.resize(num_verts);
-	m->v.resize(num_verts);
+	if (txts) {
+		m->u.resize(num_verts);
+		m->v.resize(num_verts);
+	}
 	for (int j = 0; j < num_verts; j++) {
 		m->vertices[j] = vec3(verts[j][X],verts[j][Y],verts[j][Z]);
-		m->u[j] = txts[j][0];
-		m->v[j] = txts[j][1];
+		if (txts) {
+			m->u[j] = txts[j][0];
+			m->v[j] = txts[j][1];
+		}
 	}
 
 	m->vertex_faces.resize(num_tris);
@@ -752,29 +761,133 @@ static void parseMesh(FILE *fp, World* ptr)
 	// set SV material.
 
 //	m->set_mesh_material(phong_ptr);
-	Image* image_ptr = new Image;
-	std::string full_tn = std::string(texturename);
-	full_tn = prefix_dir + full_tn;
-	image_ptr->read_file(full_tn.c_str());
-	ImageTexture* texture_ptr = new ImageTexture;
-	texture_ptr->set_image(image_ptr);
+	Texture* texture_ptr = 0;
+
+	if (use_ppm) {
+		Image* image_ptr = new Image;
+		std::string full_tn = std::string(texturename);
+		full_tn = prefix_dir + full_tn;
+		image_ptr->read_file(full_tn.c_str());
+		ImageTexture* tex_ptr = new ImageTexture;
+		tex_ptr->set_image(image_ptr);
+		texture_ptr = tex_ptr;
+	}
+	else {
+		// TODO
+		texture_ptr = new ConstantColor(vec3(1.0, 1.0, 1.0));
+	}
 
 	SVPhong* thisone = new SVPhong;
 	shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
 	shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
 	shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
-	shared_ptr<ImageTexture> txt_ptr(texture_ptr);
+	shared_ptr<Texture> txt_ptr(texture_ptr);
 	thisone->set_ka(amb_ptr);
 	thisone->set_kd(dif_ptr);
 	thisone->set_ks(spc_ptr);
+
 	thisone->set_cd(txt_ptr);
 	thisone->set_exp(g_Shine);
 	m->set_mesh_material(thisone);
 
-	Grid* grid_ptr = new Grid(m);
-	ptr->add_object(grid_ptr);
+	hitable* obj_ptr = 0;
+	if(false)
+		obj_ptr = new Grid(m);
+	else
+		obj_ptr = new MeshAggregate(m);
+
+	Instance* inst_ptr = new Instance(obj_ptr);
+
+	if (transform_st) {
+		for (int it = 0; it < transform_st->translate.size(); it++) {
+					
+			inst_ptr->scale(transform_st->scale[it]);	
+			inst_ptr->rotate_axis(transform_st->degree[it], transform_st->rotate_axis[it]);
+			inst_ptr->translate(transform_st->translate[it]);
+		}
+	}
+
+	if (std::string(texturename) == "garden.ppm")
+		inst_ptr->name = texturename;
+	else
+		inst_ptr->name = "hh";
+	
+	ptr->add_object(inst_ptr);
 }
 
+static void parseXform(FILE *f, World* ptr)
+{
+	char name[100];
+	char ch;
+	int is_static;
+
+	is_static = getc(f);
+	if (is_static != 's')
+	{
+		ungetc(is_static, f);
+		is_static = 0;
+	}
+
+	if (is_static)  /* is the transform a static one ? */
+	{
+		Vec3f scale, trans, rot;
+		float deg;
+
+		if (fscanf(f, " %f %f %f %f %f %f %f %f %f %f", &scale[0], &scale[1], &scale[2],
+			&rot[0], &rot[1], &rot[2], &deg,
+			&trans[0], &trans[1], &trans[2]) != 10)
+		{
+			printf("Error: could not read static transform.\n");
+			exit(1);
+		}
+		eatWhitespace(f);
+		ch = getc(f);
+		if (ch != '{')
+		{
+			printf("Error: { expected.\n");
+			exit(1);
+		}
+
+		/* add a static transform here
+		 * e.g.,viAddStaticXform(scale,rot,deg,trans);
+		 */
+		if (transform_st == 0)
+			transform_st = new transform_global;
+
+		transform_st->translate.push_back(vec3(trans[0],trans[1],trans[2]));
+		transform_st->rotate_axis.push_back(vec3(rot[0], rot[1], rot[2]));
+		transform_st->scale.push_back(vec3(scale[0], scale[1], scale[2]));
+		transform_st->degree.push_back(deg);
+		
+	}
+	else   /* keyframe animated transform */
+	{
+		if (fscanf(f, "%s", name) != 1)
+		{
+			printf("Error: could not read transform name.\n");
+			exit(1);
+		}
+		eatWhitespace(f);
+		ch = getc(f);
+		if (ch != '{')
+		{
+			printf("Error: { expected.\n");
+			exit(1);
+		}
+
+		/* add an animated transform here
+		 * e.g., viAddXform(name);
+		 */
+	}
+}
+
+static void EndXform() {
+	assert(transform_st->translate.size() != 0);
+	transform_st->translate.pop_back();
+	transform_st->rotate_axis.pop_back();
+	transform_st->degree.pop_back();
+	transform_st->scale.pop_back();
+}
 
 bool viParseFile(FILE* f, World* ptr) {
 	int ch;
@@ -825,10 +938,10 @@ bool viParseFile(FILE* f, World* ptr) {
 	//		parseTextureStuff(f);
 			break;
 		case 'x':  /* transform */
-	//		parseXform(f);
+			parseXform(f, ptr);
 			break;
 		case '}':
-			//		viEndXform();
+			EndXform();
 			break;
 		case 'a':  /* animation parameters */
 			parseA(f,ptr);

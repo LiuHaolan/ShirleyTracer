@@ -222,6 +222,9 @@
     <ClCompile Include="src\onb.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\shapes\MeshAggregate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -460,6 +463,9 @@
     </ClInclude>
     <ClInclude Include="src\materials\SVPhong.h">
       <Filter>头文件\material</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\MeshAggregate.h">
+      <Filter>头文件\shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

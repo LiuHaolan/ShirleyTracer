@@ -169,20 +169,20 @@ void Grid::setup_cells() {
 
 bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 
-	//// turn off the grid, the code
-	//hit_record tmp;
-	//float tmin = MAXFLOAT;
-	//bool flag = false;
-	//for (int i = 0; i < cells.size(); i++) {
-	//	if (cells[i] && cells[i]->hit(r, t_min, t_max, tmp)) {
-	//		flag = true;
-	//		if (tmp.t < tmin) {
-	//			tmin = tmp.t;
-	//			rec = tmp;
-	//		}
-	//	}
-	//}
-	//return flag;
+	// turn off the grid, the code
+	hit_record tmp;
+	float tmin = MAXFLOAT;
+	bool flag = false;
+	for (int i = 0; i < cells.size(); i++) {
+		if (cells[i] && cells[i]->hit(r, t_min, t_max, tmp)) {
+			flag = true;
+			if (tmp.t < tmin) {
+				tmin = tmp.t;
+				rec = tmp;
+			}
+		}
+	}
+	return flag;
 
 	// the code
 

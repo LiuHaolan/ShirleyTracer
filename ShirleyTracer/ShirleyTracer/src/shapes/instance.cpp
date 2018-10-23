@@ -4,7 +4,7 @@ bool Instance::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
 
 	ray inv_ray(r);
 	inv_ray.A = inv_matrix * r.A;
-	inv_ray.B = inv_matrix * r.B;
+	inv_ray.B = inv_matrix.dirmulti(r.B);
 
 	if (object_ptr->hit(inv_ray, t_min, t_max, rec)) {
 		rec.normal = inv_matrix.normalmulti(rec.normal);
@@ -16,7 +16,7 @@ bool Instance::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
 		if (!transform_the_texture)
 			rec.local_hit_point = r.point_at_parameter(rec.t);
 
-	//	rec.p = r.A + rec.t*r.B;
+		rec.p = r.A + rec.t*r.B;
 
 		return true;
 	}
@@ -34,11 +34,11 @@ void Instance::translate(const double dx, const double dy, const double dz) {
 	Matrix translation_matrix;				// temporary inverse translation matrix	
 	translation_matrix.set_identity();
 
-	translation_matrix.m[0][3] = -dx;
-	translation_matrix.m[1][3] = -dy;
-	translation_matrix.m[2][3] = -dz;
+	translation_matrix.m[0][3] = dx;
+	translation_matrix.m[1][3] = dy;
+	translation_matrix.m[2][3] = dz;
 
-	forward_matrix = forward_matrix * translation_matrix;
+	forward_matrix =  translation_matrix* forward_matrix ;
 
 	Matrix inv_translation_matrix;				// temporary inverse translation matrix	
 	inv_translation_matrix.set_identity();
@@ -62,7 +62,7 @@ void Instance::scale(const double a, const double b, const double c) {
 	scaling_matrix.m[1][1] = b;
 	scaling_matrix.m[2][2] = c;
 
-	forward_matrix = forward_matrix * scaling_matrix;
+	forward_matrix = scaling_matrix*forward_matrix;
 	
 	Matrix	inv_scaling_matrix;			// temporary inverse scaling matrix
 	inv_scaling_matrix.set_identity();
@@ -127,6 +127,7 @@ void Instance::rotate_axis(const double theta, const vec3& axis) {
 	a.make_unit_vector();
 
 	Matrix axis_rotation_matrix; // temporary rotation matrix about z axis
+	axis_rotation_matrix.set_identity();
 
 	// Compute rotation of first basis vector
 	axis_rotation_matrix.m[0][0] = a.x() * a.x() + (1 - a.x() * a.x()) * cos_theta;
@@ -149,6 +150,7 @@ void Instance::rotate_axis(const double theta, const vec3& axis) {
 
 
 	Matrix inv_axis_rotation_matrix; // temporary inverse rotation matrix about axis
+	inv_axis_rotation_matrix.set_identity();
 	sin_theta = sin_theta * (-1);     // rotate in the opposite direction.
 	cos_theta = cos_theta * (1);
 
@@ -174,4 +176,134 @@ void Instance::rotate_axis(const double theta, const vec3& axis) {
 
 vec3 Instance::transform(const vec3& o) const {
 	return forward_matrix*o;
+}
+
+bool Instance::InvertMatrix(const double m[16], double invOut[16])
+{
+	double inv[16], det;
+	int i;
+
+	inv[0] = m[5] * m[10] * m[15] -
+		m[5] * m[11] * m[14] -
+		m[9] * m[6] * m[15] +
+		m[9] * m[7] * m[14] +
+		m[13] * m[6] * m[11] -
+		m[13] * m[7] * m[10];
+
+	inv[4] = -m[4] * m[10] * m[15] +
+		m[4] * m[11] * m[14] +
+		m[8] * m[6] * m[15] -
+		m[8] * m[7] * m[14] -
+		m[12] * m[6] * m[11] +
+		m[12] * m[7] * m[10];
+
+	inv[8] = m[4] * m[9] * m[15] -
+		m[4] * m[11] * m[13] -
+		m[8] * m[5] * m[15] +
+		m[8] * m[7] * m[13] +
+		m[12] * m[5] * m[11] -
+		m[12] * m[7] * m[9];
+
+	inv[12] = -m[4] * m[9] * m[14] +
+		m[4] * m[10] * m[13] +
+		m[8] * m[5] * m[14] -
+		m[8] * m[6] * m[13] -
+		m[12] * m[5] * m[10] +
+		m[12] * m[6] * m[9];
+
+	inv[1] = -m[1] * m[10] * m[15] +
+		m[1] * m[11] * m[14] +
+		m[9] * m[2] * m[15] -
+		m[9] * m[3] * m[14] -
+		m[13] * m[2] * m[11] +
+		m[13] * m[3] * m[10];
+
+	inv[5] = m[0] * m[10] * m[15] -
+		m[0] * m[11] * m[14] -
+		m[8] * m[2] * m[15] +
+		m[8] * m[3] * m[14] +
+		m[12] * m[2] * m[11] -
+		m[12] * m[3] * m[10];
+
+	inv[9] = -m[0] * m[9] * m[15] +
+		m[0] * m[11] * m[13] +
+		m[8] * m[1] * m[15] -
+		m[8] * m[3] * m[13] -
+		m[12] * m[1] * m[11] +
+		m[12] * m[3] * m[9];
+
+	inv[13] = m[0] * m[9] * m[14] -
+		m[0] * m[10] * m[13] -
+		m[8] * m[1] * m[14] +
+		m[8] * m[2] * m[13] +
+		m[12] * m[1] * m[10] -
+		m[12] * m[2] * m[9];
+
+	inv[2] = m[1] * m[6] * m[15] -
+		m[1] * m[7] * m[14] -
+		m[5] * m[2] * m[15] +
+		m[5] * m[3] * m[14] +
+		m[13] * m[2] * m[7] -
+		m[13] * m[3] * m[6];
+
+	inv[6] = -m[0] * m[6] * m[15] +
+		m[0] * m[7] * m[14] +
+		m[4] * m[2] * m[15] -
+		m[4] * m[3] * m[14] -
+		m[12] * m[2] * m[7] +
+		m[12] * m[3] * m[6];
+
+	inv[10] = m[0] * m[5] * m[15] -
+		m[0] * m[7] * m[13] -
+		m[4] * m[1] * m[15] +
+		m[4] * m[3] * m[13] +
+		m[12] * m[1] * m[7] -
+		m[12] * m[3] * m[5];
+
+	inv[14] = -m[0] * m[5] * m[14] +
+		m[0] * m[6] * m[13] +
+		m[4] * m[1] * m[14] -
+		m[4] * m[2] * m[13] -
+		m[12] * m[1] * m[6] +
+		m[12] * m[2] * m[5];
+
+	inv[3] = -m[1] * m[6] * m[11] +
+		m[1] * m[7] * m[10] +
+		m[5] * m[2] * m[11] -
+		m[5] * m[3] * m[10] -
+		m[9] * m[2] * m[7] +
+		m[9] * m[3] * m[6];
+
+	inv[7] = m[0] * m[6] * m[11] -
+		m[0] * m[7] * m[10] -
+		m[4] * m[2] * m[11] +
+		m[4] * m[3] * m[10] +
+		m[8] * m[2] * m[7] -
+		m[8] * m[3] * m[6];
+
+	inv[11] = -m[0] * m[5] * m[11] +
+		m[0] * m[7] * m[9] +
+		m[4] * m[1] * m[11] -
+		m[4] * m[3] * m[9] -
+		m[8] * m[1] * m[7] +
+		m[8] * m[3] * m[5];
+
+	inv[15] = m[0] * m[5] * m[10] -
+		m[0] * m[6] * m[9] -
+		m[4] * m[1] * m[10] +
+		m[4] * m[2] * m[9] +
+		m[8] * m[1] * m[6] -
+		m[8] * m[2] * m[5];
+
+	det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
+
+	if (det == 0)
+		return false;
+
+	det = 1.0 / det;
+
+	for (i = 0; i < 16; i++)
+		invOut[i] = inv[i] * det;
+
+	return true;
 }

@@ -8,12 +8,13 @@
 
 #include "lights/PointLight.h"
 #include "shapes/sphere.h"
-
+#include "shapes/Instance.h"
 #include "shapes/mesh/MeshTriangle.h"
 #include "shapes/accelerator/Grid.h"
 #include "texture/ImageTexture.h"
 #include "texture/constant_color.h"
 #include "materials/SVPhong.h"
+
 
 #include "BART/animation.h"
 
@@ -49,6 +50,14 @@ struct viewParams {
 	int resy;
 };
 
+struct transform_global {
+	std::vector<vec3> translate;
+	std::vector<vec3> rotate_axis;
+	std::vector<float> degree;
+	std::vector<vec3> scale;
+};
+
+extern struct transform_global* transform_st;
 extern struct viewParams* mViewParams;
 extern struct AnimationParams* mAnimationParams;
 extern struct AnimationList* mAnimations;
@@ -58,5 +67,7 @@ extern float g_spec[3];
 extern float g_Shine;
 extern float g_T;
 extern float g_index_of_refraction;
+
+extern 
 
 bool viParseFile(FILE* f, World* ptr);

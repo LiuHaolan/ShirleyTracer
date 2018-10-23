@@ -158,6 +158,7 @@
     <ClCompile Include="src\shapes\Compound.cpp" />
     <ClCompile Include="src\shapes\Disk.cpp" />
     <ClCompile Include="src\shapes\instance.cpp" />
+    <ClCompile Include="src\shapes\MeshAggregate.cpp" />
     <ClCompile Include="src\shapes\mesh\Mesh.cpp" />
     <ClCompile Include="src\shapes\Mesh\MeshTriangle.cpp" />
     <ClCompile Include="src\shapes\plane.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="src\shapes\cylinder.h" />
     <ClInclude Include="src\shapes\Disk.h" />
     <ClInclude Include="src\shapes\Instance.h" />
+    <ClInclude Include="src\shapes\MeshAggregate.h" />
     <ClInclude Include="src\shapes\mesh\Mesh.h" />
     <ClInclude Include="src\shapes\Mesh\MeshTriangle.h" />
     <ClInclude Include="src\shapes\openCylinder.h" />

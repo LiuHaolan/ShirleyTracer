@@ -20,12 +20,11 @@ bool World::hit(const ray& r, float tmin,float tmax, hit_record& sr) {
 
 		if (obj->hit(r, tmin, tmax, tmp)) {
 			if (tmp.t < t) {
-				
-				// debug
-				sr.name = obj->name;
 
 				t = tmp.t;
 				sr = tmp;
+
+				sr.name = obj->name;
 				flag = true;
 			}
 		}

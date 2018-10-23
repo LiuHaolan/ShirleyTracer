@@ -24,6 +24,11 @@ public:
 	virtual void rotate_z(const double r);
 	void rotate_axis(const double theta, const vec3& axis);
 
+	bool InvertMatrix(const double m[16], double invOut[16]);
+
+	Matrix get_forward() {
+		return forward_matrix;
+	}
 	vec3 transform(const vec3& o) const;
 private:
 	hitable* object_ptr;

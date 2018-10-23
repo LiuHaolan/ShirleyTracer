@@ -16,6 +16,7 @@ public:
 		operator/ (const double d);
 
 	vec3 operator*(const vec3& rhs) const;
+	vec3 dirmulti(const vec3& rhs) const;
 
 	vec3 normalmulti(const vec3& rhs) const;
 

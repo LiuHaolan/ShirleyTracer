@@ -43,9 +43,15 @@ void Matrix::set_identity(void) {
 
 
 vec3 Matrix::operator*(const vec3& rhs) const {
-	return vec3(m[0][0] * rhs.x() + m[0][1] * rhs.y() + m[0][2] * rhs.z(),  \
-		m[1][0] * rhs.x() + m[1][1] * rhs.y() + m[1][2] * rhs.z(), \
-		m[2][0] * rhs.x() + m[2][1] * rhs.y() + m[2][2] * rhs.z());
+	return vec3(m[0][0] * rhs.x() + m[0][1] * rhs.y() + m[0][2] * rhs.z()+m[0][3],  \
+		m[1][0] * rhs.x() + m[1][1] * rhs.y() + m[1][2] * rhs.z()+m[1][3], \
+		m[2][0] * rhs.x() + m[2][1] * rhs.y() + m[2][2] * rhs.z()+m[2][3]);
+}
+
+vec3 Matrix::dirmulti(const vec3& rhs) const {
+	return vec3(m[0][0] * rhs.x() + m[0][1] * rhs.y() + m[0][2] * rhs.z() , \
+		m[1][0] * rhs.x() + m[1][1] * rhs.y() + m[1][2] * rhs.z() , \
+		m[2][0] * rhs.x() + m[2][1] * rhs.y() + m[2][2] * rhs.z() );
 }
 
 vec3 Matrix::normalmulti(const vec3& rhs) const {
