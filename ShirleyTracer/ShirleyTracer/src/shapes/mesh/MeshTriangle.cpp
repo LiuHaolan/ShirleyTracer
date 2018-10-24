@@ -3,7 +3,7 @@
 
 const static float kEpsilon = 0.0001;
 
-MeshTriangle::MeshTriangle(Mesh* ptr,int t0, int t1, int t2) {
+MeshTriangle::MeshTriangle(Mesh* ptr,int t0, int t1, int t2,int f) {
 	mesh_ptr = ptr;
 	index0 = t0;
 	index1 = t1;
@@ -11,6 +11,8 @@ MeshTriangle::MeshTriangle(Mesh* ptr,int t0, int t1, int t2) {
 	
 	// for uniform material
 	mat = ptr->material;
+
+	face_ind = f;
 }
 
 BBox MeshTriangle::get_bounding_box() const{
@@ -84,11 +86,27 @@ bool MeshTriangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) 
 	//caculating the normal vector
 	vec3 normal = cross(e1, e2);
 	//flat shading
-	if (smooth) {
 
-		vec3 n1 = mesh_ptr->normals[index0];
-		vec3 n2 = mesh_ptr->normals[index1];
-		vec3 n3 = mesh_ptr->normals[index2];
+	// if(smooth)
+	if (mesh_ptr->has_normals) {
+		
+		int i1 = mesh_ptr->facenormal_indices[face_ind][0];
+		int i2 = mesh_ptr->facenormal_indices[face_ind][1];
+		int i3 = mesh_ptr->facenormal_indices[face_ind][2];
+
+		// weird! some index get out of range
+		assert(i1 < mesh_ptr->normals.size());
+		assert(i2 < mesh_ptr->normals.size());
+		assert(i3 < mesh_ptr->normals.size());
+			
+
+		vec3 n1 = mesh_ptr->normals[i1];
+		vec3 n2 = mesh_ptr->normals[i2];
+		vec3 n3 = mesh_ptr->normals[i3];
+
+		n1.make_unit_vector();
+		n2.make_unit_vector();
+		n2.make_unit_vector();
 		float w1 = cross(pos - p2, pos - p3).length();
 		float w2 = cross(pos - p1, pos - p3).length();
 		float w3 = cross(pos - p1, pos - p2).length();

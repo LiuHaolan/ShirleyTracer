@@ -83,7 +83,7 @@ SVPhong::set_cd(shared_ptr<Texture> t_ptr) {
 	if (t_ptr.get()) {
 		ambient_brdf->set_cd(t_ptr);//one pointer for one memory
 		diffuse_brdf->set_cd(t_ptr);
-		specular_brdf->set_cs(t_ptr);
+//		specular_brdf->set_cs(t_ptr);
 	}
 	else {
 		assert(false);

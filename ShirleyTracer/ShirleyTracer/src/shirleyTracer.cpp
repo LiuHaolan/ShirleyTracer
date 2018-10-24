@@ -156,7 +156,7 @@ World* build() {
 
 	int nx = 600;
 	int ny = 600;
-	int ns = 25;
+	int ns = 1;
 
 	World* w = new World;
 	vec3 lookfrom(-5, 5.5, 35.0);
@@ -230,7 +230,7 @@ World* build() {
 		int b = m->vertex_faces[j][1];
 		int c = m->vertex_faces[j][2];
 
-		MeshTriangle* obj_ptr = new MeshTriangle(m, a, b, c);
+		MeshTriangle* obj_ptr = new MeshTriangle(m, a, b, c,j);
 		tar.push_back(obj_ptr);
 	}
 
@@ -315,7 +315,7 @@ int main() {
 	//hitable* empty_ptr = 0;
 	//Instance* camera_inst = new Instance(empty_ptr);
 
-	double time = 0.0;
+	double time = 9.0;
 	//if (anim)
 	//{
 	//	vis = _GetVisibility(anim, time);
@@ -384,7 +384,7 @@ int main() {
 	ptr->integrator_ptr = new WhittedIntegrator(ptr);
 	ptr->nx = 800;
 	ptr->ny = 600;
-	ptr->ns = 1;
+	ptr->ns = 16;
 
 	ptr->ambient_ptr = new Ambient_Light(0.25, vec3(1.0, 1.0, 1.0));
 
@@ -433,9 +433,9 @@ int main() {
 	
 				col /= w->ns;
 	
-				for(int idx = 0;idx <3;idx++)
+			/*	for(int idx = 0;idx <3;idx++)
 					col[idx] = col[idx] < 0 ? 0 : col[idx];
-				col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
+				col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));*/
 
 				// do some out of gamut processing
 				if (col[0] > 1.0 || col[1] > 1.0 || col[2] > 1.0) {

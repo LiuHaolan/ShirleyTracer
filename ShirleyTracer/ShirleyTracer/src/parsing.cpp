@@ -725,6 +725,18 @@ static void parseMesh(FILE *fp, World* ptr)
 		}
 	}
 
+	if (norms) {
+		m->has_normals = true;
+		m->naive_normals.resize(num_norms);
+
+		if (num_norms != num_verts) {
+			int q = 1;
+		}
+		for (int k = 0; k < num_norms; k++) {
+			m->naive_normals[k] = vec3(norms[k][0],norms[k][1],norms[k][2]);
+		}
+	}
+
 	m->vertex_faces.resize(num_tris);
 	m->faceuv_indices.resize(num_tris);
 	m->facenormal_indices.resize(num_tris);
@@ -753,12 +765,8 @@ static void parseMesh(FILE *fp, World* ptr)
 		}
 	}
 
-	//// debug
-	//for (int j = 0; j < num_tris; j++) {
-	//	for (int i = 0; i < 3; i++) {
-	//		std::cout << m->vertex_faces[j][i] <<" " << m->faceuv_indices[j][i]<< std::endl;
-	//	}
-	//}
+	// call the mesh smoothing setup function
+	m->setup_smooth();
 
 	// set SV material.
 
@@ -779,21 +787,53 @@ static void parseMesh(FILE *fp, World* ptr)
 		texture_ptr = new ConstantColor(vec3(1.0, 1.0, 1.0));
 	}
 
-//	SVPhong* thisone = new SVPhong;
-	SVReflective* thisone = new SVReflective;
-	shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
-	shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
-	shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
-	shared_ptr<Texture> txt_ptr(texture_ptr);
-	thisone->set_ka(amb_ptr);
-	thisone->set_kd(dif_ptr);
-	thisone->set_ks(spc_ptr);
+	//int phong_flag = 0;
+	//int mirror_flag = 0;
+	Material* thisone1 = 0;;
 
-	thisone->set_cd(txt_ptr);
-	thisone->set_exp(g_Shine);
+	if (g_spec[0] == 0.0 && g_spec[1] == 0.0 && g_spec[2] == 0.0) {
 
-	thisone->set_cs(shared_ptr<Texture>(spc_ptr));
-	m->set_mesh_material(thisone);
+		SVPhong* thisone = new SVPhong;
+	//	SVReflective* thisone = new SVReflective;
+		shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
+		shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_diff[0], g_diff[1], g_diff[2])));
+		shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_spec[0], g_spec[1], g_spec[2])));
+		shared_ptr<Texture> txt_ptr(texture_ptr);
+		thisone->set_ka(amb_ptr);
+		thisone->set_kd(dif_ptr);
+		thisone->set_ks(spc_ptr);
+
+		thisone->set_cd(txt_ptr);
+		thisone->set_exp(g_Shine);
+
+		thisone->set_cs(shared_ptr<Texture>(new ConstantColor(white)));
+		m->set_mesh_material(thisone);
+		thisone1 = thisone;
+	}
+	else {
+	//	SVPhong* thisone = new SVPhong;
+		SVReflective* thisone = new SVReflective;
+		shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
+		shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_diff[0], g_diff[1], g_diff[2])));
+		shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_spec[0], g_spec[1], g_spec[2])));
+		shared_ptr<Texture> txt_ptr(texture_ptr);
+		thisone->set_ka(amb_ptr);
+		thisone->set_kd(dif_ptr);
+		thisone->set_ks(spc_ptr);
+		thisone->set_cr(spc_ptr);
+		thisone->set_cd(txt_ptr);
+		thisone->set_exp(g_Shine);
+
+		thisone->set_cs(shared_ptr<Texture>(new ConstantColor(white)));
+		if (g_Shine < 100)
+			thisone->set_kr(0.8);
+		else
+			thisone->set_kr(0.2);
+		
+		m->set_mesh_material(thisone);
+
+		thisone1 = thisone;
+	}
 
 	vector<hitable*> tar;
 	for (int j = 0; j < m->num_triangles; j++) {
@@ -801,20 +841,20 @@ static void parseMesh(FILE *fp, World* ptr)
 		int b = m->vertex_faces[j][1];
 		int c = m->vertex_faces[j][2];
 
-		MeshTriangle* obj_ptr = new MeshTriangle(m, a, b, c);
+		MeshTriangle* obj_ptr = new MeshTriangle(m, a, b, c,j);
 		tar.push_back(obj_ptr);
 	}
 
 	BVH* bvh_ptr = new BVH(tar, 0, tar.size() - 1);
 
 	hitable* obj_ptr = 0;
-	if (m->num_triangles > 20)
+	if (m->num_triangles > 10)
 		obj_ptr = new BVH(tar,0,tar.size()-1);
 	else
 		obj_ptr = new MeshAggregate(m);
 
 	Instance* inst_ptr = new Instance(obj_ptr);
-	inst_ptr->set_material(thisone);
+	inst_ptr->set_material(thisone1);
 
 	if (transform_st) {
 		for (int it = transform_st->translate.size()-1; it >=0; it--) {
@@ -823,10 +863,7 @@ static void parseMesh(FILE *fp, World* ptr)
 			inst_ptr->rotate_axis(transform_st->degree[it], transform_st->rotate_axis[it]);
 			inst_ptr->translate(transform_st->translate[it]);
 		}
-		/*int it = transform_st->translate.size() - 1;
-		inst_ptr->scale(transform_st->scale[it]);
-		inst_ptr->rotate_axis(transform_st->degree[it], transform_st->rotate_axis[it]);
-		inst_ptr->translate(transform_st->translate[it]);*/
+	
 	}
 
 	if (std::string(texturename) == "garden.ppm")
@@ -959,6 +996,7 @@ bool viParseFile(FILE* f, World* ptr) {
 			parseDetailLevel(f); /* ok */
 			break;
 		case 't':  /* textured triangle, or texture tripatch, or animated triangle */
+			int i;
 	//		parseTextureStuff(f);
 			break;
 		case 'x':  /* transform */

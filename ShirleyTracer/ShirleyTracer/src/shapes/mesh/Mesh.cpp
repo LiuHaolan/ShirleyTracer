@@ -2,6 +2,123 @@
 #include "..\..\plyparser.h"
 
 
+void Mesh::setup_smooth() {
+
+	// record each vertices 
+	std::vector<vector<int>> vertex_neif;
+	vertex_neif.resize(vertices.size());
+
+	normals.resize(vertices.size());
+	for (int j = 0; j < vertex_faces.size(); j++) {
+
+		vertex_neif[vertex_faces[j][0]].push_back(j);
+		vertex_neif[vertex_faces[j][1]].push_back(j);
+		vertex_neif[vertex_faces[j][2]].push_back(j);
+	}
+
+	if (!has_normals) {
+		int cnt = 0;
+		for (int i = 0; i < vertex_neif.size(); i++) {
+			vec3 normalsum = 0;
+
+			vector<int>& neigh_faces = vertex_neif[i];
+			int num_faces = neigh_faces.size();
+
+			//		assert(num_faces>0);
+			if (num_faces == 0) {
+				cnt++;
+				continue;
+			}
+
+			int vid1 = vertex_faces[neigh_faces[0]][0];
+			int vid2 = vertex_faces[neigh_faces[0]][1];
+			int vid3 = vertex_faces[neigh_faces[0]][2];
+			vec3 norm = 0;
+			int next;
+			int for_ind;
+
+			if (vid1 == i) {
+				// please, vec3 here
+				norm = cross(vertices[vid2] - vertices[i], vertices[vid3] - vertices[i]);
+				next = vid3;
+			}
+			else if (vid2 == i) {
+				norm = cross(vertices[vid1] - vertices[i], vertices[vid3] - vertices[i]);
+				next = vid3;
+			}
+			else {
+				norm = cross(vertices[vid2] - vertices[i], vertices[vid1] - vertices[i]);
+				next = vid1;
+			}
+			for_ind = 0;
+			normalsum = normalsum + unit_vector(norm);
+
+			int k = 0;
+			while (k++ < num_faces - 1) {
+				// search the face with the next
+				int theleft = 0;
+				int j = 0;
+				for (j = 0; j < num_faces; j++) {
+					// don't search the before mentioned edge.
+					if (j == for_ind)
+						continue;
+
+					int vid1_ = vertex_faces[neigh_faces[j]][0];
+					int vid2_ = vertex_faces[neigh_faces[j]][1];
+					int vid3_ = vertex_faces[neigh_faces[j]][2];
+					if (next == vid1_) {
+						if (vid2_ == i)
+							theleft = vid3_;
+						else
+							theleft = vid2_;
+						break;
+					}
+					if (next == vid2_) {
+						if (vid1_ == i)
+							theleft = vid3_;
+						else
+							theleft = vid1_;
+						break;
+					}
+					if (next == vid3_) {
+						if (vid1_ == i)
+							theleft = vid2_;
+						else
+							theleft = vid1_;
+						break;
+					}
+				}
+
+				//set for_ind
+				for_ind = j;
+
+				// three point, i,next
+				norm = cross((vertices[i] - vertices[next]), (vertices[i] - vertices[theleft]));
+				normalsum = normalsum + unit_vector(norm);
+				// set next
+				next = theleft;
+			}
+
+			normals[i] = normalsum / num_faces;
+		}
+	}
+	else {
+
+		normals.resize(naive_normals.size());
+		for (int i = 0; i < naive_normals.size(); i++) {
+			vec3 normalsum = 0;
+			
+		/*	const vector<int>& v = vertex_neif[i];
+			for (int j = 0; j < v.size(); j++) {
+				vec3 tmp = naive_normals[facenormal_indices[v[j]]];
+				normalsum = normalsum + unit_vector(tmp);
+			}
+			normals[i] = normalsum / v.size();*/
+			normals[i] = naive_normals[i];
+		}
+
+	}
+}
 void Mesh::read_file(const char* filename) {
 	std::vector<float3> verts;
 	std::vector<uint3> faces;

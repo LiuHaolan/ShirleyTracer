@@ -9,7 +9,7 @@ MeshAggregate::MeshAggregate(Mesh* ptr) {
 		int b = ptr->vertex_faces[j][1];
 		int c = ptr->vertex_faces[j][2];
 
-		MeshTriangle* obj_ptr = new MeshTriangle(ptr, a, b, c);
+		MeshTriangle* obj_ptr = new MeshTriangle(ptr, a, b, c,j);
 		add_objects(obj_ptr);
 
 	}
