@@ -7,7 +7,9 @@ class SVGlossySpecular : public BRDF {
 public:
 	vec3 f(const hit_record& sr, const vec3& wo, const vec3& wi) const;
 
-	vec3 sample_f(const hit_record& sr, const vec3& wo, vec3& wi) const { return vec3(0, 0, 0); }
+	vec3 sample_f(const hit_record& sr, const vec3& wo, vec3& wi) const { 
+		lanlog::log_error("SVGlossySpecular sample_f called without imp.");
+		return vec3(0, 0, 0); }
 
 	vec3 sample_f(const hit_record& sr, const vec3& wo, vec3& wi, float& pdf) const;
 

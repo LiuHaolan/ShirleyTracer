@@ -115,3 +115,5 @@ vec3 GlossySpecular_BRDF::sample_f(const hit_record& sr, const vec3& wo, vec3& w
 	return(ks*cs *phong_lobe);
 }
 
+
+

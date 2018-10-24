@@ -3,6 +3,7 @@
 #include "parsing.h"
 #include "shapes/MeshAggregate.h"
 #include "shapes/accelerator/BVH.h"
+#include "materials/SVReflective.h"
 
 struct transform_global* transform_st;
 struct viewParams* mViewParams;
@@ -522,6 +523,7 @@ static void parseFill(FILE *fp, World* ptr)
 	 * e.g., viAddMaterial(col,kd,ks,4.0*phong_pow,t,ior);
 		 */
 
+		std::cout << "f materal encountered."<< std::endl;
 	}
 }
 
@@ -777,7 +779,8 @@ static void parseMesh(FILE *fp, World* ptr)
 		texture_ptr = new ConstantColor(vec3(1.0, 1.0, 1.0));
 	}
 
-	SVPhong* thisone = new SVPhong;
+//	SVPhong* thisone = new SVPhong;
+	SVReflective* thisone = new SVReflective;
 	shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
 	shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
 	shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
@@ -788,6 +791,8 @@ static void parseMesh(FILE *fp, World* ptr)
 
 	thisone->set_cd(txt_ptr);
 	thisone->set_exp(g_Shine);
+
+	thisone->set_cs(shared_ptr<Texture>(spc_ptr));
 	m->set_mesh_material(thisone);
 
 	vector<hitable*> tar;
@@ -895,6 +900,8 @@ static void parseXform(FILE *f, World* ptr)
 		/* add an animated transform here
 		 * e.g., viAddXform(name);
 		 */
+
+
 	}
 }
 

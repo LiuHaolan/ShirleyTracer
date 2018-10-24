@@ -382,13 +382,13 @@ int main() {
 //	ptr->ncam_ptr = p;
 
 	ptr->integrator_ptr = new WhittedIntegrator(ptr);
-	ptr->nx = 600;
+	ptr->nx = 800;
 	ptr->ny = 600;
-	ptr->ns = 16;
+	ptr->ns = 1;
 
 	ptr->ambient_ptr = new Ambient_Light(0.25, vec3(1.0, 1.0, 1.0));
 
-	ptr->max_depth = 1;
+	ptr->max_depth = 5;
 
 
 	lanlog::initLogging();

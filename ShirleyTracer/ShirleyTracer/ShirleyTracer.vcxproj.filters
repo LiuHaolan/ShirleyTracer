@@ -237,6 +237,12 @@
     <ClCompile Include="src\shapes\accelerator\BVH.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\BRDF\SVPerfectSpecular.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\materials\SVReflective.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -490,6 +496,12 @@
     </ClInclude>
     <ClInclude Include="src\config.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\SVReflective.h">
+      <Filter>头文件\material</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BRDF\SVPerfectSpecular.h">
+      <Filter>头文件\BRDF</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

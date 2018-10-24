@@ -38,7 +38,7 @@ public:
 	void
 		set_cs(shared_ptr<Texture> t_ptr);
 
-private:
+protected:
 	shared_ptr<SVLambertianBRDF>		ambient_brdf;
 	shared_ptr<SVLambertianBRDF>		diffuse_brdf;
 	shared_ptr<SVGlossySpecular>	specular_brdf;
