@@ -7,7 +7,7 @@ class Grid : public Compound {
 public:
 	Grid() {  }
 	Grid(Mesh* ptr);
-	virtual BBox get_bounding_box();
+	virtual BBox get_bounding_box() const;
 	void setup_cells();
 	bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
 	bool hitP(const ray& r, float& t) const;

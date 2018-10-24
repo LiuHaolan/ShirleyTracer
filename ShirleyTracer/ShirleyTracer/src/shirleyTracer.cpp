@@ -5,6 +5,7 @@
 #include "Bitmap.h"
 #include "hitable.h"
 #include "camera.h"
+#include "Camera/Pinhole.h"
 
 #include "World.h"
 #include ".\integrator\RayCastIntegrator.h"
@@ -32,6 +33,7 @@
 #include "shapes/Box.h"
 #include "shapes/Rectangle.h"
 #include "shapes/accelerator/Grid.h"
+#include "shapes/accelerator/BVH.h"
 
 #include "extern/Image.h"
 
@@ -52,6 +54,7 @@
 
 #include "plyparser.h"
 #include "parsing.h"
+
 // 24 - 6
 
 World* build1() {
@@ -204,34 +207,58 @@ World* build() {
 	//sphere_ptr2->set_material(reflective_ptr);
 	//w->add_object(sphere_ptr2);
 
+//	Mesh* m = new Mesh;
+//	m->read_file("./geometry/bunny.ply");
+////	m->set_mesh_material(glass_ptr);
+//	Grid* grid_ptr = new Grid(m);
+////	w->add_object(grid_ptr);
+//	// point light 
+//
+//	Instance* big_bunny_ptr = new Instance(grid_ptr);
+//	big_bunny_ptr->scale(45.0);
+//	big_bunny_ptr->translate(1.7, -1.5, 0.0);
+//	big_bunny_ptr->set_material(reflective_ptr);
+//	big_bunny_ptr->name = "bunny";
+//	w->add_object(big_bunny_ptr);
+
 	Mesh* m = new Mesh;
 	m->read_file("./geometry/bunny.ply");
-	m->set_mesh_material(glass_ptr);
-	Grid* grid_ptr = new Grid(m);
-//	w->add_object(grid_ptr);
-	// point light 
+	m->set_mesh_material(reflective_ptr);
+	vector<hitable*> tar;
+	for (int j = 0; j < m->num_triangles; j++) {
+		int a = m->vertex_faces[j][0];
+		int b = m->vertex_faces[j][1];
+		int c = m->vertex_faces[j][2];
 
-	Instance* big_bunny_ptr = new Instance(grid_ptr);
+		MeshTriangle* obj_ptr = new MeshTriangle(m, a, b, c);
+		tar.push_back(obj_ptr);
+	}
+
+	BVH* bvh_ptr = new BVH(tar,0,tar.size()-1);
+
+
+	Instance* big_bunny_ptr = new Instance(bvh_ptr);
 	big_bunny_ptr->scale(45.0);
 	big_bunny_ptr->translate(1.7, -1.5, 0.0);
-//	big_bunny_ptr->set_material(glass_ptr);
-	big_bunny_ptr->name = "bunny";
+	big_bunny_ptr->set_material(reflective_ptr);
+//	big_bunny_ptr->name = "bunny";
 	w->add_object(big_bunny_ptr);
+
 	// point light 
 
 	PointLight* light_ptr1 = new PointLight(4.0,vec3(1.0,1.0,1.0), vec3(40, 50, 0));
-	light_ptr1->set_shadows(true);
+	light_ptr1->set_shadows(false);
 	w->add_light(light_ptr1);
 
 	PointLight* light_ptr2 = new PointLight(4.0, vec3(1.0, 1.0, 1.0), vec3(-10, 20, 10));
-	light_ptr2->set_shadows(true);
+	light_ptr2->set_shadows(false);
 	w->add_light(light_ptr2);
 	// directional light 
 
 	DirectionLight* light_ptr3 = new DirectionLight;
 	light_ptr3->set_direction(vec3(-1, 0, 0));
 	light_ptr3->scale_radiance(4.0);
-	light_ptr3->set_shadows(true);
+	light_ptr3->set_shadows(false);
 	w->add_light(light_ptr3);
 
 
@@ -263,6 +290,7 @@ World* build() {
 
 int main() {
 
+
 	World* ptr = new World;
 	ptr->integrator_ptr = new WhittedIntegrator(ptr);
 	FILE* f;
@@ -287,7 +315,7 @@ int main() {
 	//hitable* empty_ptr = 0;
 	//Instance* camera_inst = new Instance(empty_ptr);
 
-	double time = 0;
+	double time = 0.0;
 	//if (anim)
 	//{
 	//	vis = _GetVisibility(anim, time);
@@ -307,8 +335,7 @@ int main() {
 	//	}
 	//}
 
-	float dist_to_focus = (mViewParams->from - mViewParams->at).length();
-	float aperture = 0.0;
+
 //	vec3 point = camera_inst->transform(mViewParams->at);
 	int gotPosition=0;
 	double viewPos[3];
@@ -325,17 +352,39 @@ int main() {
 		r_lookat = vec3(r_eye.x() + viewDir[0], r_eye.y() + viewDir[1], r_eye.z() + viewDir[2]);
 	}
 
-	////debug
-	//mViewParams->fov_angle *= 3.5;
+	float dist_to_focus = (r_eye - r_lookat).length();
+	float aperture = 0.0;
+	vec3 dir(viewDir[0], viewDir[1], viewDir[2]);
+	
 
 //	std::cout << point.x() << " " << point.y() << " " << endl;
-//	assert(dot(r_lookat - r_eye, up) == 0);
-	ptr->camera_ptr = new Camera(r_eye, r_lookat, up, mViewParams->fov_angle, float(mViewParams->resx) / float(mViewParams->resy), aperture, dist_to_focus);
+//	assert(dot(dir, up) == 0);
+	//float distance = 2000;
+	float distance = 400;
+	
+	std::cout << distance << std::endl;
+
+	// an temporary method to deal with it
+	float vfov = 2 * atan2(200, distance) * 180 / M_PI;
+
+	//// an temporary method to deal with it
+	//float vfov = 2 * atan2(200, distance) * 180 / M_PI;
+	ptr->camera_ptr = new Camera(r_eye, r_lookat, up, vfov, float(mViewParams->resx) / float(mViewParams->resy), aperture, dist_to_focus);
+
+	
+//	Pinhole* p= new Pinhole;
+//	p->set_up_vector(up);
+//	p->set_eye(r_eye);
+////	ptr->ncam_ptr->set_view_distance(distance);
+//	p->set_view_distance(2000);
+//	p->compute_uvw();
+//
+//	ptr->ncam_ptr = p;
 
 	ptr->integrator_ptr = new WhittedIntegrator(ptr);
 	ptr->nx = 600;
 	ptr->ny = 600;
-	ptr->ns = 1;
+	ptr->ns = 16;
 
 	ptr->ambient_ptr = new Ambient_Light(0.25, vec3(1.0, 1.0, 1.0));
 
@@ -353,7 +402,7 @@ int main() {
 	
 	
 		World* w = ptr;
-//	World* w = build1();
+//	World* w = build();
 		MultiJittered* sampler = new MultiJittered(w->ns);
 
 		std::auto_ptr<Bitmap> pic(new Bitmap(w->nx, w->ny));
@@ -374,7 +423,10 @@ int main() {
 					float v = (float(j) + sampled[1]) / float(w->ny);
 					ray r = w->camera_ptr->get_ray(u, v);
 	
-					//		vec3 p = r.point_at_parameter(2.0);
+					//vec3 dir = w->ncam_ptr->get_direction(u, v);
+					//
+					//ray r = ray(w->ncam_ptr->get_eye(), dir);
+
 					col += w->integrator_ptr->Li(r,0);
 				
 				}

@@ -13,7 +13,7 @@ MeshTriangle::MeshTriangle(Mesh* ptr,int t0, int t1, int t2) {
 	mat = ptr->material;
 }
 
-BBox MeshTriangle::get_bounding_box() {
+BBox MeshTriangle::get_bounding_box() const{
 	vec3 a = mesh_ptr->vertices[index0];
 	vec3 b = mesh_ptr->vertices[index1];
 	vec3 c = mesh_ptr->vertices[index2];
@@ -28,7 +28,13 @@ BBox MeshTriangle::get_bounding_box() {
 
 	return BBox(vec3(x0,y0,z0), vec3(x1,y1,z1));
 }
+
 bool MeshTriangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+
+	BBox box = get_bounding_box();
+	if (!box.hit(r, t_min, t_max))
+		return false;
+
 	vec3 p1(mesh_ptr->vertices[index0]);
 	vec3 p2(mesh_ptr->vertices[index1]);
 	vec3 p3(mesh_ptr->vertices[index2]);

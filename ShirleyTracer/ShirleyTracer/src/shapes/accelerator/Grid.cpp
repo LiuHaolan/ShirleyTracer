@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include "..\..\config.h"
 
 static const float kEpsilon = 0.0001;
 static const float kHugeValue = MAXFLOAT;
@@ -53,7 +54,7 @@ vec3 Grid::max_coordinates(void) {
 	return (p1);
 }
 
-BBox Grid::get_bounding_box() {
+BBox Grid::get_bounding_box() const {
 	return bbox;
 }
 
@@ -169,20 +170,22 @@ void Grid::setup_cells() {
 
 bool Grid::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 
-	// turn off the grid, the code
-	hit_record tmp;
-	float tmin = MAXFLOAT;
-	bool flag = false;
-	for (int i = 0; i < cells.size(); i++) {
-		if (cells[i] && cells[i]->hit(r, t_min, t_max, tmp)) {
-			flag = true;
-			if (tmp.t < tmin) {
-				tmin = tmp.t;
-				rec = tmp;
+	if (turn_off_grid) {
+		// turn off the grid, the code
+		hit_record tmp;
+		float tmin = MAXFLOAT;
+		bool flag = false;
+		for (int i = 0; i < cells.size(); i++) {
+			if (cells[i] && cells[i]->hit(r, t_min, t_max, tmp)) {
+				flag = true;
+				if (tmp.t < tmin) {
+					tmin = tmp.t;
+					rec = tmp;
+				}
 			}
 		}
+		return flag;
 	}
-	return flag;
 
 	// the code
 

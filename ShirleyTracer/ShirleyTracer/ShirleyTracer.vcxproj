@@ -129,6 +129,8 @@
     <ClCompile Include="src\BRDF\SVGlossySpecular.cpp" />
     <ClCompile Include="src\BRDF\SVLambertian.cpp" />
     <ClCompile Include="src\BTDF\PerfectTransmitter.cpp" />
+    <ClCompile Include="src\Camera\BaseCamera.cpp" />
+    <ClCompile Include="src\Camera\Pinhole.cpp" />
     <ClCompile Include="src\extern\Image.cpp" />
     <ClCompile Include="src\extern\tinyply.cpp" />
     <ClCompile Include="src\hitable.cpp" />
@@ -153,6 +155,7 @@
     <ClCompile Include="src\sampler\Jittered.cpp" />
     <ClCompile Include="src\Sampler\MultiJittered.cpp" />
     <ClCompile Include="src\shapes\accelerator\Grid.cpp" />
+    <ClCompile Include="src\shapes\accelerator\BVH.cpp" />
     <ClCompile Include="src\shapes\BBox.cpp" />
     <ClCompile Include="src\shapes\Box.cpp" />
     <ClCompile Include="src\shapes\Compound.cpp" />
@@ -193,6 +196,9 @@
     <ClInclude Include="src\BTDF\BTDF.h" />
     <ClInclude Include="src\BTDF\PerfectTransmitter.h" />
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\Camera\BaseCamera.h" />
+    <ClInclude Include="src\Camera\Pinhole.h" />
+    <ClInclude Include="src\config.h" />
     <ClInclude Include="src\extern\Image.h" />
     <ClInclude Include="src\extern\stb_image.h" />
     <ClInclude Include="src\extern\tinyply.h" />
@@ -229,6 +235,7 @@
     <ClInclude Include="src\Sampler.h" />
     <ClInclude Include="src\sampler\Jittered.h" />
     <ClInclude Include="src\Sampler\MultiJittered.h" />
+    <ClInclude Include="src\shapes\accelerator\BVH.h" />
     <ClInclude Include="src\shapes\accelerator\Grid.h" />
     <ClInclude Include="src\shapes\BBox.h" />
     <ClInclude Include="src\shapes\Box.h" />

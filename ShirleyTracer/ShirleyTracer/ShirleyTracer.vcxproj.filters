@@ -52,6 +52,9 @@
     <Filter Include="头文件\BART">
       <UniqueIdentifier>{1b5a1dd6-f543-47ab-8330-d6f35ef3b07a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Camera">
+      <UniqueIdentifier>{8ea873e0-5828-46aa-a4a9-26180c597a1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
@@ -223,6 +226,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\shapes\MeshAggregate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera\BaseCamera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera\Pinhole.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shapes\accelerator\BVH.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -466,6 +478,18 @@
     </ClInclude>
     <ClInclude Include="src\shapes\MeshAggregate.h">
       <Filter>头文件\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera\BaseCamera.h">
+      <Filter>头文件\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera\Pinhole.h">
+      <Filter>头文件\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\accelerator\BVH.h">
+      <Filter>头文件\Accelerator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

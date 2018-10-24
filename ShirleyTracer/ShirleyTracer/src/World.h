@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "integrator.h"
 #include "light.h"
+#include "Camera/Pinhole.h"
 
 using namespace std;
 
@@ -27,6 +28,8 @@ public:
 	int ny;
 	int ns;
 	Camera* camera_ptr;
+
+	Pinhole* ncam_ptr;
 	Integrator* integrator_ptr;
 	Light* ambient_ptr;
 

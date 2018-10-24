@@ -2,6 +2,7 @@
 
 #include "parsing.h"
 #include "shapes/MeshAggregate.h"
+#include "shapes/accelerator/BVH.h"
 
 struct transform_global* transform_st;
 struct viewParams* mViewParams;
@@ -736,7 +737,6 @@ static void parseMesh(FILE *fp, World* ptr)
 		m->faceuv_indices[j].resize(3);
 		m->facenormal_indices[j].resize(3);
 		m->vertex_faces[j].resize(3);
-//		m->vertex_faces[j]
 		
 		int i = 0;
 		for (int w = 0; w < 3; w++)
@@ -790,21 +790,38 @@ static void parseMesh(FILE *fp, World* ptr)
 	thisone->set_exp(g_Shine);
 	m->set_mesh_material(thisone);
 
+	vector<hitable*> tar;
+	for (int j = 0; j < m->num_triangles; j++) {
+		int a = m->vertex_faces[j][0];
+		int b = m->vertex_faces[j][1];
+		int c = m->vertex_faces[j][2];
+
+		MeshTriangle* obj_ptr = new MeshTriangle(m, a, b, c);
+		tar.push_back(obj_ptr);
+	}
+
+	BVH* bvh_ptr = new BVH(tar, 0, tar.size() - 1);
+
 	hitable* obj_ptr = 0;
-	if(false)
-		obj_ptr = new Grid(m);
+	if (m->num_triangles > 20)
+		obj_ptr = new BVH(tar,0,tar.size()-1);
 	else
 		obj_ptr = new MeshAggregate(m);
 
 	Instance* inst_ptr = new Instance(obj_ptr);
+	inst_ptr->set_material(thisone);
 
 	if (transform_st) {
-		for (int it = 0; it < transform_st->translate.size(); it++) {
+		for (int it = transform_st->translate.size()-1; it >=0; it--) {
 					
 			inst_ptr->scale(transform_st->scale[it]);	
 			inst_ptr->rotate_axis(transform_st->degree[it], transform_st->rotate_axis[it]);
 			inst_ptr->translate(transform_st->translate[it]);
 		}
+		/*int it = transform_st->translate.size() - 1;
+		inst_ptr->scale(transform_st->scale[it]);
+		inst_ptr->rotate_axis(transform_st->degree[it], transform_st->rotate_axis[it]);
+		inst_ptr->translate(transform_st->translate[it]);*/
 	}
 
 	if (std::string(texturename) == "garden.ppm")
@@ -894,7 +911,7 @@ bool viParseFile(FILE* f, World* ptr) {
 
 	while ((ch = getc(f)) != EOF)
 	{
-		std::cout << (char)ch << std::endl;
+//		std::cout << (char)ch << std::endl;
 		switch (ch)
 		{
 		case ' ':   /* white space */

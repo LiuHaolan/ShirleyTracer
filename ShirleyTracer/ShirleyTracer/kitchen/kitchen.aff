@@ -25,8 +25,19 @@ l 0.25 1.40 1.00  0.40 0.40 0.40
 
 i 0 floor.aff
 i 0 roof.aff
-i 0 table.aff
+i 0 walls.aff
+i 0 windows.aff
 i 0 garden.aff
+i 0 bar_stools.aff
+i 0 door.aff
+i 0 cupboards1.aff
+i 0 cupboards2.aff
+i 0 cupboards3.aff
+i 0 oven.aff
+i 0 sink.aff
+i 0 table.aff
+i 0 bar_stools.aff
+i 0 china.aff
 
 a 0.0 20.0 800
 

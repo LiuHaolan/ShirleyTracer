@@ -19,7 +19,7 @@ vec3 WhittedIntegrator::Li(const ray& r, int depth) {
 			sr.p = r.point_at_parameter(sr.t);
 
 			////debug
-			//if (sr.name == "garden.ppm")
+			//if (sr.name == "bunny")
 			//	return vec3(1,0,0);
 		
 

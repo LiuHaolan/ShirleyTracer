@@ -1,7 +1,14 @@
 #include "BBox.h"
 #include "..\utility.h"
 
-bool BBox::hit(const ray& r) const {
+BBox surrounding_box(BBox b1, BBox b2) {
+	vec3 small(min(b1.p.x(), b2.p.x()), min(b1.p.y(), b2.p.y()), min(b1.p.z(), b2.p.z()));
+	vec3 large(max(b1.q.x(), b2.q.x()), max(b1.q.y(), b2.q.y()), max(b1.q.z(), b2.q.z()));
+
+	return BBox(small, large);
+}
+
+bool BBox::hit(const ray& r, float t_min, float t_max) const {
 	double x0 = min(p.x(), q.x());
 	double x1 = max(p.x(), q.x());
 	double y0 = min(p.y(), q.y());
@@ -30,7 +37,7 @@ bool BBox::hit(const ray& r) const {
 		return false;
 	}
 	else {
-		if (tmin < 0 || tmin >MAXFLOAT)
+		if (tmin < t_min || tmax >t_max)
 			return false;
 		else {
 			return true;

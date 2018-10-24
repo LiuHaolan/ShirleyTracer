@@ -39,7 +39,7 @@ public:
 class hitable :public item{
 public:
 
-	virtual BBox get_bounding_box();
+	virtual BBox get_bounding_box() const;
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
 	virtual bool hitP(const ray& r, float& t) const {
 		//Log here!

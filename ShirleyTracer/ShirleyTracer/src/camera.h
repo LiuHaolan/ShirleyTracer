@@ -14,6 +14,8 @@ public:
 	//	vec3 u, v, w;
 		lens_radius = aperture / 2;
 
+		focus_dist = 1.0;
+
 		float theta = vfov * M_PI / 180;
 		float half_height = tan(theta / 2);
 		float half_width = aspect * half_height;
@@ -27,7 +29,8 @@ public:
 		vertical = 2 * half_height*v * focus_dist;
 	}
 	ray get_ray(float s, float t) {
-		vec3 rd = lens_radius*random_in_unit_disk();
+//		vec3 rd = lens_radius*random_in_unit_disk();
+		vec3 rd = vec3(0, 0, 0);
 		vec3 offset = u * rd.x() + v * rd.y();
 		return ray(origin + offset, lower_left_corner + s * horizontal + t * vertical-origin-offset); 
 	}
