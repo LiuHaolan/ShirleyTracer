@@ -4,6 +4,8 @@
 #include "shapes/MeshAggregate.h"
 #include "shapes/accelerator/BVH.h"
 #include "materials/SVReflective.h"
+#include "materials/SVDielectric.h"
+#include "config.h"
 
 struct transform_global* transform_st;
 struct viewParams* mViewParams;
@@ -145,6 +147,7 @@ static void parseLight(FILE *fp, World* ptr)
 		dynamic_lights_ind.push_back(ptr->lights.size());
 		dynamic_lights_name.push_back(name);
 	}*/
+	light_ptr->set_shadows(!turn_off_shadow);
 	ptr->lights.push_back(light_ptr);
 
 }
@@ -790,48 +793,76 @@ static void parseMesh(FILE *fp, World* ptr)
 	//int mirror_flag = 0;
 	Material* thisone1 = 0;;
 
-	if (g_spec[0] == 0.0 && g_spec[1] == 0.0 && g_spec[2] == 0.0) {
+	if (g_T == 0.0 && g_index_of_refraction == 0.0) {
+		if (g_spec[0] == 0.0 && g_spec[1] == 0.0 && g_spec[2] == 0.0) {
 
-		SVPhong* thisone = new SVPhong;
-	//	SVReflective* thisone = new SVReflective;
-		shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
-		shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_diff[0], g_diff[1], g_diff[2])));
-		shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_spec[0], g_spec[1], g_spec[2])));
-		shared_ptr<Texture> txt_ptr(texture_ptr);
-		thisone->set_ka(amb_ptr);
-		thisone->set_kd(dif_ptr);
-		thisone->set_ks(spc_ptr);
+			SVPhong* thisone = new SVPhong;
+			//	SVReflective* thisone = new SVReflective;
+			shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
+			shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_diff[0], g_diff[1], g_diff[2])));
+			shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_spec[0], g_spec[1], g_spec[2])));
+			shared_ptr<Texture> txt_ptr(texture_ptr);
+			thisone->set_ka(amb_ptr);
+			thisone->set_kd(dif_ptr);
+			thisone->set_ks(spc_ptr);
 
-		thisone->set_cd(txt_ptr);
-		thisone->set_exp(g_Shine);
+			thisone->set_cd(txt_ptr);
+			thisone->set_exp(g_Shine);
 
-		thisone->set_cs(shared_ptr<Texture>(new ConstantColor(white)));
-		m->set_mesh_material(thisone);
-		thisone1 = thisone;
+			thisone->set_cs(shared_ptr<Texture>(new ConstantColor(white)));
+			m->set_mesh_material(thisone);
+			thisone1 = thisone;
+		}
+		else {
+			//	SVPhong* thisone = new SVPhong;
+			SVReflective* thisone = new SVReflective;
+			shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
+			shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_diff[0], g_diff[1], g_diff[2])));
+			shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_spec[0], g_spec[1], g_spec[2])));
+			shared_ptr<Texture> txt_ptr(texture_ptr);
+			thisone->set_ka(amb_ptr);
+			thisone->set_kd(dif_ptr);
+			thisone->set_ks(spc_ptr);
+			thisone->set_cr(spc_ptr);
+			thisone->set_cd(txt_ptr);
+			thisone->set_exp(g_Shine);
+
+			thisone->set_cs(shared_ptr<Texture>(new ConstantColor(white)));
+			if (g_Shine < 100)
+				thisone->set_kr(0.8);
+			else
+				thisone->set_kr(0.2);
+
+			m->set_mesh_material(thisone);
+
+			thisone1 = thisone;
+		}
 	}
 	else {
-	//	SVPhong* thisone = new SVPhong;
-		SVReflective* thisone = new SVReflective;
+		SVDielectric* thisone = new SVDielectric;
 		shared_ptr<ConstantColor> amb_ptr(new ConstantColor(vec3(g_amb[0], g_amb[1], g_amb[2])));
 		shared_ptr<ConstantColor> dif_ptr(new ConstantColor(vec3(g_diff[0], g_diff[1], g_diff[2])));
 		shared_ptr<ConstantColor> spc_ptr(new ConstantColor(vec3(g_spec[0], g_spec[1], g_spec[2])));
 		shared_ptr<Texture> txt_ptr(texture_ptr);
+
 		thisone->set_ka(amb_ptr);
 		thisone->set_kd(dif_ptr);
 		thisone->set_ks(spc_ptr);
-		thisone->set_cr(spc_ptr);
-		thisone->set_cd(txt_ptr);
+
 		thisone->set_exp(g_Shine);
-
+		thisone->set_cd(txt_ptr);
 		thisone->set_cs(shared_ptr<Texture>(new ConstantColor(white)));
-		if (g_Shine < 100)
-			thisone->set_kr(0.8);
+		if (g_index_of_refraction < 0.01)
+			thisone->set_eta_in(0.01);
 		else
-			thisone->set_kr(0.2);
-		
-		m->set_mesh_material(thisone);
+			thisone->set_eta_in(g_index_of_refraction);
+		thisone->set_eta_out(1.0);
+		thisone->set_cf_in(white);
+		thisone->set_cf_out(white);
 
+		m->set_mesh_material(thisone);
 		thisone1 = thisone;
+
 	}
 
 	vector<hitable*> tar;

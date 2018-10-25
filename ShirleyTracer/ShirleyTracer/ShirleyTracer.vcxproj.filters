@@ -243,6 +243,15 @@
     <ClCompile Include="src\materials\SVReflective.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\BRDF\FresnelReflector.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BTDF\FresnelTransmitter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\materials\SVDielectric.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h">
@@ -502,6 +511,15 @@
     </ClInclude>
     <ClInclude Include="src\BRDF\SVPerfectSpecular.h">
       <Filter>头文件\BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BTDF\FresnelTransmitter.h">
+      <Filter>头文件\BTDF</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BRDF\FresnelReflector.h">
+      <Filter>头文件\BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\SVDielectric.h">
+      <Filter>头文件\material</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

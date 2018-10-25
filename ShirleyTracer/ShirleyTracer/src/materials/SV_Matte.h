@@ -9,8 +9,8 @@ public:
 		ambient_brdf = new SVLambertianBRDF;
 		diffuse_brdf = new SVLambertianBRDF;
 	}
-	void set_ka(float ka_) { ambient_brdf->set_kd(ka_); }
-	void set_kd(float kd_) { diffuse_brdf->set_kd(kd_); }
+	void set_ka(shared_ptr<Texture> ka_) { ambient_brdf->set_kd(ka_); }
+	void set_kd(shared_ptr<Texture> kd_) { diffuse_brdf->set_kd(kd_); }
 	void set_cd(shared_ptr<Texture> t_ptr);
 
 	vec3 shade(hit_record& s);

@@ -2,6 +2,8 @@
 #include "BVH.h"
 #include "..\BBox.h"
 
+const static float kEpsilon = 0.0001;
+
 struct {
 	bool operator()(hitable* a, hitable* b) const
 	{
@@ -97,5 +99,12 @@ bool BVH::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 }
 
 bool BVH::hitP(const ray& r, float& t) const {
-	return false;
+	if (box.hit(r, kEpsilon, MAXFLOAT)) {
+		float left_rec, right_rec;
+		bool hit_left = left->hitP(r,left_rec);
+		bool hit_right = right->hitP(r, right_rec);
+		return hit_left || hit_right;
+	}
+	else
+		return false;
 }

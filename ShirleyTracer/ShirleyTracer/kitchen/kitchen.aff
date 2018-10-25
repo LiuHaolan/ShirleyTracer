@@ -39,6 +39,13 @@ i 0 table.aff
 i 0 bar_stools.aff
 i 0 china.aff
 
+xs 0.1 0.1 0.1
+   0 1 0 90
+   1.16 0.1 1.16
+{
+  i 0 dragon.aff
+}
+
 a 0.0 20.0 800
 
 

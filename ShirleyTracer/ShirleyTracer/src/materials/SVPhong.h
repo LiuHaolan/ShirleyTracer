@@ -10,8 +10,9 @@ public:
 		ambient_brdf = shared_ptr<SVLambertianBRDF>(new SVLambertianBRDF);
 		diffuse_brdf = shared_ptr<SVLambertianBRDF>(new SVLambertianBRDF);
 		specular_brdf = shared_ptr<SVGlossySpecular>(new SVGlossySpecular);
-		ambient_brdf->set_kd(1.0);
-		diffuse_brdf->set_kd(1.0);
+		/*ambient_brdf->set_kd(1.0);
+		diffuse_brdf->set_kd(1.0);*/
+
 	}
 
 	virtual vec3 shade(hit_record& sr);
@@ -46,7 +47,7 @@ protected:
 
 inline void
 SVPhong::set_ka(shared_ptr<Texture> t_ptr) {
-	ambient_brdf->set_cd(t_ptr);
+	ambient_brdf->set_kd(t_ptr);
 }
 
 
@@ -55,7 +56,7 @@ SVPhong::set_ka(shared_ptr<Texture> t_ptr) {
 
 inline void
 SVPhong::set_kd(shared_ptr<Texture> t_ptr) {
-	diffuse_brdf->set_cd(t_ptr);
+	diffuse_brdf->set_kd(t_ptr);
 }
 
 

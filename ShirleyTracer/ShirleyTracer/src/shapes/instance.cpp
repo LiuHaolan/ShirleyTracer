@@ -1,5 +1,19 @@
 #include "instance.h"
 
+bool Instance::hitP(const ray& r, float& t) const {
+	ray inv_ray(r);
+	inv_ray.A = inv_matrix * r.A;
+	inv_ray.B = inv_matrix.dirmulti(r.B);
+
+	if (object_ptr->hitP(inv_ray,t)) {
+	
+
+		return true;
+	}
+
+	return false;
+}
+
 bool Instance::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 
 	ray inv_ray(r);

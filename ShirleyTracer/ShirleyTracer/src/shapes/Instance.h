@@ -9,6 +9,7 @@ public:
 //	Instance();
 	Instance(hitable* ptr) : object_ptr(ptr) { inv_matrix.set_identity(); forward_matrix.set_identity(); transform_the_texture = false; }
 	bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
+	bool hitP(const ray& r, float& t) const;
 
 	void translate(const vec3& trans);
 	void translate(const double dx, const double dy, const double dz);

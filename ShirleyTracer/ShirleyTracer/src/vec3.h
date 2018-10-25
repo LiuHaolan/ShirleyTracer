@@ -35,6 +35,9 @@ public:
 	inline float squared_length() const { return e[0] * e[0] + e[1] * e[1] + e[2] * e[2]; }
 	inline void make_unit_vector();
 
+	inline vec3 powc(const float t) const {
+		return vec3(pow(e[0], t), pow(e[2], t), pow(e[2], t));
+	}
 
 	float e[3];
 };
