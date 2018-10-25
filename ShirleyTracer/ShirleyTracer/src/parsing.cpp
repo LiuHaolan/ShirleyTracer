@@ -725,13 +725,12 @@ static void parseMesh(FILE *fp, World* ptr)
 		}
 	}
 
+
 	if (norms) {
 		m->has_normals = true;
 		m->naive_normals.resize(num_norms);
 
-		if (num_norms != num_verts) {
-			int q = 1;
-		}
+
 		for (int k = 0; k < num_norms; k++) {
 			m->naive_normals[k] = vec3(norms[k][0],norms[k][1],norms[k][2]);
 		}

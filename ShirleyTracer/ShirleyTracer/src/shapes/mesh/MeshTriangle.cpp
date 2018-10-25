@@ -1,7 +1,16 @@
+
+#include <cmath>
+
 #include "MeshTriangle.h"
 #include "..\BBox.h"
 
+
+
 const static float kEpsilon = 0.0001;
+
+inline float qz(float k) {
+	return (k - floor(k));
+}
 
 MeshTriangle::MeshTriangle(Mesh* ptr,int t0, int t1, int t2,int f) {
 	mesh_ptr = ptr;
@@ -71,16 +80,41 @@ bool MeshTriangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) 
 	rec.t = t;
 
 	if (mesh_ptr->u.size()) {
-		//calculating the uv
-		float w1 = cross(pos - p2, pos - p3).length();
-		float w2 = cross(pos - p1, pos - p3).length();
-		float w3 = cross(pos - p1, pos - p2).length();
-		float sum = w1 + w2 + w3;
-		w1 = w1 / sum;
-		w2 = w2 / sum;
-		w3 = w3 / sum;
-		rec.u = mesh_ptr->u[index0] * w1 + mesh_ptr->u[index1] * w2 + mesh_ptr->u[index2] * w3;
-		rec.v = mesh_ptr->v[index0] * w1 + mesh_ptr->v[index1] * w2 + mesh_ptr->v[index2] * w3;
+	//	//calculating the uv
+	//	float w1 = cross(pos - p2, pos - p3).length();
+	//	float w2 = cross(pos - p1, pos - p3).length();
+	//	float w3 = cross(pos - p1, pos - p2).length();
+	//	float sum = w1 + w2 + w3;
+	//	w1 = w1 / sum;
+	//	w2 = w2 / sum;
+	//	w3 = w3 / sum;
+
+	////	float uscale = max(max(fabs(mesh_ptr->u[index1]), fabs(mesh_ptr->u[index2])), fabs(mesh_ptr->u[index0]));
+	////	float vscale = max(max(fabs(mesh_ptr->v[index1]), fabs(mesh_ptr->v[index2])), fabs(mesh_ptr->v[index0]));
+	//	rec.u = mesh_ptr->u[index0] * w1 + mesh_ptr->u[index1] * w2 + mesh_ptr->u[index2] * w3;
+	//	rec.v = mesh_ptr->v[index0] * w1 + mesh_ptr->v[index1] * w2 + mesh_ptr->v[index2] * w3;
+
+		double a = p1.x() - p2.x(), b = p1.x() - p3.x(), c = r.B.x(), d = p1.x() - r.A.x();
+		double e = p1.y() - p2.y(), f = p1.y() - p3.y(), g = r.B.y(), h = p1.y() - r.A.y();
+		double i = p1.z() - p2.z(), j = p1.z() - p3.z(), k = r.B.z(), l = p1.z() - r.A.z();
+
+		double m = f * k - g * j, n = h * k - g * l, p = f * l - h * j;
+		double q = g * i - e * k, s = e * j - f * i;
+
+		double inv_denom = 1.0 / (a * m + b * q + c * s);
+
+		double e1 = d * m - b * n - c * p;
+		double beta = e1 * inv_denom;
+
+		if (beta < 0.0)
+			return (false);
+
+		double r = e * l - h * i;
+		double e2 = a * n + d * q + c * r;
+		double gamma = e2 * inv_denom;
+
+		rec.u = interpolate_u(beta, gamma);
+		rec.v = interpolate_v(beta, gamma);
 	}
 
 	//caculating the normal vector
@@ -163,4 +197,23 @@ bool MeshTriangle::hitP(const ray& r, float& t) const {
 		return (false);
 
 	return (true);
+}
+
+
+float
+MeshTriangle::interpolate_u(const float beta, const float gamma) const {
+	return((1 - beta - gamma) * mesh_ptr->u[mesh_ptr->faceuv_indices[face_ind][0]]
+		+ beta * mesh_ptr->u[mesh_ptr->faceuv_indices[face_ind][1]]
+		+ gamma * mesh_ptr->u[mesh_ptr->faceuv_indices[face_ind][2]]);
+}
+
+
+// ---------------------------------------------------------------- interpolate_v
+// this is used for texture mapping in Chapter 29
+
+float
+MeshTriangle::interpolate_v(const float beta, const float gamma) const {
+	return((1 - beta - gamma) * mesh_ptr->v[index0]
+		+ beta * mesh_ptr->v[index1]
+		+ gamma * mesh_ptr->v[index2]);
 }

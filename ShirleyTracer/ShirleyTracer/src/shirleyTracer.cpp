@@ -315,7 +315,7 @@ int main() {
 	//hitable* empty_ptr = 0;
 	//Instance* camera_inst = new Instance(empty_ptr);
 
-	double time = 9.0;
+	double time = 0.0;
 	//if (anim)
 	//{
 	//	vis = _GetVisibility(anim, time);
@@ -384,11 +384,11 @@ int main() {
 	ptr->integrator_ptr = new WhittedIntegrator(ptr);
 	ptr->nx = 800;
 	ptr->ny = 600;
-	ptr->ns = 16;
+	ptr->ns = 1;
 
 	ptr->ambient_ptr = new Ambient_Light(0.25, vec3(1.0, 1.0, 1.0));
 
-	ptr->max_depth = 5;
+	ptr->max_depth = 1;
 
 
 	lanlog::initLogging();

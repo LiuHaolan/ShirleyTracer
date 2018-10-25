@@ -18,4 +18,6 @@ public:
 //	vec3 normal;
 	//float area;
 
+	float interpolate_v(const float beta, const float gamma) const;
+	float interpolate_u(const float beta, const float gamma) const;
 };
